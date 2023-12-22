@@ -1,0 +1,54 @@
+.keyboard {
+    color:white;
+    user-select: none;
+}
+
+.keyRow {
+    display:flex;
+    width:100%;
+    max-width:520px;
+    margin-bottom:3px;
+    margin-top:3px;
+    vertical-align: baseline;
+    touch-action: manipulation;
+}
+
+.spacer {
+    flex:0.5;
+}
+
+.key {
+    margin-left:2px;
+    margin-right:2px;
+    flex:1;
+    font-size: 1.25em;
+    font-weight: bold;
+    border: 0;
+    padding: 0;
+    margin: 0 6px 0 0;
+    height: 58px;
+    border-radius: 4px;
+    cursor: pointer;
+    
+    -webkit-user-select: none;
+    user-select: none;
+    
+    background-color:#EEEEEE;
+    height:58px;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+
+
+.key:last-of-type{
+    margin:0;
+}
+
+.key.large {
+    font-size:12px;
+    flex:1.5;
+}
