@@ -48,7 +48,6 @@ const GameScreen = ({currentWord:currWord, allowedWords}) => {
     }, [answers, currentLine]);
 
    
-
     useEffect(()=>{
         if(boxValues[currentLine - 1]) {
             const wordIsCorrect = boxValues[currentLine - 1].every(obj => obj.boxState === "correct");
@@ -62,8 +61,8 @@ const GameScreen = ({currentWord:currWord, allowedWords}) => {
         } else {
           return str; // Return the original string if it's empty
         }
+        
       }
-
 
 
     const handleKeyboard = (key) => {
@@ -80,7 +79,7 @@ const GameScreen = ({currentWord:currWord, allowedWords}) => {
             const newAnswers = [...oldValue];
 
             if( lowerKey === "enter"){
-                if (currentLine < newAnswers.length && allowedWords.includes(answers[currentLine]) ) {
+                if (currentLine < newAnswers.length && allowedWords.includes(newAnswers[currentLine]) ) {
                     setCurrentLine(currentLine + 1);
                 }
                 return oldValue
@@ -98,8 +97,7 @@ const GameScreen = ({currentWord:currWord, allowedWords}) => {
             newAnswers[currentLine] += key;
             return newAnswers
 
-
-        })
+         })
 
     }
 
