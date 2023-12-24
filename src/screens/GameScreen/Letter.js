@@ -1,15 +1,31 @@
-import { useState } from "react"
-import classes from "./GameScreen.module.css"
+import { useState, useEffect, forwardRef } from "react";
+import classes from "./GameScreen.module.css";
 
-const Letter = ({value, boxState}) => {
+const Letter = ({ value, boxState }) => {
+   // const [animation, setAnimation] = useState(null);
 
-    const [result, setResult] = useState("partial")
+   //    useEffect(() => {
+   //       console.log("value", value);
+   //       if (!value) {
+   //          setAnimation("pulse");
+   //       }
+   //    }, [value]);
 
-    return <div className={[classes.letter, classes[boxState]].join(" ")}>
-        <label>
-            {value}
-        </label>
-    </div>
-}
+   const fillClass = value !== undefined ? classes.filled : "";
+
+   // console.log("animation", animation);
+
+   return (
+      <div
+         className={[classes.letter, classes[boxState], fillClass].join(" ")}
+         onAnimationEnd={(event) => {
+            console.log("Child Ended Animation");
+            event.stopPropagation();
+         }}
+      >
+         <label>{value}</label>
+      </div>
+   );
+};
 
 export default Letter;

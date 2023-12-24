@@ -1,55 +1,91 @@
 .main {
-    background-color: black;
-    height:100vh
+   background-color: grey;
+   height: 100vh;
+   display: flex;
+   flex-direction: column;
 }
 
 .input-container {
-    width: 600px;
-    border: 2px solid white;
-    padding: 20px;
+   padding: 20px;
+   display: inline-flex;
+   flex-direction: column;
+   margin-left: auto;
+   margin-right: auto;
 }
 
+@keyframes shakeAnimation {
+   0%,
+   100% {
+      transform: translateX(0);
+   }
+   25% {
+      transform: translateX(-8px);
+   }
+   50% {
+      transform: translateX(8px);
+   }
+   75% {
+      transform: translateX(-8px);
+   }
+}
 
 .input-row {
-    color:white;
-    display:flex;
-    margin-bottom:10px;
+   color: white;
+   display: inline-flex;
+   margin-bottom: 10px;
+}
+
+.input-row.shake {
+   animation: shakeAnimation 0.3s ease;
 }
 
 .input-row label {
-  
-     font-size:30px;
-    
+   font-size: 30px;
 }
 
-
 .letter {
-    background-color:grey;
-    padding:12px;
-    border-radius:5px;
-    margin:3px;
-    width:40px;
-    display:flex;
-    min-height:40px;
+   background-color: grey;
+   padding: 12px;
+   border-radius: 5px;
+   margin: 3px;
+   width: 40px;
+   display: flex;
+   min-height: 40px;
+   border: 2px solid grey;
+}
+
+@keyframes scaleUpDown {
+   0%,
+   100% {
+      transform: scale(1); /* Original size */
+   }
+   50% {
+      transform: scale(1.14); /* Scaled up size */
+   }
+}
+
+.letter.filled {
+   animation: scaleUpDown 0.12s ease-in-out;
 }
 
 .letter label {
-    color:white;
-    font-weight:bold;
-    margin:auto;
-    font-size:20px;
-    line-height: 20px;
+   color: white;
+   font-weight: bold;
+   margin: auto;
+   font-size: 32px;
+   line-height: 20px;
+   text-transform: uppercase;
 }
 
 .letter.default {
-    background-color: grey;
+   background-color: lightcyan;
 }
 
 .letter.current {
-    background-color: white;
+   background-color: white;
 }
 .letter.current label {
-    color:black;
+   color: black;
 }
 
 .letter.incorrect {
@@ -57,19 +93,40 @@
 }
 
 .letter.partial {
-    background-color: orange    ;
+   background-color: orange;
 }
 
 .letter.correct {
-    background-color: green;
+   background-color: green;
 }
 
 .title {
-    color:white;
+   color: white;
 }
-
 
 h4 {
-    color:yellow;
+   color: yellow;
 }
 
+.inputWrapper {
+   display: inline-flex;
+   position: relative;
+}
+.message {
+   color: white;
+   background-color: black;
+   padding: 7px;
+   position: absolute;
+   top: 0px;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   border-radius: 4px;
+}
+
+.keyboardWrapper {
+   margin-left: auto;
+   margin-right: auto;
+   width: 100%;
+   max-width: 500px;
+   font-size: 22px;
+}

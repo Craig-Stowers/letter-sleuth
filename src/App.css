@@ -1,7 +1,6 @@
 .App {
- 
 }
 
-button:focus{
-    border:3px solid red;
+button:focus {
+   border: 3px solid red;
 }
