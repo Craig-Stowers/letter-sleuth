@@ -12,6 +12,15 @@ button:focus {
 .control-panel {
    font-size: 16px;
    padding: 20px;
+   display: flex;
+}
+
+.control-panel .hint {
+   margin-left: 30px;
+   margin-top: auto;
+   margin-bottom: auto;
+   font-size: 20px;
+   font-weight: bold;
 }
 
 .control-panel button {
@@ -33,7 +42,7 @@ button:focus {
 }
 
 .modal .background {
-   background-color: rgba(255, 255, 255, 0.3);
+   background-color: rgba(70, 150, 70, 0.3);
    height: 100%;
    position: relative;
    width: 100%;

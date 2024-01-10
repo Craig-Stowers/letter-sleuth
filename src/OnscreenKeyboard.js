@@ -8,8 +8,6 @@ const Keyboard = ({ onKeyDown, keyColours }) => {
    const renderKey = (value, extraClasses) => {
       const colourClass = keyColours[value] || "";
 
-      console.log("render key", colourClass);
-
       return (
          <button
             type="button"
@@ -34,8 +32,6 @@ const Keyboard = ({ onKeyDown, keyColours }) => {
          </button>
       );
    };
-
-   console.log("key colours on KEY", keyColours);
 
    //prevent default on parent seems to stop auto focus when mousedown chidlren
    return (

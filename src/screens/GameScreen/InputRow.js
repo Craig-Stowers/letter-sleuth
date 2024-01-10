@@ -42,7 +42,8 @@ const InputRow = forwardRef(({ boxes, rowNumber }, parentRef) => {
 
       // You can also expose additional methods
       shake: (isShort) => {
-         setMessage(isShort ? "it's short" : "not a word");
+         if (isShort) setMessage("missing input");
+         // setMessage(isShort ? "it's short" : "not a word");
          setShake(true);
          messageTimer.current && clearTimeout(messageTimer.current);
          messageTimer.current = setTimeout(() => {
@@ -64,8 +65,6 @@ const InputRow = forwardRef(({ boxes, rowNumber }, parentRef) => {
          <div
             className={`${classes["input-row"]} ${shake ? classes["shake"] : ""}`}
             onAnimationEnd={(event) => {
-               console.log("animation end", rowNumber);
-               console.log(event.target, event.currentTarget);
                setShake(false);
             }}
             key={key}

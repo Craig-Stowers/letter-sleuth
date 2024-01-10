@@ -6,29 +6,15 @@ import KeyboardController from "../../KeyboardController";
 const wordCharLength = 5;
 const maxLines = 6;
 
-const GameScreen = ({ currentWord: currWord, allowedWords, blacklistWords, onEndGame, disabled }) => {
+const GameScreen = ({ currentWord: currWord, allowedWords, onEndGame, disabled }) => {
    const [currentLine, setCurrentLine] = useState(0);
    const [answers, setAnswers] = useState(["", "", "", "", "", ""]);
    const rowRefs = useRef([]);
 
    useEffect(() => {
-      console.log("currWord changed", currWord);
       setCurrentLine(0);
       setAnswers(["", "", "", "", "", ""]);
    }, [currWord]);
-
-   const filteredAllowedWords = useMemo(() => {
-      if (!blacklistWords) return [];
-      if (!allowedWords) return [];
-
-      return allowedWords.filter((word) => {
-         return !blacklistWords.includes(word);
-      }, []);
-   }, [allowedWords, blacklistWords]);
-
-   console.log("filtered", filteredAllowedWords);
-
-   //console.log("blacklist", blacklistWords[3]);
 
    const boxValues = useMemo(() => {
       if (!currWord) return [];
@@ -103,12 +89,10 @@ const GameScreen = ({ currentWord: currWord, allowedWords, blacklistWords, onEnd
          if (currentLine >= newAnswers.length) return oldValue;
 
          if (lowerKey === "enter") {
-            if (currentLine < newAnswers.length && filteredAllowedWords.includes(newAnswers[currentLine])) {
+            if (currentLine < newAnswers.length && allowedWords.includes(newAnswers[currentLine])) {
                setCurrentLine(currentLine + 1);
-               console.log("NEW LINE");
             } else {
                setTimeout(() => {
-                  console.log(newAnswers.length);
                   rowRefs.current[currentLine].shake(newAnswers[currentLine].length < currWord.length);
                }, 100);
             }
@@ -147,7 +131,7 @@ const GameScreen = ({ currentWord: currWord, allowedWords, blacklistWords, onEnd
             letters[value] = row[j].boxState;
          }
       }
-      console.log("letters", letters);
+
       return letters;
    }, [currentLine]);
 

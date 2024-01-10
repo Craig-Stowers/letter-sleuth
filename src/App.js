@@ -14,15 +14,35 @@ function App() {
    const [showWord, setShowWord] = useState(false);
    const [gameComplete, setGameComplete] = useState(false);
 
+   const blacklist = React.useMemo(() => {
+      if (!blacklistData) return null;
+      return blacklistData.split("\n").filter((word) => word.trim() !== "");
+   }, [blacklistData]);
+
    const answers = React.useMemo(() => {
-      if (answersData) return answersData.split("\n").filter((word) => word.trim() !== "");
-      return null;
-   }, [answersData]);
+      // console.log("answerData", answersData);
+      if (!answersData) return null;
+      if (!blacklist) return null;
+      const filtered = answersData
+         .split("\n")
+         .filter((word) => word.trim() !== "")
+         .filter((word) => {
+            return !blacklist.includes(word);
+         });
+      return filtered;
+   }, [answersData, blacklist]);
 
    const allowedGuesses = React.useMemo(() => {
-      if (allowedGuessesData) return allowedGuessesData.split("\n").filter((word) => word.trim() !== "");
-      return null;
-   }, [allowedGuessesData]);
+      if (!allowedGuessesData) return null;
+      if (!blacklist) return null;
+      const filtered = allowedGuessesData
+         .split("\n")
+         .filter((word) => word.trim() !== "")
+         .filter((word) => {
+            return !blacklist.includes(word);
+         });
+      return filtered;
+   }, [allowedGuessesData, blacklist]);
 
    useEffect(() => {
       if (answers && allAllowedGuesses) loadRandomWord();
@@ -59,16 +79,19 @@ function App() {
                      setShowWord(!showWord);
                   }}
                >
-                  {showWord ? "hide word" : "show word"}
+                  {showWord ? "hide word" : "reveal word"}
                </button>
-               {currentWord && <span>WORD = {showWord ? currentWord : "XXXXXX"}</span>}
+               <div className="hint">
+                  <span>current word: </span>
+                  {currentWord &&
+                     (showWord ? <span>{currentWord}</span> : <span>&#9679;&#9679;&#9679;&#9679;&#9679;</span>)}
+               </div>
             </div>
 
             <div className="game-container">
                <GameScreen
                   currentWord={currentWord}
                   allowedWords={allAllowedGuesses}
-                  blacklistWords={blacklistData}
                   disabled={gameComplete}
                   onEndGame={() => {
                      setGameComplete(true);

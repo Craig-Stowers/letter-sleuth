@@ -8,11 +8,8 @@ const useKeyDown = (callback, deps) => {
          if (!keysPressed[e.key]) {
             keysPressed[e.key] = true;
 
-            if (
-               e.key === "Enter" &&
-               document.activeElement.tagName === "BUTTON"
-            ) {
-               console.log("abort");
+            if (e.key === "Enter" && document.activeElement.tagName === "BUTTON") {
+               //  console.log("abort");
                // e.stopPropagation();
                // e.preventDefault();
                // Do nothing, let the button handle its own 'Enter' key press
@@ -29,7 +26,7 @@ const useKeyDown = (callback, deps) => {
       document.addEventListener("keydown", handleKeyDown);
       document.addEventListener("keyup", handleKeyUp);
       return () => {
-         console.log("clear keys");
+         //  console.log("clear keys");
          document.removeEventListener("keydown", handleKeyDown);
          document.removeEventListener("keyup", handleKeyUp);
       };
