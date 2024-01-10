@@ -42,7 +42,7 @@ const InputRow = forwardRef(({ boxes, rowNumber }, parentRef) => {
 
       // You can also expose additional methods
       shake: (isShort) => {
-         setMessage(isShort ? "it's short" : "get fucked!");
+         setMessage(isShort ? "it's short" : "not a word");
          setShake(true);
          messageTimer.current && clearTimeout(messageTimer.current);
          messageTimer.current = setTimeout(() => {

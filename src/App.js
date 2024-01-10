@@ -8,8 +8,11 @@ function App() {
    // const [words, setWords] = useState([]);
    const answersData = useTextFileLoader("/answers.txt");
    const allowedGuessesData = useTextFileLoader("/allowed-guesses.txt");
+   const blacklistData = useTextFileLoader("/blacklist.txt");
    const [currentWord, setCurrentWord] = useState(null);
    const buttonRef = useRef(null);
+   const [showWord, setShowWord] = useState(false);
+   const [gameComplete, setGameComplete] = useState(false);
 
    const answers = React.useMemo(() => {
       if (answersData) return answersData.split("\n").filter((word) => word.trim() !== "");
@@ -27,23 +30,62 @@ function App() {
    }, [answers, allowedGuesses]);
 
    const loadRandomWord = () => {
+      setCurrentWord(null);
       buttonRef.current.blur();
-      console.log("loadRandomWord");
-      if (answers) {
-         setCurrentWord(answers[Math.floor(Math.random() * answers.length)]);
-      }
+      //  console.log("loadRandomWord");
+
+      setTimeout(() => {
+         if (answers) {
+            setCurrentWord(answers[Math.floor(Math.random() * answers.length)]);
+            setShowWord(false);
+            setGameComplete(false);
+            buttonRef.current.blur();
+         }
+      }, 200);
    };
 
    const allAllowedGuesses = allowedGuesses && answers ? [...allowedGuesses, ...answers] : [];
 
    return (
-      <div className="App">
-         <button ref={buttonRef} onClick={loadRandomWord}>
-            get random word
-         </button>
+      <>
+         <div className="App">
+            <div className="control-panel " onMouseDown={(e) => e.preventDefault()}>
+               <button ref={buttonRef} onClick={loadRandomWord} onMouseDown={(e) => e.preventDefault()}>
+                  fetch random word
+               </button>
+               <button
+                  ref={buttonRef}
+                  onClick={() => {
+                     setShowWord(!showWord);
+                  }}
+               >
+                  {showWord ? "hide word" : "show word"}
+               </button>
+               {currentWord && <span>WORD = {showWord ? currentWord : "XXXXXX"}</span>}
+            </div>
 
-         <GameScreen currentWord={currentWord} allowedWords={allAllowedGuesses} />
-      </div>
+            <div className="game-container">
+               <GameScreen
+                  currentWord={currentWord}
+                  allowedWords={allAllowedGuesses}
+                  blacklistWords={blacklistData}
+                  disabled={gameComplete}
+                  onEndGame={() => {
+                     setGameComplete(true);
+                  }}
+               />
+               {gameComplete && (
+                  <div className="modal">
+                     <div className="background">
+                        <div className="box">
+                           <div className="content">CONGRATS!! fetch a new word to restart</div>
+                        </div>
+                     </div>
+                  </div>
+               )}
+            </div>
+         </div>
+      </>
    );
 }
 

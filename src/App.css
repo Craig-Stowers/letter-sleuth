@@ -1,6 +1,57 @@
 .App {
 }
 
+.game-container {
+   position: relative;
+}
+
 button:focus {
    /* border: 3px solid red; */
+}
+
+.control-panel {
+   font-size: 16px;
+   padding: 20px;
+}
+
+.control-panel button {
+   font-size: 16px;
+   width: 160px;
+   margin-right: 10px;
+   padding: 5px;
+   border-radius: 4px;
+}
+
+.modal {
+   position: absolute;
+
+   width: 100vw;
+   height: 100vh;
+
+   z-index: 2;
+   top: 0;
+}
+
+.modal .background {
+   background-color: rgba(255, 255, 255, 0.3);
+   height: 100%;
+   position: relative;
+   width: 100%;
+}
+
+.modal .box {
+   position: absolute;
+   top: 600px;
+   background-color: rgba(0, 0, 0, 0.9);
+   margin: auto;
+   display: inline-block;
+   border-radius: 5px;
+   left: 50%;
+   transform: translateX(-50%);
+}
+
+.modal .content {
+   font-size: 22px;
+   padding: 30px;
+   color: white;
 }
