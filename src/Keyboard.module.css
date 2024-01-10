@@ -34,12 +34,27 @@
    -webkit-user-select: none;
    user-select: none;
 
-   background-color: #eeeeee;
+   background-color: #fefefe;
    flex: 1;
    display: flex;
    justify-content: center;
    align-items: center;
    text-transform: uppercase;
+}
+
+.key.correct {
+   background-color: green;
+   color: white;
+}
+
+.key.incorrect {
+   background-color: red;
+   color: white;
+}
+
+.key.partial {
+   background-color: orange;
+   color: white;
 }
 
 .key:last-of-type {

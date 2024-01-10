@@ -58,6 +58,8 @@ const GameScreen = ({ currentWord: currWord, allowedWords }) => {
    }, [answers, currentLine]);
 
    useEffect(() => {
+      //console.log("boxValues", boxValues);
+
       if (boxValues[currentLine - 1]) {
          const wordIsCorrect = boxValues[currentLine - 1].every((obj) => obj.boxState === "correct");
       }
@@ -79,9 +81,14 @@ const GameScreen = ({ currentWord: currWord, allowedWords }) => {
       setAnswers((oldValue) => {
          const newAnswers = [...oldValue];
 
+         // console.log("currentLine", currentLine);
+         //  console.log("length", newAnswers.length);
+         if (currentLine >= newAnswers.length) return oldValue;
+
          if (lowerKey === "enter") {
             if (currentLine < newAnswers.length && allowedWords.includes(newAnswers[currentLine])) {
                setCurrentLine(currentLine + 1);
+               console.log("NEW LINE");
             } else {
                setTimeout(() => {
                   console.log(newAnswers.length);
@@ -103,10 +110,32 @@ const GameScreen = ({ currentWord: currWord, allowedWords }) => {
       });
    };
 
+   // console.log("bxoes", boxValues);
+
+   const keyColours = React.useMemo(() => {
+      const letters = {};
+
+      for (let i = 0; i < boxValues.length; i++) {
+         const row = boxValues[i];
+
+         for (let j = 0; j < row.length; j++) {
+            const value = row[j].value;
+            if (letters[value] === "correct") {
+               continue;
+            }
+
+            if (letters[value] === "partial" && row[j].boxState !== "correct") {
+               continue;
+            }
+            letters[value] = row[j].boxState;
+         }
+      }
+      console.log("letters", letters);
+      return letters;
+   }, [currentLine]);
+
    return (
       <div className={classes.main}>
-         <h4>currentline: {currentLine}</h4>
-
          <div className={classes["input-container"]}>
             {boxValues.map((boxes, i) => {
                return (
@@ -120,7 +149,11 @@ const GameScreen = ({ currentWord: currWord, allowedWords }) => {
             })}
          </div>
          <div className={classes.keyboardWrapper}>
-            <KeyboardController onKeyEvent={(e) => handleKeyboard(e)} deps={[currWord, currentLine]} />
+            <KeyboardController
+               onKeyEvent={(e) => handleKeyboard(e)}
+               deps={[currWord, currentLine]}
+               keyColours={keyColours}
+            />
          </div>
       </div>
    );

@@ -32,20 +32,18 @@ const FILTER = [
    "m",
 ];
 
-const KeyboardController = ({ onKeyEvent, deps = [] }) => {
+const KeyboardController = ({ onKeyEvent, deps = [], ...props }) => {
    const handleKeyboard = (key) => {
-      console.log("handle onscreen keyboard", key);
       onKeyEvent(key);
    };
 
    useKeyDown((key) => {
       //  const lowerCase = key.toLowerC
       if (!FILTER.includes(key.toLowerCase())) return;
-      console.log("handle keyboard", key);
       onKeyEvent(key);
    }, deps);
 
-   return <OnscreenKeyboard onKeyDown={handleKeyboard} />;
+   return <OnscreenKeyboard onKeyDown={handleKeyboard} {...props} />;
 };
 
 export default KeyboardController;

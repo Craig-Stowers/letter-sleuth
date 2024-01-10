@@ -1,16 +1,19 @@
 .main {
-   background-color: grey;
+   background-color: #e7e7e7;
    height: 100vh;
    display: flex;
    flex-direction: column;
+   padding: 5px;
 }
 
 .input-container {
-   padding: 20px;
    display: inline-flex;
    flex-direction: column;
    margin-left: auto;
    margin-right: auto;
+   width: 100%;
+   max-width: 500px;
+   margin-bottom: 8px;
 }
 
 @keyframes shakeAnimation {
@@ -18,21 +21,24 @@
    100% {
       transform: translateX(0);
    }
-   25% {
+   20% {
       transform: translateX(-8px);
    }
-   50% {
+   40% {
       transform: translateX(8px);
    }
-   75% {
+   60% {
       transform: translateX(-8px);
+   }
+   80% {
+      transform: translateX(8px);
    }
 }
 
 .input-row {
    color: white;
    display: inline-flex;
-   margin-bottom: 10px;
+   width: 100%;
 }
 
 .input-row.shake {
@@ -43,15 +49,26 @@
    font-size: 30px;
 }
 
+.letter-container {
+   padding: 2px;
+   /* margin: 3px; */
+
+   width: 20%;
+   min-height: 40px;
+   padding: 3px;
+}
+
 .letter {
    background-color: grey;
-   padding: 12px;
-   border-radius: 5px;
-   margin: 3px;
-   width: 40px;
+
+   margin: auto;
+   /* margin: 3px; */
+
+   /* width: 20%; */
    display: flex;
-   min-height: 40px;
-   border: 2px solid grey;
+   min-height: 50px;
+   border: 3px solid lightblue;
+   border-radius: 7px;
 }
 
 @keyframes scaleUpDown {
@@ -66,6 +83,7 @@
 
 .letter.filled {
    animation: scaleUpDown 0.12s ease-in-out;
+   border-color: #555555;
 }
 
 .letter label {
@@ -130,3 +148,4 @@ h4 {
    max-width: 500px;
    font-size: 22px;
 }
+

@@ -6,7 +6,6 @@ import useTextFileLoader from "./hooks/useTextFileLoader";
 
 function App() {
    // const [words, setWords] = useState([]);
-
    const answersData = useTextFileLoader("/answers.txt");
    const allowedGuessesData = useTextFileLoader("/allowed-guesses.txt");
    const [currentWord, setCurrentWord] = useState(null);
@@ -23,12 +22,9 @@ function App() {
    }, [allowedGuessesData]);
 
    useEffect(() => {
-      // console.log("answers", answers)
-   }, [answers]);
-
-   useEffect(() => {
+      if (answers && allAllowedGuesses) loadRandomWord();
       // console.log("allowedGuesses", allowedGuesses)
-   }, [allowedGuesses]);
+   }, [answers, allowedGuesses]);
 
    const loadRandomWord = () => {
       buttonRef.current.blur();
@@ -42,10 +38,8 @@ function App() {
 
    return (
       <div className="App">
-         <h2>CURRENT WORD = {currentWord}</h2>
-
          <button ref={buttonRef} onClick={loadRandomWord}>
-            load random word
+            get random word
          </button>
 
          <GameScreen currentWord={currentWord} allowedWords={allAllowedGuesses} />
