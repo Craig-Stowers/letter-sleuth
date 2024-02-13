@@ -1,7 +1,7 @@
 import { useState, useEffect, forwardRef } from "react";
 import classes from "./GameScreen.module.css";
 
-const Letter = ({ value, boxState, disableExpand = false, showHighlight = false }) => {
+const Letter = ({ value, boxState, disableExpand = false, showHighlight = false, style = {} }) => {
    const [filled, setFilled] = useState(false);
 
    useEffect(() => {
@@ -9,13 +9,13 @@ const Letter = ({ value, boxState, disableExpand = false, showHighlight = false 
    }, [value]);
 
    return (
-      <div className={classes["letter-container"]}>
+      <div className={classes["letter-container"]} style={style}>
          <div
             className={[
                classes.letter,
                classes[boxState],
                filled ? classes.filled : "",
-               showHighlight ? "letter-highlight2" : "",
+               showHighlight ? "letter-highlight" : "",
             ].join(" ")}
             onAnimationEnd={(event) => {
                event.stopPropagation();

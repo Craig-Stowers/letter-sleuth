@@ -34,7 +34,8 @@
    -webkit-user-select: none;
    user-select: none;
 
-   background-color: #fefefe;
+   background-color: var(--keyboard-key-color);
+   color: var(--text-color-light);
    flex: 1;
    display: flex;
    justify-content: center;
@@ -43,18 +44,18 @@
 }
 
 .key.correct {
-   background-color: green;
-   color: white;
+   background-color: var(--correct-color);
+   color: var(--text-color-dark);
 }
 
 .key.incorrect {
-   background-color: red;
-   color: white;
+   background-color: var(--incorrect-color);
+   color: var(--text-color-dark);
 }
 
 .key.partial {
-   background-color: orange;
-   color: white;
+   background-color: var(--partial-correct-color);
+   color: var(--text-color-dark);
 }
 
 .key:last-of-type {

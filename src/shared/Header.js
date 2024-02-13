@@ -1,38 +1,49 @@
 import classes from "./Header.module.css";
-
+import CustomButton from "./CustomButton";
+import iconHome from "../icons/icon-home.svg";
+import iconInfo from "../icons/icon-info.svg";
+import iconClose from "../icons/icon-close.svg";
+import logo from "../assets/wordiful-logo.png";
 const Header = ({ buttons, onButtonHit }) => {
    if (!buttons.length) return null;
 
+   const buttonSize = "35px";
+
    return (
       <div className={classes.header}>
-         <div className={classes.logo}>LOGO</div>
+         <div className={classes.logo}>
+            <img src={logo} />
+         </div>
          <div className={classes.buttons}>
             {buttons.includes("home") && (
-               <button
+               <CustomButton
+                  render={() => {
+                     return <img style={{ height: buttonSize, width: buttonSize }} src={iconHome} />;
+                  }}
                   onClick={() => {
                      onButtonHit("home");
                   }}
-               >
-                  home
-               </button>
+               />
             )}
             {buttons.includes("info") && (
-               <button
+               <CustomButton
+                  render={() => {
+                     return <img style={{ height: buttonSize, width: buttonSize }} src={iconInfo} />;
+                  }}
                   onClick={() => {
                      onButtonHit("info");
                   }}
-               >
-                  info
-               </button>
+               />
             )}
             {buttons.includes("close") && (
-               <button
+               <CustomButton
+                  render={() => {
+                     return <img style={{ height: buttonSize, width: buttonSize }} src={iconClose} />;
+                  }}
                   onClick={() => {
                      onButtonHit("close");
                   }}
-               >
-                  close
-               </button>
+               />
             )}
          </div>
       </div>

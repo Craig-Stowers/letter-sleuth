@@ -1,38 +1,53 @@
 import classes from "./HomeScreen.module.css";
-
+import CustomButton from "../../shared/CustomButton";
+import iconStats from "../../icons/icon-stats.svg";
+import iconInfo from "../../icons/icon-info.svg";
+import iconClose from "../../icons/icon-close.svg";
+import logo from "../../assets/wordiful-logo.png";
 const HomeScreen = ({ onButtonHit }) => {
    return (
       <div className={classes.container}>
          <div className={classes.header}>
-            <button>CLOSE</button>
+            <CustomButton
+               render={() => {
+                  return <img src={iconClose} />;
+               }}
+               onClick={() => {
+                  onButtonHit("scoreboard");
+               }}
+            />
          </div>
 
          <div className={classes.title}>
-            <h1>Wordiful</h1>
+            <img src={logo} />
          </div>
          <div className={classes.footer}>
             <div className={classes.buttons}>
-               <button
+               <CustomButton
+                  render={() => {
+                     return <img src={iconInfo} />;
+                  }}
                   onClick={() => {
                      onButtonHit("info");
                   }}
-               >
-                  info
-               </button>
-               <button
+               />
+               <CustomButton
+                  render={() => {
+                     return <span style={{ paddingLeft: "7px", paddingRight: "7px" }}>PLAY</span>;
+                  }}
                   onClick={() => {
                      onButtonHit("play");
                   }}
-               >
-                  Play
-               </button>
-               <button
+               />
+
+               <CustomButton
+                  render={() => {
+                     return <img src={iconStats} />;
+                  }}
                   onClick={() => {
                      onButtonHit("scoreboard");
                   }}
-               >
-                  Scores
-               </button>
+               />
             </div>
          </div>
       </div>

@@ -7,11 +7,11 @@ import whiteSquare from "./assets/white-square.png";
 
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
 import GameScreen from "./screens/GameScreen/GameScreen";
-import Container from "./Container";
+
 import Header from "./shared/Header";
 import InfoScreen from "./screens/InfoScreen/InfoScreen";
 
-//("Aktiv Grotesk,-apple-system,BlinkMacSystemFont,San Francisco,Segoe UI,Roboto,Helvetica Neue,sans-serif");
+import ScoreScreen from "./screens/ScoreScreen/ScoreScreen";
 
 function App() {
    const [currScreen, setCurrScreen] = useState("home");
@@ -60,8 +60,10 @@ function App() {
                   {currScreen === "home" && <HomeScreen onButtonHit={handleButtonHit} />}
                   {currScreen === "game" && <GameScreen />}
                   {(currScreen === "main-info" || currScreen === "game-info") && <InfoScreen />}
-                  {currScreen === "scoreboard" && <div>scoreboard here</div>}
+
+                  {currScreen === "scoreboard" && <ScoreScreen />}
                </div>
+
                {/* <div className={"tiled-background"}>background here</div> */}
 
                {/* <Container />; */}

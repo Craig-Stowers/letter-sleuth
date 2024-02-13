@@ -1,0 +1,10 @@
+.container {
+   background-color: var(--header-bg-color);
+   display: flex;
+   height: 100%;
+}
+
+.container img {
+   width: 54%;
+   margin: auto;
+}

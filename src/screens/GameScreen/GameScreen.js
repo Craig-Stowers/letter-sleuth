@@ -146,7 +146,7 @@ const GameScreen = ({ disabled }) => {
 
    return (
       <div className={classes.main}>
-         <div className="control-panel " onMouseDown={(e) => e.preventDefault()}>
+         {/* <div className="control-panel " onMouseDown={(e) => e.preventDefault()}>
             <button ref={buttonRef} onClick={loadRandomWord} onMouseDown={(e) => e.preventDefault()}>
                fetch random word
             </button>
@@ -162,7 +162,7 @@ const GameScreen = ({ disabled }) => {
                <span>current word: </span>
                {currWord && (showWord ? <span>{currWord}</span> : <span>&#9679;&#9679;&#9679;&#9679;&#9679;</span>)}
             </div>
-         </div>
+         </div> */}
          <div className={classes["input-container"]}>
             {boxValues.map((boxes, i) => {
                return (

@@ -1,5 +1,4 @@
 .main {
-   background-color: #e7e7e7;
    display: flex;
    flex-direction: column;
    padding: 5px;
@@ -61,16 +60,13 @@
 }
 
 .letter {
-   background-color: grey;
-
    margin: auto;
    /* margin: 3px; */
 
    /* width: 20%; */
    display: flex;
    min-height: 50px;
-   border: 3px solid lightblue;
-   border-radius: 7px;
+   border: 2px solid #777;
 }
 
 @keyframes scaleUpDown {
@@ -85,11 +81,11 @@
 
 .letter.filled {
    animation: scaleUpDown 0.12s ease-in-out;
-   border-color: #555555;
+   border-color: #ffffff;
 }
 
 .letter label {
-   color: white;
+   color: var(--text-color-light);
    font-weight: bold;
    margin: auto;
    font-size: 32px;
@@ -98,26 +94,32 @@
 }
 
 .letter.default {
-   background-color: lightcyan;
+   background-color: transparent;
 }
 
 .letter.current {
-   background-color: white;
-}
-.letter.current label {
-   color: black;
+   /* background-color: white; */
 }
 
-.letter.incorrect {
-   background-color: red;
+.letter.incorrect label,
+.letter.partial label,
+.letter.correct label {
+   color: var(--text-color-dark);
 }
 
-.letter.partial {
-   background-color: orange;
+.letter.incorrect.filled {
+   background-color: var(--incorrect-color);
+   border-color: var(--incorrect-color);
 }
 
-.letter.correct {
-   background-color: green;
+.letter.partial.filled {
+   background-color: var(--partial-correct-color);
+   border-color: var(--partial-correct-color);
+}
+
+.letter.correct.filled {
+   background-color: var(--correct-color);
+   border-color: var(--correct-color);
 }
 
 .title {

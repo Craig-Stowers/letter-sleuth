@@ -1,20 +1,31 @@
 .header {
-   background-color: red;
+   background-color: var(--header-bg-color);
    display: flex;
-   padding: 6px;
+   padding: 14px;
 }
 
 .logo {
+   margin: 0px;
+   padding: 0px;
    margin-top: auto;
    margin-bottom: auto;
    color: white;
    margin-left: 5px;
 }
 
+.logo img {
+   margin: 0px;
+   padding: 0px;
+   height: 34px;
+   display: inline-block;
+   vertical-align: bottom;
+}
+
 .buttons {
    margin-left: auto;
+   display: flex;
 }
 
 .buttons button {
-   margin-left: 5px;
+   margin-left: 10px;
 }

@@ -41,9 +41,25 @@ const useGameData = () => {
    }, [allowedGuessesData, blacklist]);
 
    useEffect(() => {
-      if (answers && allAllowedGuesses) loadRandomWord();
+      // if (answers && allAllowedGuesses) loadRandomWord();
+      if (answers && allAllowedGuesses) loadWordByDate();
       // console.log("allowedGuesses", allowedGuesses)
    }, [answers, allowedGuesses]);
+
+   const loadWordByDate = () => {
+      setCurrentWord(null);
+      //buttonRef.current.blur();
+      //  console.log("loadRandomWord");
+
+      setTimeout(() => {
+         if (answers) {
+            setCurrentWord(answers[Math.floor(Math.random() * answers.length)]);
+            setShowWord(false);
+            setGameComplete(false);
+            // buttonRef.current.blur();
+         }
+      }, 200);
+   };
 
    const loadRandomWord = () => {
       setCurrentWord(null);
@@ -61,6 +77,8 @@ const useGameData = () => {
    };
 
    const allAllowedGuesses = allowedGuesses && answers ? [...allowedGuesses, ...answers] : [];
+
+   console.log("ANSWERS length", answers && answers.length);
 
    return { loadRandomWord, currentWord, allAllowedGuesses };
 };

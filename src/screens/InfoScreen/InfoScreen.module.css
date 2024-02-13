@@ -1,11 +1,47 @@
 .container {
-   background-color: blue;
    height: 100%;
    width: 100%;
    display: flex;
    flex-direction: column;
 }
 
+.panel {
+   margin-top: 50px;
+   margin-bottom: 50px;
+   margin-left: auto;
+   margin-right: auto;
+   width: 80%;
+   max-width: 340px;
+   color: white;
+   text-align: center;
+   min-height: 30%;
+}
+
+.panel h3 {
+   margin-bottom: 30px;
+}
+.panel h2 {
+   margin-bottom: 24px;
+}
+
+.panel p {
+   font-size: 18px;
+}
+
+.letters {
+   margin-left: auto;
+   margin-right: auto;
+   display: flex;
+   width: 40%;
+}
+
 .nextWrapper {
    margin-top: auto;
+   height: 60px;
+   display: flex;
+}
+
+.nextWrapper button {
+   margin-left: auto;
+   margin-right: auto;
 }

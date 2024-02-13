@@ -1,4 +1,11 @@
-// Defining the Button component with a render prop
-const CustomButton = ({ render }) => {
-   return <button style={{ padding: "10px 20px", fontSize: "16px" }}>{render()}</button>;
+import classes from "./CustomButtons.module.css";
+const CustomButton = ({ render, ...props }) => {
+   return (
+      <button {...props} className={classes.container}>
+         <div className={classes.darkshade} />
+         <div className={classes.inner}>{render()}</div>
+      </button>
+   );
 };
+
+export default CustomButton;
