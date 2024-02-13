@@ -18,6 +18,8 @@ const GameScreen = ({ disabled }) => {
 
    const { currentWord: currWord, loadRandomWord, allAllowedGuesses } = useGameData();
 
+   console.log("currWord", currWord);
+
    useEffect(() => {
       setCurrentLine(0);
       setAnswers(["", "", "", "", "", ""]);
@@ -74,14 +76,22 @@ const GameScreen = ({ disabled }) => {
    useEffect(() => {
       //console.log("boxValues", boxValues);
 
+      const correctFeedback = ["Genius!"];
+
       if (boxValues[currentLine - 1]) {
          const wordIsCorrect = boxValues[currentLine - 1].every((obj) => obj.boxState === "correct");
          if (wordIsCorrect) {
             setGameComplete(true);
+            setFeedback(`Answer: ${correctFeedback[0]}`);
+            return;
             //  onEndGame();
          }
+
+         if (currWord && currentLine === 6) {
+            setFeedback(`Answer: ${currWord.toUpperCase()}`);
+         }
       }
-   }, [currentLine]);
+   }, [currentLine, currWord]);
 
    function removeLastChar(str) {
       if (str.length > 0) {
@@ -199,7 +209,7 @@ const GameScreen = ({ disabled }) => {
                keyColours={keyColours}
             />
          </div>
-         {gameComplete && (
+         {/* {gameComplete && (
             <div className="modal">
                <div className="background">
                   <div className="box">
@@ -207,7 +217,7 @@ const GameScreen = ({ disabled }) => {
                   </div>
                </div>
             </div>
-         )}
+         )} */}
       </div>
    );
 };
