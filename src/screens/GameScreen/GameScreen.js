@@ -7,7 +7,7 @@ import useGameData from "./useGameData";
 const wordCharLength = 5;
 const maxLines = 6;
 
-const GameScreen = ({ disabled, onCurrWord }) => {
+const GameScreen = ({ onCurrWord }) => {
    const [currentLine, setCurrentLine] = useState(0);
    const [answers, setAnswers] = useState(["", "", "", "", "", ""]);
    const rowRefs = useRef([]);
@@ -15,6 +15,7 @@ const GameScreen = ({ disabled, onCurrWord }) => {
    const buttonRef = useRef(null);
    const [gameComplete, setGameComplete] = useState(false);
    const [feedback, setFeedback] = useState("");
+   const [disabled, setDisabled] = useState(false);
 
    const { currentWord: currWord, loadRandomWord, allAllowedGuesses } = useGameData();
 
@@ -22,6 +23,7 @@ const GameScreen = ({ disabled, onCurrWord }) => {
       onCurrWord(currWord);
       setCurrentLine(0);
       setAnswers(["", "", "", "", "", ""]);
+      setDisabled(false);
    }, [currWord]);
 
    useEffect(() => {
@@ -82,11 +84,13 @@ const GameScreen = ({ disabled, onCurrWord }) => {
          if (wordIsCorrect) {
             setGameComplete(true);
             setFeedback(`Answer: ${correctFeedback[currentLine - 1]}`);
+            setDisabled(true);
             return;
             //  onEndGame();
          }
 
          if (currWord && currentLine === 6) {
+            setDisabled(true);
             setFeedback(`Answer: ${currWord.toUpperCase()}`);
          }
       }

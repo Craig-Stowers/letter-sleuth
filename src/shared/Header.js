@@ -4,9 +4,13 @@ import iconHome from "../icons/icon-home.svg";
 import iconInfo from "../icons/icon-info.svg";
 import iconClose from "../icons/icon-close.svg";
 import logo from "../assets/wordiful-logo.png";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 const Header = ({ buttons, onButtonHit, hint }) => {
    const [showHint, setShowHint] = useState(false);
+   useLayoutEffect(() => {
+      if (hint) setShowHint(false);
+   }, [hint]);
+
    if (!buttons.length) return null;
 
    const buttonSize = "35px";
@@ -44,6 +48,7 @@ const Header = ({ buttons, onButtonHit, hint }) => {
                      return <img style={{ height: buttonSize, width: buttonSize }} src={iconClose} />;
                   }}
                   onClick={() => {
+                     setShowHint(false);
                      onButtonHit("close");
                   }}
                />
