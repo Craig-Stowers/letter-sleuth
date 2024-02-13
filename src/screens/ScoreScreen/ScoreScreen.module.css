@@ -5,6 +5,7 @@
 }
 
 .container img {
-   width: 54%;
+   width: 86%;
+   max-width: 440px;
    margin: auto;
 }

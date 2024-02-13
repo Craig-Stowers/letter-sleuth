@@ -2,7 +2,7 @@
    display: flex;
    flex-direction: column;
    padding: 5px;
-   padding-top: 30px;
+
    box-sizing: border-box;
    height: 100%;
 }
@@ -34,6 +34,16 @@
    80% {
       transform: translateX(8px);
    }
+}
+
+.feedback {
+   color: var(--text-color-dark);
+   background-color: white;
+   padding: 5px;
+   margin: 10px auto 7px auto;
+   font-size: 20px;
+   font-weight: bold;
+   border-radius: 4px;
 }
 
 .input-row {

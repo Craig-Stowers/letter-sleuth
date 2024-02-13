@@ -14,15 +14,22 @@ const GameScreen = ({ disabled }) => {
    const [showWord, setShowWord] = useState(false);
    const buttonRef = useRef(null);
    const [gameComplete, setGameComplete] = useState(false);
+   const [feedback, setFeedback] = useState("");
 
    const { currentWord: currWord, loadRandomWord, allAllowedGuesses } = useGameData();
-
-   console.log("curr word", currWord);
 
    useEffect(() => {
       setCurrentLine(0);
       setAnswers(["", "", "", "", "", ""]);
    }, [currWord]);
+
+   useEffect(() => {
+      if (feedback) {
+         const timer = setTimeout(() => {
+            setFeedback(null);
+         }, 3000);
+      }
+   }, [feedback]);
 
    const boxValues = useMemo(() => {
       if (!currWord) return [];
@@ -85,6 +92,7 @@ const GameScreen = ({ disabled }) => {
    }
 
    const handleKeyboard = (key) => {
+      setFeedback(null);
       if (disabled) return;
       if (!currWord) return;
 
@@ -102,7 +110,13 @@ const GameScreen = ({ disabled }) => {
                setCurrentLine(currentLine + 1);
             } else {
                setTimeout(() => {
-                  rowRefs.current[currentLine].shake(newAnswers[currentLine].length < currWord.length);
+                  if (newAnswers[currentLine].length < currWord.length) {
+                     setFeedback("not enough letters");
+                  } else {
+                     setFeedback("word not in list");
+                  }
+
+                  //rowRefs.current[currentLine].shake(newAnswers[currentLine].length < currWord.length);
                }, 100);
             }
             return oldValue;
@@ -163,6 +177,9 @@ const GameScreen = ({ disabled }) => {
                {currWord && (showWord ? <span>{currWord}</span> : <span>&#9679;&#9679;&#9679;&#9679;&#9679;</span>)}
             </div>
          </div> */}
+         <div style={{ visibility: feedback ? "visible" : "hidden", height: "24px" }} className={classes.feedback}>
+            {feedback}
+         </div>
          <div className={classes["input-container"]}>
             {boxValues.map((boxes, i) => {
                return (
@@ -186,7 +203,7 @@ const GameScreen = ({ disabled }) => {
             <div className="modal">
                <div className="background">
                   <div className="box">
-                     <div className="content">CONGRATS!! fetch a new word to restart</div>
+                     <div className="content">CONGRATS!!</div>
                   </div>
                </div>
             </div>
