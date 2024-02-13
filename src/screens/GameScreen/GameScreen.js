@@ -76,13 +76,13 @@ const GameScreen = ({ disabled }) => {
    useEffect(() => {
       //console.log("boxValues", boxValues);
 
-      const correctFeedback = ["Genius!"];
+      const correctFeedback = ["Genius!", "Impressive!", "Happy days!", "Good effort", "Nice one!", "Made it!"];
 
       if (boxValues[currentLine - 1]) {
          const wordIsCorrect = boxValues[currentLine - 1].every((obj) => obj.boxState === "correct");
          if (wordIsCorrect) {
             setGameComplete(true);
-            setFeedback(`Answer: ${correctFeedback[0]}`);
+            setFeedback(`Answer: ${correctFeedback[currentLine - 1]}`);
             return;
             //  onEndGame();
          }
