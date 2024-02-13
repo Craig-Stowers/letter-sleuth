@@ -70,7 +70,14 @@ const InputRow = forwardRef(({ boxes, rowNumber }, parentRef) => {
             key={key}
          >
             {boxes.map((el, i) => {
-               return <Letter value={el.value} boxState={el.boxState} key={"letter-" + i} />;
+               return (
+                  <Letter
+                     value={el.value}
+                     boxState={el.boxState}
+                     showHighlight={el.showHighlight}
+                     key={"letter-" + i}
+                  />
+               );
             })}
          </div>
          {message && <div className={classes.message}>{message}</div>}

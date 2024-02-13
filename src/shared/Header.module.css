@@ -1,0 +1,20 @@
+.header {
+   background-color: red;
+   display: flex;
+   padding: 6px;
+}
+
+.logo {
+   margin-top: auto;
+   margin-bottom: auto;
+   color: white;
+   margin-left: 5px;
+}
+
+.buttons {
+   margin-left: auto;
+}
+
+.buttons button {
+   margin-left: 5px;
+}

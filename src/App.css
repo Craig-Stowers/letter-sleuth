@@ -1,8 +1,32 @@
 .App {
 }
 
-.game-container {
-   position: relative;
+.tiled-background {
+   width: 100vw;
+   height: 100vh;
+   background-color: black;
+   color: red;
+}
+
+.container {
+   display: flex;
+   width: 100vw;
+   height: 100vh;
+}
+
+.container-inner {
+   margin: auto auto;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(200, 200, 230, 0.4);
+   max-width: 800px;
+   max-height: 800px;
+   display: flex;
+   flex-direction: column;
+}
+
+.screen-area {
+   flex-grow: 1;
 }
 
 button:focus {
@@ -63,4 +87,36 @@ button:focus {
    font-size: 22px;
    padding: 30px;
    color: white;
+}
+
+.letter-highlight {
+   position: relative;
+}
+
+.letter-highlight:before {
+   box-sizing: border-box;
+   position: absolute;
+   width: calc(100% + 30px);
+   height: calc(100% + 30px);
+   left: -15px;
+   top: -15px;
+   border: 2px solid white;
+   border-radius: 6px;
+   content: "";
+}
+
+.letter-highlight2 {
+   position: relative;
+}
+
+.letter-highlight2:before {
+   box-sizing: border-box;
+   position: absolute;
+   width: calc(200% + 40px);
+   height: calc(100% + 30px);
+   left: -15px;
+   top: -15px;
+   border: 2px solid white;
+   border-radius: 6px;
+   content: "";
 }

@@ -2,14 +2,22 @@ import React, { useState, useEffect, useMemo, useRef } from "react";
 import classes from "./GameScreen.module.css";
 import InputRow from "./InputRow";
 import KeyboardController from "../../KeyboardController";
+import useGameData from "./useGameData";
 
 const wordCharLength = 5;
 const maxLines = 6;
 
-const GameScreen = ({ currentWord: currWord, allowedWords, onEndGame, disabled }) => {
+const GameScreen = ({ disabled }) => {
    const [currentLine, setCurrentLine] = useState(0);
    const [answers, setAnswers] = useState(["", "", "", "", "", ""]);
    const rowRefs = useRef([]);
+   const [showWord, setShowWord] = useState(false);
+   const buttonRef = useRef(null);
+   const [gameComplete, setGameComplete] = useState(false);
+
+   const { currentWord: currWord, loadRandomWord, allAllowedGuesses } = useGameData();
+
+   console.log("curr word", currWord);
 
    useEffect(() => {
       setCurrentLine(0);
@@ -62,7 +70,8 @@ const GameScreen = ({ currentWord: currWord, allowedWords, onEndGame, disabled }
       if (boxValues[currentLine - 1]) {
          const wordIsCorrect = boxValues[currentLine - 1].every((obj) => obj.boxState === "correct");
          if (wordIsCorrect) {
-            onEndGame();
+            setGameComplete(true);
+            //  onEndGame();
          }
       }
    }, [currentLine]);
@@ -89,7 +98,7 @@ const GameScreen = ({ currentWord: currWord, allowedWords, onEndGame, disabled }
          if (currentLine >= newAnswers.length) return oldValue;
 
          if (lowerKey === "enter") {
-            if (currentLine < newAnswers.length && allowedWords.includes(newAnswers[currentLine])) {
+            if (currentLine < newAnswers.length && allAllowedGuesses.includes(newAnswers[currentLine])) {
                setCurrentLine(currentLine + 1);
             } else {
                setTimeout(() => {
@@ -137,6 +146,23 @@ const GameScreen = ({ currentWord: currWord, allowedWords, onEndGame, disabled }
 
    return (
       <div className={classes.main}>
+         <div className="control-panel " onMouseDown={(e) => e.preventDefault()}>
+            <button ref={buttonRef} onClick={loadRandomWord} onMouseDown={(e) => e.preventDefault()}>
+               fetch random word
+            </button>
+            <button
+               ref={buttonRef}
+               onClick={() => {
+                  setShowWord(!showWord);
+               }}
+            >
+               {showWord ? "hide word" : "reveal word"}
+            </button>
+            <div className="hint">
+               <span>current word: </span>
+               {currWord && (showWord ? <span>{currWord}</span> : <span>&#9679;&#9679;&#9679;&#9679;&#9679;</span>)}
+            </div>
+         </div>
          <div className={classes["input-container"]}>
             {boxValues.map((boxes, i) => {
                return (
@@ -156,6 +182,15 @@ const GameScreen = ({ currentWord: currWord, allowedWords, onEndGame, disabled }
                keyColours={keyColours}
             />
          </div>
+         {gameComplete && (
+            <div className="modal">
+               <div className="background">
+                  <div className="box">
+                     <div className="content">CONGRATS!! fetch a new word to restart</div>
+                  </div>
+               </div>
+            </div>
+         )}
       </div>
    );
 };
