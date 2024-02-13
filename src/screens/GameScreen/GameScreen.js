@@ -7,7 +7,7 @@ import useGameData from "./useGameData";
 const wordCharLength = 5;
 const maxLines = 6;
 
-const GameScreen = ({ disabled }) => {
+const GameScreen = ({ disabled, onCurrWord }) => {
    const [currentLine, setCurrentLine] = useState(0);
    const [answers, setAnswers] = useState(["", "", "", "", "", ""]);
    const rowRefs = useRef([]);
@@ -18,9 +18,8 @@ const GameScreen = ({ disabled }) => {
 
    const { currentWord: currWord, loadRandomWord, allAllowedGuesses } = useGameData();
 
-   console.log("currWord", currWord);
-
    useEffect(() => {
+      onCurrWord(currWord);
       setCurrentLine(0);
       setAnswers(["", "", "", "", "", ""]);
    }, [currWord]);

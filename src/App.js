@@ -15,6 +15,8 @@ import ScoreScreen from "./screens/ScoreScreen/ScoreScreen";
 
 function App() {
    const [currScreen, setCurrScreen] = useState("home");
+   const [devMode, setDevMode] = useState(false);
+   const [hint, setHint] = useState(null);
 
    const headerButtons = useMemo(() => {
       if (currScreen === "home") return [];
@@ -28,6 +30,11 @@ function App() {
          if (buttonName === "info") return "main-info";
          if (buttonName === "close") return "home";
          if (buttonName === "scoreboard") return "scoreboard";
+         if (buttonName === "devmode") {
+            setDevMode((value) => {
+               return !value;
+            });
+         }
       }
 
       if (currScreen === "game") {
@@ -45,6 +52,12 @@ function App() {
       setCurrScreen(getScreen(buttonName));
    };
 
+   const handleCurrWord = (word) => {
+      // if (devMode) {
+      setHint(word);
+      // }
+   };
+
    return (
       <div className={"App"}>
          <RepeatBackground
@@ -55,10 +68,10 @@ function App() {
 
          <div className={"container"}>
             <div className={"container-inner"}>
-               <Header buttons={headerButtons} onButtonHit={handleButtonHit} />
+               <Header buttons={headerButtons} onButtonHit={handleButtonHit} hint={hint} />
                <div className={"screen-area"}>
-                  {currScreen === "home" && <HomeScreen onButtonHit={handleButtonHit} />}
-                  {currScreen === "game" && <GameScreen />}
+                  {currScreen === "home" && <HomeScreen onButtonHit={handleButtonHit} devMode={devMode} />}
+                  {currScreen === "game" && <GameScreen devMode={devMode} onCurrWord={handleCurrWord} />}
                   {(currScreen === "main-info" || currScreen === "game-info") && <InfoScreen />}
 
                   {currScreen === "scoreboard" && <ScoreScreen />}

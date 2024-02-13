@@ -4,7 +4,7 @@ import iconStats from "../../icons/icon-stats.svg";
 import iconInfo from "../../icons/icon-info.svg";
 import iconClose from "../../icons/icon-close.svg";
 import logo from "../../assets/wordiful-logo.png";
-const HomeScreen = ({ onButtonHit }) => {
+const HomeScreen = ({ onButtonHit, devMode = false }) => {
    return (
       <div className={classes.container}>
          <div className={classes.header}>
@@ -18,8 +18,12 @@ const HomeScreen = ({ onButtonHit }) => {
             />
          </div>
 
+         {/* <div style={{ color: "white", fontSize: "16px", fontFamily: "sans-serif", position: "absolute" }}>
+            dev mode: {devMode ? "on" : "off"}, (hit logo to switch)
+         </div> */}
+
          <div className={classes.title}>
-            <img src={logo} />
+            <img src={logo} onClick={() => onButtonHit("devmode")} />
          </div>
          <div className={classes.footer}>
             <div className={classes.buttons}>
