@@ -24,7 +24,10 @@ function App() {
       return ["home", "info", "close"];
    }, [currScreen]);
 
+   console.log("CURR SCREEN", currScreen);
+
    const getScreen = (buttonName) => {
+      console.log("BUTTON HIT", buttonName, currScreen);
       if (currScreen === "home") {
          if (buttonName === "play") return "game";
          if (buttonName === "info") return "main-info";

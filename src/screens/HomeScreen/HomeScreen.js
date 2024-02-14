@@ -13,7 +13,7 @@ const HomeScreen = ({ onButtonHit, devMode = false }) => {
                   return <img src={iconClose} />;
                }}
                onClick={() => {
-                  onButtonHit("scoreboard");
+                  onButtonHit("close");
                }}
             />
          </div>
