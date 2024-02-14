@@ -62,8 +62,8 @@ function App() {
       <div className={"App"}>
          <RepeatBackground
             image={whiteSquare}
-            style={{ backgroundColor: "#444", zIndex: -1 }}
-            repeatImageStyle={{ opacity: 0.2, display: currScreen === "home" ? "block" : "none" }}
+            style={{ zIndex: -1 }}
+            repeatImageStyle={{ opacity: 0.1, display: currScreen === "home" ? "block" : "none" }}
          />
 
          <div className={"container"}>

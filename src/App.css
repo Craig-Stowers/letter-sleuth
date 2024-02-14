@@ -12,6 +12,10 @@
 .App {
 }
 
+.background {
+   background-color: var(--bg-color);
+}
+
 .tiled-background {
    width: 100vw;
    height: 100vh;

@@ -22,7 +22,7 @@ const RepeatBackground = ({ image, style = {}, repeatImageStyle = {} }) => {
 
    return (
       <div style={{ position: "relative" }}>
-         <div style={containerStyle}>
+         <div style={containerStyle} className="background">
             <div style={repeatStyle} />
          </div>
       </div>
