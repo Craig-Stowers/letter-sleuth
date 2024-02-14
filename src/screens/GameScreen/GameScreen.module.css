@@ -38,12 +38,22 @@
 
 .feedback {
    color: var(--text-color-dark);
-   background-color: white;
+
    padding: 5px;
    margin: 10px auto 7px auto;
    font-size: 20px;
    font-weight: bold;
    border-radius: 4px;
+}
+
+.feedback.positiveFeedback {
+   background-color: white;
+   color: var(--text-color-dark);
+}
+
+.feedback.negativeFeedback {
+   background-color: red;
+   color: white;
 }
 
 .input-row {

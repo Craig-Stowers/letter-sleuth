@@ -15,6 +15,7 @@ const GameScreen = ({ onCurrWord }) => {
    const buttonRef = useRef(null);
    const [gameComplete, setGameComplete] = useState(false);
    const [feedback, setFeedback] = useState("");
+
    const [disabled, setDisabled] = useState(false);
 
    const { currentWord: currWord, loadRandomWord, allAllowedGuesses } = useGameData();
@@ -31,6 +32,7 @@ const GameScreen = ({ onCurrWord }) => {
          const timer = setTimeout(() => {
             setFeedback(null);
          }, 3000);
+         return () => clearTimeout(timer);
       }
    }, [feedback]);
 
@@ -105,7 +107,6 @@ const GameScreen = ({ onCurrWord }) => {
    }
 
    const handleKeyboard = (key) => {
-      setFeedback(null);
       if (disabled) return;
       if (!currWord) return;
 
@@ -129,7 +130,7 @@ const GameScreen = ({ onCurrWord }) => {
                      setFeedback("word not in list");
                   }
 
-                  //rowRefs.current[currentLine].shake(newAnswers[currentLine].length < currWord.length);
+                  rowRefs.current[currentLine].shake(newAnswers[currentLine].length < currWord.length);
                }, 100);
             }
             return oldValue;
@@ -171,6 +172,8 @@ const GameScreen = ({ onCurrWord }) => {
       return letters;
    }, [currentLine]);
 
+   const negativeFeedback = feedback === "not enough letters" || feedback === "word not in list";
+
    return (
       <div className={classes.main}>
          {/* <div className="control-panel " onMouseDown={(e) => e.preventDefault()}>
@@ -190,7 +193,10 @@ const GameScreen = ({ onCurrWord }) => {
                {currWord && (showWord ? <span>{currWord}</span> : <span>&#9679;&#9679;&#9679;&#9679;&#9679;</span>)}
             </div>
          </div> */}
-         <div style={{ visibility: feedback ? "visible" : "hidden", height: "24px" }} className={classes.feedback}>
+         <div
+            style={{ visibility: feedback ? "visible" : "hidden", height: "24px" }}
+            className={`${classes.feedback} ${negativeFeedback ? classes.negativeFeedback : classes.positiveFeedback}`}
+         >
             {feedback}
          </div>
          <div className={classes["input-container"]}>

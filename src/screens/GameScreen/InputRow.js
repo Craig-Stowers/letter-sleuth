@@ -42,16 +42,16 @@ const InputRow = forwardRef(({ boxes, rowNumber }, parentRef) => {
 
       // You can also expose additional methods
       shake: (isShort) => {
-         if (isShort) {
-            setMessage("missing input");
-         } else {
-            setMessage("word not in list");
-         }
+         // if (isShort) {
+         //    setMessage("missing input");
+         // } else {
+         //    setMessage("word not in list");
+         // }
 
          setShake(true);
          messageTimer.current && clearTimeout(messageTimer.current);
          messageTimer.current = setTimeout(() => {
-            setMessage("");
+            //setMessage("");
          }, 2000);
          setKey((prevKey) => prevKey + 1);
       },
