@@ -60,6 +60,7 @@
    color: white;
    display: inline-flex;
    width: 100%;
+   font-family: "Roboto Slab", serif;
 }
 
 .input-row.shake {

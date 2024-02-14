@@ -4,8 +4,6 @@
    padding: 20px;
    box-sizing: border-box;
    position: relative;
-   /* font-family: "Aktiv Grotesk,-apple-system,BlinkMacSystemFont,San Francisco,Segoe UI,Roboto,Helvetica Neue,sans-serif"; */
-   font-family: serif;
    display: flex;
    flex-direction: column;
 }
