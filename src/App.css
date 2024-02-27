@@ -174,4 +174,5 @@ button:focus {
    width: 100px;
    margin: 5px;
    font-size: 20px;
+   user-select: none;
 }
