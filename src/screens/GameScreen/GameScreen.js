@@ -88,16 +88,18 @@ const GameScreen = ({ onCurrWord, currWord, daysElapsed }) => {
          if (parseData && parseData.day === daysElapsed) {
             console.log("load answers", parseData.answers);
             setAnswers(parseData.answers);
-            let inputIndex = 0;
+            // let inputIndex = 0;
 
-            for (var i = 0; i < parseData.answers.length - 1; i++) {
-               console.log("length", i, parseData.answers[i].length);
-               if (parseData.answers[i].length > 0) {
-                  inputIndex = i;
-               }
+            // for (var i = 0; i < parseData.answers.length - 1; i++) {
+            //    console.log("length", i, parseData.answers[i].length);
+            //    if (parseData.answers[i].length > 0) {
+            //       inputIndex = i;
+            //    }
+            // }
+            // console.log("input index", inputIndex);
+            if (parseData.currentLine) {
+               setCurrentLine(parseData.currentLine);
             }
-            console.log("input index", inputIndex);
-            setCurrentLine(inputIndex);
          }
 
          // setMyArray(JSON.parse(data));
@@ -109,10 +111,11 @@ const GameScreen = ({ onCurrWord, currWord, daysElapsed }) => {
       const saveData = {
          day: daysElapsed,
          answers: answers,
+         currentLine: currentLine,
       };
 
       localStorage.setItem("wordiful-data", JSON.stringify(saveData));
-   }, [answers]);
+   }, [answers, currentLine]);
 
    useEffect(() => {
       //console.log("boxValues", boxValues);
