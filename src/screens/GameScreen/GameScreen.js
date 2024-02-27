@@ -21,6 +21,8 @@ const GameScreen = ({ onCurrWord, currWord, daysElapsed }) => {
 
    const { allAllowedGuesses } = useGameData();
 
+   console.log("current line", currentLine);
+
    useEffect(() => {
       onCurrWord(currWord);
       setCurrentLine(0);
@@ -83,12 +85,19 @@ const GameScreen = ({ onCurrWord, currWord, daysElapsed }) => {
       setLocalDataLoaded(true);
       if (data) {
          const parseData = JSON.parse(data);
-         console.log("load data", data);
-
-         console.log(parseData.day, daysElapsed);
          if (parseData && parseData.day === daysElapsed) {
-            console.log("set answers");
+            console.log("load answers", parseData.answers);
             setAnswers(parseData.answers);
+            let inputIndex = 0;
+
+            for (var i = 0; i < parseData.answers.length - 1; i++) {
+               console.log("length", i, parseData.answers[i].length);
+               if (parseData.answers[i].length > 0) {
+                  inputIndex = i;
+               }
+            }
+            console.log("input index", inputIndex);
+            setCurrentLine(inputIndex);
          }
 
          // setMyArray(JSON.parse(data));
