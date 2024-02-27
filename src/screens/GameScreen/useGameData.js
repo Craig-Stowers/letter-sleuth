@@ -25,7 +25,8 @@ const useGameData = (day) => {
          .filter((word) => word.trim() !== "")
          .filter((word) => {
             return !blacklist.includes(word);
-         });
+         })
+         .filter((word) => word[word.length - 1] !== "s");
       return filtered;
    }, [answersData, blacklist]);
 
@@ -44,7 +45,8 @@ const useGameData = (day) => {
          .filter((word) => word.trim() !== "")
          .filter((word) => {
             return !blacklist.includes(word);
-         });
+         })
+         .filter((word) => word[word.length - 1] !== "s");
       return filtered;
    }, [allowedGuessesData, blacklist]);
 
