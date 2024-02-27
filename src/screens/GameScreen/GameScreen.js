@@ -7,7 +7,7 @@ import useGameData from "./useGameData";
 const wordCharLength = 5;
 const maxLines = 6;
 
-const GameScreen = ({ onCurrWord, currWord }) => {
+const GameScreen = ({ onCurrWord, currWord, daysElapsed }) => {
    const [currentLine, setCurrentLine] = useState(0);
    const [answers, setAnswers] = useState(["", "", "", "", "", ""]);
    const rowRefs = useRef([]);
@@ -15,6 +15,7 @@ const GameScreen = ({ onCurrWord, currWord }) => {
    const buttonRef = useRef(null);
    const [gameComplete, setGameComplete] = useState(false);
    const [feedback, setFeedback] = useState("");
+   const [localDataLoaded, setLocalDataLoaded] = useState(false);
 
    const [disabled, setDisabled] = useState(false);
 
@@ -75,6 +76,34 @@ const GameScreen = ({ onCurrWord, currWord }) => {
          return boxes;
       });
    }, [answers, currentLine]);
+
+   useEffect(() => {
+      const data = localStorage.getItem("wordiful-data");
+
+      setLocalDataLoaded(true);
+      if (data) {
+         const parseData = JSON.parse(data);
+         console.log("load data", data);
+
+         console.log(parseData.day, daysElapsed);
+         if (parseData && parseData.day === daysElapsed) {
+            console.log("set answers");
+            setAnswers(parseData.answers);
+         }
+
+         // setMyArray(JSON.parse(data));
+      }
+   }, []);
+
+   useEffect(() => {
+      if (!localDataLoaded) return;
+      const saveData = {
+         day: daysElapsed,
+         answers: answers,
+      };
+
+      localStorage.setItem("wordiful-data", JSON.stringify(saveData));
+   }, [answers]);
 
    useEffect(() => {
       //console.log("boxValues", boxValues);

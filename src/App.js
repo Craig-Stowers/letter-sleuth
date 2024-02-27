@@ -166,7 +166,12 @@ function App() {
                <div className={"screen-area"}>
                   {currScreen === "home" && <HomeScreen onButtonHit={handleButtonHit} devMode={devMode} />}
                   {currScreen === "game" && (
-                     <GameScreen devMode={devMode} onCurrWord={handleCurrWord} currWord={currWord} />
+                     <GameScreen
+                        devMode={devMode}
+                        onCurrWord={handleCurrWord}
+                        currWord={currWord}
+                        daysElapsed={daysElapsed}
+                     />
                   )}
                   {(currScreen === "main-info" || currScreen === "game-info") && (
                      <InfoScreen onButtonHit={handleButtonHit} />
