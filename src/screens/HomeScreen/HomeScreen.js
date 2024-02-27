@@ -26,32 +26,34 @@ const HomeScreen = ({ onButtonHit, devMode = false }) => {
             <img src={logo} onClick={() => onButtonHit("devmode")} />
          </div>
          <div className={classes.footer}>
-            <div className={classes.buttons}>
-               <CustomButton
-                  render={() => {
-                     return <img src={iconInfo} />;
-                  }}
-                  onClick={() => {
-                     onButtonHit("info");
-                  }}
-               />
-               <CustomButton
-                  render={() => {
-                     return <span style={{ paddingLeft: "7px", paddingRight: "7px" }}>PLAY</span>;
-                  }}
-                  onClick={() => {
-                     onButtonHit("play");
-                  }}
-               />
+            <div className={classes.buttonsWrapper}>
+               <div className={classes.buttons}>
+                  <CustomButton
+                     render={() => {
+                        return <img src={iconInfo} />;
+                     }}
+                     onClick={() => {
+                        onButtonHit("info");
+                     }}
+                  />
+                  <CustomButton
+                     render={() => {
+                        return <span style={{ paddingLeft: "7px", paddingRight: "7px" }}>PLAY</span>;
+                     }}
+                     onClick={() => {
+                        onButtonHit("play");
+                     }}
+                  />
 
-               <CustomButton
-                  render={() => {
-                     return <img src={iconStats} />;
-                  }}
-                  onClick={() => {
-                     onButtonHit("scoreboard");
-                  }}
-               />
+                  <CustomButton
+                     render={() => {
+                        return <img src={iconStats} />;
+                     }}
+                     onClick={() => {
+                        onButtonHit("scoreboard");
+                     }}
+                  />
+               </div>
             </div>
          </div>
       </div>

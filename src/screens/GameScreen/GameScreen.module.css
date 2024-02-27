@@ -38,9 +38,8 @@
 
 .feedback {
    color: var(--text-color-dark);
-
    padding: 5px;
-   margin: 10px auto 7px auto;
+   margin: 8px auto 7px auto;
    font-size: 20px;
    font-weight: bold;
    border-radius: 4px;
@@ -56,6 +55,13 @@
    color: white;
 }
 
+@media only screen and (max-width: 480px) {
+   .feedback {
+      font-size: 16px;
+      margin: 4px auto 4px auto;
+   }
+   /* CSS rules here */
+}
 .input-row {
    color: white;
    display: inline-flex;

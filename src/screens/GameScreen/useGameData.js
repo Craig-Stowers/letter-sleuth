@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import useTextFileLoader from "../../hooks/useTextFileLoader";
+import generateRandomSequenceFromSeed from "../../helpers/generateRandomSequenceFromSeed";
 
-const useGameData = () => {
+const useGameData = (day) => {
    const answersData = useTextFileLoader("/answers.txt");
    const allowedGuessesData = useTextFileLoader("/allowed-guesses.txt");
    const blacklistData = useTextFileLoader("/blacklist.txt");
@@ -28,6 +29,13 @@ const useGameData = () => {
       return filtered;
    }, [answersData, blacklist]);
 
+   const randomSequence = React.useMemo(() => {
+      if (!answers) return;
+      const sequence = generateRandomSequenceFromSeed(answers.length);
+      console.log("seq", sequence);
+      return sequence;
+   }, [answers]);
+
    const allowedGuesses = React.useMemo(() => {
       if (!allowedGuessesData) return null;
       if (!blacklist) return null;
@@ -42,7 +50,10 @@ const useGameData = () => {
 
    useEffect(() => {
       // if (answers && allAllowedGuesses) loadRandomWord();
-      if (answers && allAllowedGuesses) loadWordByDate();
+      if (answers && allAllowedGuesses) {
+         //  onLoaded && onLoaded();
+      }
+
       // console.log("allowedGuesses", allowedGuesses)
    }, [answers, allowedGuesses]);
 
@@ -76,9 +87,16 @@ const useGameData = () => {
       }, 200);
    };
 
-   const allAllowedGuesses = allowedGuesses && answers ? [...allowedGuesses, ...answers] : [];
+   useEffect(() => {
+      if (!answers || !randomSequence) return;
+      console.log("length", answers.length, randomSequence.length);
 
-   console.log("ANSWERS length", answers && answers.length);
+      const index = day % answers.length;
+      const randomIndex = randomSequence[index];
+      setCurrentWord(answers[randomIndex]);
+   }, [day, answers, randomSequence]);
+
+   const allAllowedGuesses = allowedGuesses && answers ? [...allowedGuesses, ...answers] : [];
 
    return { loadRandomWord, currentWord, allAllowedGuesses };
 };

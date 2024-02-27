@@ -11,7 +11,7 @@ const instructions = [
             You have six tries to guess a five-letter word. Proper nouns and words that are, or can be interpreted as,
             plurals are not accepted. A new Wordiful puzzle is releaed every day.
             <br />
-            Good luck!"
+            Good luck!
          </span>
       ),
    },
@@ -39,7 +39,11 @@ const instructions = [
       ],
    },
    {
-      text: <span>Green means a letter is in the correct spot in the word.</span>,
+      text: (
+         <span>
+            Green means a letter is in the correct spot in the word. The letter may be used more than once in the word.
+         </span>
+      ),
       boxes: [
          { value: "S", boxState: "correct", showHighlight: true },
          { value: "N", boxState: "incorrect" },
@@ -49,7 +53,12 @@ const instructions = [
       ],
    },
    {
-      text: <span>Yellow means a letter is in the word, but in the wrong spot.</span>,
+      text: (
+         <span>
+            Yellow means a letter is in the word, but in the wrong spot. The letter may be used more than once in the
+            word.
+         </span>
+      ),
       boxes: [
          { value: "S", boxState: "correct" },
          { value: "N", boxState: "incorrect" },
@@ -99,6 +108,10 @@ const InfoScreen = ({ onButtonHit }) => {
    const [currIndex, setCurrIndex] = useState(0);
 
    const handleButtonHit = () => {
+      if (currIndex === instructions.length - 1) {
+         onButtonHit("close");
+      }
+
       setCurrIndex((oldValue) => {
          return oldValue === instructions.length - 1 ? 0 : oldValue + 1;
       });
@@ -143,7 +156,11 @@ const InfoScreen = ({ onButtonHit }) => {
          <div className={classes.nextWrapper}>
             <CustomButton
                render={() => {
-                  return <span style={{ padding: "0px", paddingLeft: "7px", paddingRight: "7px" }}>NEXT</span>;
+                  return (
+                     <span style={{ padding: "0px", paddingLeft: "7px", paddingRight: "7px" }}>
+                        {currIndex === instructions.length - 1 ? "CLOSE" : "NEXT"}
+                     </span>
+                  );
                }}
                onClick={handleButtonHit}
             />

@@ -37,11 +37,14 @@
 }
 
 .footer {
-   display: flex;
+   height: 17vh;
    margin-top: auto;
 }
 
-.footer .buttons {
+.buttonsWrapper {
+   display: flex;
+}
+.buttonsWrapper .buttons {
    display: flex;
    margin: 0 auto;
 }

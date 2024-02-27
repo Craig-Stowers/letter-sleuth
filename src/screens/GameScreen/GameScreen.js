@@ -7,7 +7,7 @@ import useGameData from "./useGameData";
 const wordCharLength = 5;
 const maxLines = 6;
 
-const GameScreen = ({ onCurrWord }) => {
+const GameScreen = ({ onCurrWord, currWord }) => {
    const [currentLine, setCurrentLine] = useState(0);
    const [answers, setAnswers] = useState(["", "", "", "", "", ""]);
    const rowRefs = useRef([]);
@@ -18,7 +18,7 @@ const GameScreen = ({ onCurrWord }) => {
 
    const [disabled, setDisabled] = useState(false);
 
-   const { currentWord: currWord, loadRandomWord, allAllowedGuesses } = useGameData();
+   const { allAllowedGuesses } = useGameData();
 
    useEffect(() => {
       onCurrWord(currWord);
@@ -85,7 +85,7 @@ const GameScreen = ({ onCurrWord }) => {
          const wordIsCorrect = boxValues[currentLine - 1].every((obj) => obj.boxState === "correct");
          if (wordIsCorrect) {
             setGameComplete(true);
-            setFeedback(`Answer: ${correctFeedback[currentLine - 1]}`);
+            setFeedback(`${correctFeedback[currentLine - 1]}`);
             setDisabled(true);
             return;
             //  onEndGame();
@@ -120,14 +120,16 @@ const GameScreen = ({ onCurrWord }) => {
          if (currentLine >= newAnswers.length) return oldValue;
 
          if (lowerKey === "enter") {
-            if (currentLine < newAnswers.length && allAllowedGuesses.includes(newAnswers[currentLine])) {
+            const submittedAnswer = newAnswers[currentLine].toLocaleLowerCase();
+
+            if (currentLine < newAnswers.length && allAllowedGuesses.includes(submittedAnswer)) {
                setCurrentLine(currentLine + 1);
             } else {
                setTimeout(() => {
                   if (newAnswers[currentLine].length < currWord.length) {
-                     setFeedback("not enough letters");
+                     setFeedback("Not enough letters");
                   } else {
-                     setFeedback("word not in list");
+                     setFeedback("Word not in list");
                   }
 
                   rowRefs.current[currentLine].shake(newAnswers[currentLine].length < currWord.length);
@@ -172,7 +174,7 @@ const GameScreen = ({ onCurrWord }) => {
       return letters;
    }, [currentLine]);
 
-   const negativeFeedback = feedback === "not enough letters" || feedback === "word not in list";
+   const negativeFeedback = feedback === "Not enough letters" || feedback === "Word not in list";
 
    return (
       <div className={classes.main}>
@@ -214,7 +216,7 @@ const GameScreen = ({ onCurrWord }) => {
          <div className={classes.keyboardWrapper}>
             <KeyboardController
                onKeyEvent={(e) => handleKeyboard(e)}
-               deps={[currWord, currentLine, disabled]}
+               deps={[currWord, currentLine, disabled, allAllowedGuesses]}
                keyColours={keyColours}
             />
          </div>

@@ -45,11 +45,12 @@
 
 .nextWrapper {
    margin-top: auto;
-   height: 60px;
+   height: 15%;
    display: flex;
 }
 
 .nextWrapper button {
+   height: 60px;
    margin-left: auto;
    margin-right: auto;
 }
