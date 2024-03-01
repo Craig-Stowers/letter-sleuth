@@ -201,6 +201,7 @@ function App() {
                   }}
                >
                   <ul className="data">
+                     <li>version: 0.5</li>
                      <li>start date: {formatDate(startingDate)}</li>
                      <li>date: {todaysDate} </li>
                      <li>days elapsed: {daysElapsed}</li>
