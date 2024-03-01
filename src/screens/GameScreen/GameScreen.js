@@ -21,8 +21,6 @@ const GameScreen = ({ onCurrWord, currWord, daysElapsed }) => {
 
    const { allAllowedGuesses } = useGameData();
 
-   console.log("current line", currentLine);
-
    useEffect(() => {
       onCurrWord(currWord);
       setCurrentLine(0);
@@ -33,7 +31,7 @@ const GameScreen = ({ onCurrWord, currWord, daysElapsed }) => {
    useEffect(() => {
       if (feedback) {
          const timer = setTimeout(() => {
-            setFeedback(null);
+            setFeedback("");
          }, 3000);
          return () => clearTimeout(timer);
       }
@@ -236,24 +234,29 @@ const GameScreen = ({ onCurrWord, currWord, daysElapsed }) => {
                {currWord && (showWord ? <span>{currWord}</span> : <span>&#9679;&#9679;&#9679;&#9679;&#9679;</span>)}
             </div>
          </div> */}
-         <div
-            style={{ visibility: feedback ? "visible" : "hidden", height: "24px" }}
-            className={`${classes.feedback} ${negativeFeedback ? classes.negativeFeedback : classes.positiveFeedback}`}
-         >
-            {feedback}
+         <div className={classes.feedbackAndInputs}>
+            <div
+               style={{ visibility: feedback.length ? "visible" : "hidden" }}
+               className={`${classes.feedback} ${
+                  negativeFeedback ? classes.negativeFeedback : classes.positiveFeedback
+               }`}
+            >
+               {feedback.length ? feedback : "none"}
+            </div>
+            <div className={classes["input-container"]}>
+               {boxValues.map((boxes, i) => {
+                  return (
+                     <InputRow
+                        boxes={boxes}
+                        rowNumber={i}
+                        key={"answer-row-" + i}
+                        ref={(el) => (rowRefs.current[i] = el)}
+                     />
+                  );
+               })}
+            </div>
          </div>
-         <div className={classes["input-container"]}>
-            {boxValues.map((boxes, i) => {
-               return (
-                  <InputRow
-                     boxes={boxes}
-                     rowNumber={i}
-                     key={"answer-row-" + i}
-                     ref={(el) => (rowRefs.current[i] = el)}
-                  />
-               );
-            })}
-         </div>
+
          <div className={classes.keyboardWrapper}>
             <KeyboardController
                onKeyEvent={(e) => handleKeyboard(e)}
