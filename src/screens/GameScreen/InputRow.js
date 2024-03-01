@@ -48,11 +48,12 @@ const InputRow = forwardRef(({ boxes, rowNumber }, parentRef) => {
          //    setMessage("word not in list");
          // }
 
-         setShake(true);
+         setShake(false);
          messageTimer.current && clearTimeout(messageTimer.current);
          messageTimer.current = setTimeout(() => {
+            setShake(true);
             //setMessage("");
-         }, 2000);
+         }, 20);
          setKey((prevKey) => prevKey + 1);
       },
    }));
@@ -71,7 +72,7 @@ const InputRow = forwardRef(({ boxes, rowNumber }, parentRef) => {
             onAnimationEnd={(event) => {
                setShake(false);
             }}
-            key={key}
+            // key={key}
          >
             {boxes.map((el, i) => {
                return (
