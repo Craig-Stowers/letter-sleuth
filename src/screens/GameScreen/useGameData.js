@@ -6,6 +6,7 @@ const useGameData = (day) => {
    const answersData = useTextFileLoader("/answers.txt");
    const allowedGuessesData = useTextFileLoader("/allowed-guesses.txt");
    const blacklistData = useTextFileLoader("/blacklist.txt");
+   const whitelistData = useTextFileLoader("/whitelist.txt");
    const [currentWord, setCurrentWord] = useState(null);
    const buttonRef = useRef(null);
    const [showWord, setShowWord] = useState(false);
@@ -15,6 +16,11 @@ const useGameData = (day) => {
       if (!blacklistData) return null;
       return blacklistData.split("\n").filter((word) => word.trim() !== "");
    }, [blacklistData]);
+
+   const whitelist = React.useMemo(() => {
+      if (!whitelistData) return null;
+      return whitelistData.split("\n").filter((word) => word.trim() !== "");
+   }, [whitelistData]);
 
    const answers = React.useMemo(() => {
       // console.log("answerData", answersData);
@@ -47,17 +53,10 @@ const useGameData = (day) => {
             return !blacklist.includes(word);
          })
          .filter((word) => word[word.length - 1] !== "s");
-      return filtered;
-   }, [allowedGuessesData, blacklist]);
 
-   useEffect(() => {
-      // if (answers && allAllowedGuesses) loadRandomWord();
-      if (answers && allAllowedGuesses) {
-         //  onLoaded && onLoaded();
-      }
-
-      // console.log("allowedGuesses", allowedGuesses)
-   }, [answers, allowedGuesses]);
+      console.log("whitelist", whitelist);
+      return [...filtered, ...whitelist];
+   }, [allowedGuessesData, blacklist, whitelist]);
 
    const loadWordByDate = () => {
       setCurrentWord(null);
