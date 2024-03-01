@@ -1,40 +1,45 @@
 import { useState, useEffect, useRef } from "react";
 
-// Custom hook to track the width of an element
-function useElementWidth() {
-   // State to store the element's width
+// Custom hook to track the content width of an element only on window resize
+function useElementWidth(setWidthCallback) {
+   // State to store the element's content width
    const [width, setWidth] = useState(0);
 
    // Ref object to reference the element
    const ref = useRef(null);
 
-   // Effect to attach and detach ResizeObserver
    useEffect(() => {
-      // Update width function
+      // Function to update the element's width
       const updateWidth = () => {
          if (ref.current) {
-            setWidth(ref.current.offsetWidth);
+            const computedStyle = window.getComputedStyle(ref.current);
+            const paddingLeft = parseFloat(computedStyle.paddingLeft);
+            const paddingRight = parseFloat(computedStyle.paddingRight);
+            const contentWidth = ref.current.clientWidth - paddingLeft - paddingRight;
+            setWidth((oldValue) => {
+               return setWidthCallback ? setWidthCallback(contentWidth, oldValue) : contentWidth;
+            });
          }
       };
 
-      // Create a ResizeObserver to observe size changes
-      const resizeObserver = new ResizeObserver(updateWidth);
-      if (ref.current) {
-         resizeObserver.observe(ref.current);
-      }
-
-      // Initial update
+      // Update width once after the component mounts
       updateWidth();
 
-      // Cleanup function to disconnect the ResizeObserver
+      // Function to handle resize event
+      const handleResize = () => {
+         updateWidth();
+      };
+
+      // Add event listener for window resize
+      window.addEventListener("resize", handleResize);
+
+      // Cleanup function to remove the event listener
       return () => {
-         if (ref.current) {
-            resizeObserver.disconnect();
-         }
+         window.removeEventListener("resize", handleResize);
       };
    }, []); // Empty dependency array ensures this runs once on mount
 
-   // Return the width and the ref to be attached to the element
+   // Return the content width and the ref to be attached to the element
    return [width, ref];
 }
 

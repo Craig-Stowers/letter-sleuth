@@ -217,23 +217,6 @@ const GameScreen = ({ onCurrWord, currWord, daysElapsed }) => {
 
    return (
       <div className={classes.main}>
-         {/* <div className="control-panel " onMouseDown={(e) => e.preventDefault()}>
-            <button ref={buttonRef} onClick={loadRandomWord} onMouseDown={(e) => e.preventDefault()}>
-               fetch random word
-            </button>
-            <button
-               ref={buttonRef}
-               onClick={() => {
-                  setShowWord(!showWord);
-               }}
-            >
-               {showWord ? "hide word" : "reveal word"}
-            </button>
-            <div className="hint">
-               <span>current word: </span>
-               {currWord && (showWord ? <span>{currWord}</span> : <span>&#9679;&#9679;&#9679;&#9679;&#9679;</span>)}
-            </div>
-         </div> */}
          <div className={classes.feedbackAndInputs}>
             <div
                style={{ visibility: feedback.length ? "visible" : "hidden" }}

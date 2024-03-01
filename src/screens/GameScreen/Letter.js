@@ -4,17 +4,22 @@ import useElementWidth from "../../hooks/useElementWidth";
 
 const Letter = ({ value, boxState, disableExpand = false, showHighlight = false, style = {} }) => {
    const [filled, setFilled] = useState(false);
-   const [width, ref] = useElementWidth();
+   const [letterWidth, ref] = useElementWidth((newWidth, oldWidth) => {
+      console.log("callback", newWidth);
+      return newWidth > 0 ? newWidth : oldWidth;
+   });
 
    useEffect(() => {
       setFilled(value !== undefined);
    }, [value]);
 
+   console.log("letterwidth", letterWidth);
+
    return (
-      <div className={classes["letter-container"]} style={{ ...style, height: width + "px" }}>
+      <div className={classes["letter-container"]} style={{ ...style, height: letterWidth + 4 + "px" }}>
          <div
             ref={ref}
-            style={{ height: `calc(${width + "px"} - 4px)` }}
+            style={{ height: letterWidth + "px" }}
             className={[
                classes.letter,
                classes[boxState],
