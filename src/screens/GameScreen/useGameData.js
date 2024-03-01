@@ -44,8 +44,8 @@ const useGameData = (day) => {
    }, [answers]);
 
    const allowedGuesses = React.useMemo(() => {
-      if (!allowedGuessesData) return null;
-      if (!blacklist) return null;
+      if (!allowedGuessesData || !blacklist || !whitelist) return null;
+
       const filtered = allowedGuessesData
          .split("\n")
          .filter((word) => word.trim() !== "")
