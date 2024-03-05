@@ -1,6 +1,6 @@
 const RepeatBackground = ({ image, style = {}, repeatImageStyle = {} }) => {
    const containerStyle = {
-      position: "absolute",
+      position: "fixed",
       width: "100vw",
       height: "100vh",
       overflow: "hidden",
