@@ -12,8 +12,8 @@
    margin-left: auto;
    margin-right: auto;
    width: 100%;
-   max-width: 400px;
-   padding-bottom: 34px;
+   max-width: min(400px, calc(100vh - 360px));
+   padding-bottom: 20px;
 }
 
 .input-container {
