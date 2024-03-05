@@ -222,6 +222,8 @@ function App() {
       // Initialize variables to track the longest run
       let longestRun = 0;
       let currentRun = 0;
+      let totalCompleted = 0;
+      let totalSuccesses = 0;
       const distribution = {};
 
       for (let j = 1; j <= 6; j++) {
@@ -232,16 +234,19 @@ function App() {
       for (let i = 0; i <= daysElapsed; i++) {
          if (successKeys.includes(i)) {
             currentRun++;
+            totalCompleted++;
+            totalSuccesses++;
             longestRun = Math.max(longestRun, currentRun);
             const attempts = successData[i].length;
             distribution[attempts]++;
          }
          if (failKeys.includes(i)) {
+            totalCompleted++;
             currentRun = 0;
          }
       }
 
-      return [longestRun, currentRun, distribution];
+      return [longestRun, currentRun, distribution, totalCompleted, totalSuccesses];
    }
 
    const stats = useMemo(() => {
@@ -256,10 +261,10 @@ function App() {
          .sort((a, b) => a - b)
          .filter((day) => day <= daysElapsed);
 
-      const totalSuccesses = successKeys.length;
-      const totalComplete = totalSuccesses + failKeys.length;
+      // const totalSuccesses = successKeys.length;
+      //const totalComplete = totalSuccesses + failKeys.length;
 
-      const [longestStreak, currentStreak, distribution] = longestConsecutiveRun(
+      const [longestStreak, currentStreak, distribution, totalCompleted, totalSuccesses] = longestConsecutiveRun(
          saveData.success,
          successKeys,
          failKeys,
@@ -271,14 +276,14 @@ function App() {
 
       return {
          totals: {
-            "Games played": totalComplete,
-            "Win percentage": totalComplete > 0 ? Math.round((totalSuccesses / totalComplete) * 1000) / 10 : "/",
+            "Games played": totalCompleted,
+            "Win percentage": totalCompleted > 0 ? Math.round((totalSuccesses / totalCompleted) * 1000) / 10 : "/",
             "Current streak": currentStreak,
             "Longest streak": longestStreak,
          },
          distribution: filteredDistribution,
       };
-   }, [saveData]);
+   }, [saveData, daysElapsed]);
 
    if (!saveData) return;
 
@@ -331,7 +336,12 @@ function App() {
                   )}
 
                   {screenType === "scoreboard" && (
-                     <ScoreScreen params={currScreen.params} saveData={saveData} daysElapsed={daysElapsed} />
+                     <ScoreScreen
+                        params={currScreen.params}
+                        saveData={saveData}
+                        daysElapsed={daysElapsed}
+                        stats={stats}
+                     />
                   )}
                </div>
 

@@ -46,7 +46,7 @@ function longestConsecutiveRun(successData, successKeys, failKeys, daysElapsed) 
    return [longestRun, currentRun, distribution];
 }
 
-const ScoreScreen = ({ saveData, params, daysElapsed }) => {
+const ScoreScreen = ({ saveData, params, daysElapsed, stats }) => {
    const barRefs = useRef([]);
    const digitRefs = useRef([]);
    const [animate, setAnimate] = useState(false);
@@ -70,40 +70,40 @@ const ScoreScreen = ({ saveData, params, daysElapsed }) => {
       return () => clearTimeout(startTimer);
    });
 
-   const stats = useMemo(() => {
-      const successKeys = Object.keys(saveData.success)
-         .map(Number)
-         .sort((a, b) => a - b)
-         .filter((day) => day <= daysElapsed);
+   // const stats = useMemo(() => {
+   //    const successKeys = Object.keys(saveData.success)
+   //       .map(Number)
+   //       .sort((a, b) => a - b)
+   //       .filter((day) => day <= daysElapsed);
 
-      const failKeys = Object.keys(saveData.failure)
-         .map(Number)
-         .sort((a, b) => a - b)
-         .filter((day) => day <= daysElapsed);
+   //    const failKeys = Object.keys(saveData.failure)
+   //       .map(Number)
+   //       .sort((a, b) => a - b)
+   //       .filter((day) => day <= daysElapsed);
 
-      const totalSuccesses = successKeys.length;
-      const totalComplete = totalSuccesses + failKeys.length;
+   //    const totalSuccesses = successKeys.length;
+   //    const totalComplete = totalSuccesses + failKeys.length;
 
-      const [longestStreak, currentStreak, distribution] = longestConsecutiveRun(
-         saveData.success,
-         successKeys,
-         failKeys,
-         daysElapsed
-      );
+   //    const [longestStreak, currentStreak, distribution] = longestConsecutiveRun(
+   //       saveData.success,
+   //       successKeys,
+   //       failKeys,
+   //       daysElapsed
+   //    );
 
-      const filteredDistribution = { ...distribution };
-      //delete filteredDistribution["-1"];
+   //    const filteredDistribution = { ...distribution };
+   //    //delete filteredDistribution["-1"];
 
-      return {
-         totals: {
-            "Games played": totalComplete,
-            "Win percentage": totalComplete > 0 ? Math.round((totalSuccesses / totalComplete) * 1000) / 10 : "/",
-            "Current streak": currentStreak,
-            "Longest streak": longestStreak,
-         },
-         distribution: filteredDistribution,
-      };
-   }, [saveData]);
+   //    return {
+   //       totals: {
+   //          "Games played": totalComplete,
+   //          "Win percentage": totalComplete > 0 ? Math.round((totalSuccesses / totalComplete) * 1000) / 10 : "/",
+   //          "Current streak": currentStreak,
+   //          "Longest streak": longestStreak,
+   //       },
+   //       distribution: filteredDistribution,
+   //    };
+   // }, [saveData]);
 
    const maxDistributionValue = Math.max(...Object.values(stats.distribution));
 
