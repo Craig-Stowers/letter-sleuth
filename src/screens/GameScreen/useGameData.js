@@ -39,7 +39,6 @@ const useGameData = (day) => {
    const randomSequence = React.useMemo(() => {
       if (!answers) return;
       const sequence = generateRandomSequenceFromSeed(answers.length);
-      console.log("seq", sequence);
       return sequence;
    }, [answers]);
 
@@ -54,7 +53,6 @@ const useGameData = (day) => {
          })
          .filter((word) => word[word.length - 1] !== "s");
 
-      console.log("whitelist", whitelist);
       return [...filtered, ...whitelist];
    }, [allowedGuessesData, blacklist, whitelist]);
 
@@ -90,7 +88,6 @@ const useGameData = (day) => {
 
    useEffect(() => {
       if (!answers || !randomSequence) return;
-      console.log("length", answers.length, randomSequence.length);
 
       const index = day % answers.length;
       const randomIndex = randomSequence[index];

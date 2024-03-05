@@ -112,6 +112,7 @@ function App() {
          if (!data || data === "null" || (parseData && !parseData.version)) {
             initLocalData();
          }
+         console.log("retrieved save data", JSON.parse(data));
          setSaveData(JSON.parse(data));
       };
 
@@ -179,9 +180,8 @@ function App() {
    };
 
    useEffect(() => {
-      console.log("prelocalsave");
       if (!saveData) return;
-      console.log("saveData", saveData);
+      console.log("update save data", saveData);
       localStorage.setItem("wordiful-data", JSON.stringify(saveData));
    }, [saveData]);
 
