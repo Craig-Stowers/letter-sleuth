@@ -102,7 +102,7 @@ const ScoreScreen = ({ saveData, params, daysElapsed }) => {
       return {
          totals: {
             "Games played": totalComplete,
-            "Win percentage": Math.round((totalSuccesses / totalComplete) * 1000) / 10,
+            "Win percentage": totalComplete > 0 ? Math.round((totalSuccesses / totalComplete) * 1000) / 10 : "/",
             "Current streak": currentStreak,
             "Longest streak": longestStreak,
          },

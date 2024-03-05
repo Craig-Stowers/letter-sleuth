@@ -332,6 +332,40 @@ function App() {
                         go to today
                      </button>
                   </div>
+                  <div>
+                     <button
+                        onMouseDown={() => {
+                           setSaveData({
+                              version: 0.5,
+                              success: {},
+                              failure: {},
+                              incomplete: {},
+                           });
+                        }}
+                     >
+                        clear all data
+                     </button>
+                     <button
+                        onMouseDown={() => {
+                           setSaveData((oldData) => {
+                              const newData = {
+                                 ...oldData,
+                                 incomplete: { ...oldData.incomplete },
+                                 success: { ...oldData.success },
+                                 failure: { ...oldData.failure },
+                              };
+
+                              if (newData.incomplete[daysElapsed]) delete newData.incomplete[daysElapsed];
+                              if (newData.success[daysElapsed]) delete newData.success[daysElapsed];
+                              if (newData.failure[daysElapsed]) delete newData.failure[daysElapsed];
+
+                              return newData;
+                           });
+                        }}
+                     >
+                        clear "todays" data
+                     </button>
+                  </div>
 
                   {/* <div>
                      <button
