@@ -294,7 +294,7 @@ function App() {
    };
 
    const adminData = {
-      version: 0.5,
+      version: 0.6,
       "start date": formatDate(startingDate),
       "simulated date": todaysDate,
       "day index": daysElapsed,
