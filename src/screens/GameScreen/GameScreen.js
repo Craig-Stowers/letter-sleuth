@@ -65,6 +65,7 @@ const GameScreen = ({
    const [localDataLoaded, setLocalDataLoaded] = useState(false);
 
    const [disabled, setDisabled] = useState(false);
+   const [showFeedback, setShowFeedback] = useState(false);
 
    const { allAllowedGuesses } = useGameData();
 
@@ -74,15 +75,6 @@ const GameScreen = ({
       // setAnswers(["", "", "", "", "", ""]);
       setDisabled(false);
    }, [currWord]);
-
-   useEffect(() => {
-      if (feedback) {
-         const timer = setTimeout(() => {
-            setFeedback("");
-         }, 3000);
-         return () => clearTimeout(timer);
-      }
-   }, [feedback]);
 
    const boxValues = useMemo(() => {
       if (!currWord || !answers) return [];
@@ -131,9 +123,10 @@ const GameScreen = ({
 
    useEffect(() => {
       if (!isCompleted) return;
+
       const timer = setTimeout(() => {
          changeScreen({ type: "scoreboard", params: { highlight: answers.length } });
-      }, 2000);
+      }, 2500);
       return () => clearTimeout(timer);
    }, [isCompleted]);
 
@@ -158,6 +151,19 @@ const GameScreen = ({
    //    }
    // }, [currentLine, currWord]);
 
+   const changeFeedback = (feedback) => {
+      setFeedback(feedback);
+      setShowFeedback(true);
+   };
+   useEffect(() => {
+      if (showFeedback) {
+         const timer = setTimeout(() => {
+            setShowFeedback(false);
+         }, 4500);
+         return () => clearTimeout(timer);
+      }
+   }, [showFeedback]);
+
    function removeLastChar(str) {
       if (str.length > 0) {
          return str.slice(0, -1); // Remove the last character
@@ -167,6 +173,7 @@ const GameScreen = ({
    }
 
    const handleKeyboard = (key) => {
+      setShowFeedback(false);
       if (disabled) return;
       if (!currWord) return;
       if (isCompleted) return;
@@ -174,11 +181,12 @@ const GameScreen = ({
       const lowerKey = key.toLowerCase();
 
       if (lowerKey === "enter") {
+         const correctFeedback = ["Genius!", "Impressive!", "Happy days!", "Good effort", "Nice one!", "Made it!"];
          //  const wordIsCorrect = answers[currentLine - 1].every((obj) => obj.boxState === "correct");
          const submittedAnswer = answers[answers.length - 1].toLocaleLowerCase();
          if (submittedAnswer === currWord) {
-            console.log("pre completed");
             onCompleted("success");
+            changeFeedback(`${correctFeedback[currentLine]}`);
 
             return;
          }
@@ -193,17 +201,17 @@ const GameScreen = ({
             if (newLine < 6) {
                setAnswers(newAnswers);
             } else {
-               console.log("pre completed");
                onCompleted("failure");
+               changeFeedback(`Answer: ${currWord.toUpperCase()}`);
 
                return;
             }
          } else {
             setTimeout(() => {
                if (answers[answers.length - 1].length < currWord.length) {
-                  setFeedback("Not enough letters");
+                  changeFeedback("Not enough letters");
                } else {
-                  setFeedback("Word not in list");
+                  changeFeedback("Word not in list");
                }
                rowRefs.current[currentLine].shake(answers[answers.length - 1].length < currWord.length);
             }, 100);
@@ -264,14 +272,17 @@ const GameScreen = ({
    return (
       <div className={classes.main}>
          <div className={classes.feedbackAndInputs}>
-            <div
-               style={{ visibility: feedback.length ? "visible" : "hidden" }}
-               className={`${classes.feedback} ${
-                  negativeFeedback ? classes.negativeFeedback : classes.positiveFeedback
-               }`}
-            >
-               {feedback.length ? feedback : "none"}
+            <div className={classes.feedbackWrapper}>
+               <div
+                  style={{ opacity: showFeedback ? 1 : 0, top: showFeedback ? "0px" : "15px" }}
+                  className={`${classes.feedback} ${
+                     negativeFeedback ? classes.negativeFeedback : classes.positiveFeedback
+                  }`}
+               >
+                  {feedback.length ? feedback : "none"}
+               </div>
             </div>
+
             <div className={classes["input-container"]}>
                {boxValues.map((boxes, i) => {
                   return (

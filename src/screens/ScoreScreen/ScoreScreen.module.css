@@ -23,9 +23,11 @@
 }
 
 .container h2 {
-   margin-top: 50px;
+   margin-top: 46px;
    margin-left: 12px;
-   font-size: 24px;
+   font-size: 20px;
+   font-family: "Open Sans", sans-serif;
+   font-weight: 400;
 }
 
 .statRow {
@@ -41,6 +43,10 @@
 .statBox .value {
    font-size: 50px;
    font-weight: bold;
+}
+
+.statBox .label {
+   font-family: "Open Sans", sans-serif;
 }
 
 .distribution {

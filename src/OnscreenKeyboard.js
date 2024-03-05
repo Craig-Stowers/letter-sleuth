@@ -1,11 +1,11 @@
 import classes from "./Keyboard.module.css";
-
+import deleteIcon from "./icons/key-delete.svg";
 const keyRow1 = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"];
 const keyRow2 = ["a", "s", "d", "f", "g", "h", "j", "k", "l"];
 const keyRow3 = ["z", "x", "c", "v", "b", "n", "m"];
 
 const Keyboard = ({ onKeyDown, keyColours }) => {
-   const renderKey = (value, extraClasses) => {
+   const renderKey = (value, extraClasses, customRender) => {
       const colourClass = keyColours[value] || "";
 
       return (
@@ -28,7 +28,7 @@ const Keyboard = ({ onKeyDown, keyColours }) => {
                onKeyDown(value);
             }}
          >
-            {value}
+            {customRender ? customRender : value}
          </button>
       );
    };
@@ -45,7 +45,7 @@ const Keyboard = ({ onKeyDown, keyColours }) => {
          <div className={classes.keyRow}>
             {renderKey("enter", classes.large)}
             {keyRow3.map((el) => renderKey(el))}
-            {renderKey("delete", classes.large)}
+            {renderKey("Delete", classes.large, <img src={deleteIcon} />)}
          </div>
       </div>
    );
