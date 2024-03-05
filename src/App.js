@@ -220,9 +220,89 @@ function App() {
       // }
    };
 
+   function longestConsecutiveRun(successData, successKeys, failKeys, daysElapsed) {
+      // Extract keys and convert them to integers
+
+      // Initialize variables to track the longest run
+      let longestRun = 0;
+      let currentRun = 0;
+      const distribution = {};
+
+      for (let j = 1; j <= 6; j++) {
+         if (!distribution[j]) distribution[j] = 0;
+      }
+
+      // Iterate through keys to find longest consecutive run
+      for (let i = 0; i <= daysElapsed; i++) {
+         if (successKeys.includes(i)) {
+            currentRun++;
+            longestRun = Math.max(longestRun, currentRun);
+            const attempts = successData[i].length;
+            distribution[attempts]++;
+         }
+         if (failKeys.includes(i)) {
+            currentRun = 0;
+         }
+      }
+
+      return [longestRun, currentRun, distribution];
+   }
+
+   const stats = useMemo(() => {
+      if (!saveData) return null;
+      const successKeys = Object.keys(saveData.success)
+         .map(Number)
+         .sort((a, b) => a - b)
+         .filter((day) => day <= daysElapsed);
+
+      const failKeys = Object.keys(saveData.failure)
+         .map(Number)
+         .sort((a, b) => a - b)
+         .filter((day) => day <= daysElapsed);
+
+      const totalSuccesses = successKeys.length;
+      const totalComplete = totalSuccesses + failKeys.length;
+
+      const [longestStreak, currentStreak, distribution] = longestConsecutiveRun(
+         saveData.success,
+         successKeys,
+         failKeys,
+         daysElapsed
+      );
+
+      const filteredDistribution = { ...distribution };
+      //delete filteredDistribution["-1"];
+
+      return {
+         totals: {
+            "Games played": totalComplete,
+            "Win percentage": totalComplete > 0 ? Math.round((totalSuccesses / totalComplete) * 1000) / 10 : "/",
+            "Current streak": currentStreak,
+            "Longest streak": longestStreak,
+         },
+         distribution: filteredDistribution,
+      };
+   }, [saveData]);
+
    if (!saveData) return;
 
-   console.log("save/complete", saveData, isCompleted);
+   const getTodaysStatus = () => {
+      if (saveData.incomplete[daysElapsed]) return { status: "incomplete", value: saveData.incomplete[daysElapsed] };
+      if (saveData.success[daysElapsed]) return { status: "success", value: saveData.success[daysElapsed] };
+      if (saveData.failure[daysElapsed]) return { status: "failure", value: saveData.failure[daysElapsed] };
+      return { status: "not started", value: [""] };
+   };
+
+   const adminData = {
+      version: 0.5,
+      "start date": formatDate(startingDate),
+      "simulated date": todaysDate,
+      "day index": daysElapsed,
+      "todays word": currWord,
+      "todays status": getTodaysStatus().status,
+      "todays save data": JSON.stringify(getTodaysStatus().value),
+      ...stats.totals,
+   };
 
    return (
       <div className={"App"}>
@@ -279,15 +359,19 @@ function App() {
                      setDayIncrement(0);
                   }}
                >
+                  <h4>ADMIN PANEL</h4>
+                  <p>
+                     Use this panel to simulate date changes. Scores will only be calculated up until the simulated
+                     date. Hold +/- day buttons for continuous seeking. "Start date" can be edited in the apps config.
+                  </p>
                   <ul className="data">
-                     <li>version: 0.5</li>
-                     <li>start date: {formatDate(startingDate)}</li>
-                     <li>date: {todaysDate} </li>
-                     <li>days elapsed: {daysElapsed}</li>
-                     <li>dates score: no attempt</li>
-                     <li>best streak to date: 0</li>
-                     <li>todays temp data:</li>
-                     <li>curr word: {currWord}</li>
+                     {Object.entries(adminData).map(([key, value], index) => {
+                        return (
+                           <li>
+                              <strong>{key}:</strong> {value}
+                           </li>
+                        );
+                     })}
                   </ul>
 
                   <div className="buttonRow">
@@ -323,7 +407,7 @@ function App() {
                         +10 days
                      </button>
                   </div>
-                  <div>
+                  <div className="buttonRow" style={{ marginBottom: "14px" }}>
                      <button
                         onMouseDown={() => {
                            setDaysElapsed(daysBetween(startingDate));
@@ -332,20 +416,9 @@ function App() {
                         go to today
                      </button>
                   </div>
-                  <div>
+                  <div className="buttonRow">
                      <button
-                        onMouseDown={() => {
-                           setSaveData({
-                              version: 0.5,
-                              success: {},
-                              failure: {},
-                              incomplete: {},
-                           });
-                        }}
-                     >
-                        clear all data
-                     </button>
-                     <button
+                        className="warning"
                         onMouseDown={() => {
                            setSaveData((oldData) => {
                               const newData = {
@@ -363,7 +436,22 @@ function App() {
                            });
                         }}
                      >
-                        clear "todays" data
+                        clear todays data
+                     </button>
+                  </div>
+                  <div className="buttonRow">
+                     <button
+                        className="warning"
+                        onMouseDown={() => {
+                           setSaveData({
+                              version: 0.5,
+                              success: {},
+                              failure: {},
+                              incomplete: {},
+                           });
+                        }}
+                     >
+                        clear all data
                      </button>
                   </div>
 
