@@ -5,7 +5,6 @@ import useElementWidth from "../../hooks/useElementWidth";
 const Letter = ({ value, boxState, disableExpand = false, showHighlight = false, style = {} }) => {
    const [filled, setFilled] = useState(false);
    const [letterWidth, ref] = useElementWidth((newWidth, oldWidth) => {
-      console.log("callback", newWidth);
       return newWidth > 0 ? newWidth : oldWidth;
    });
 

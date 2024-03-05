@@ -165,7 +165,7 @@ const GameScreen = ({
    }
 
    const handleKeyboard = (key) => {
-      setShowFeedbackgit(false);
+      setShowFeedback(false);
       if (disabled) return;
       if (!currWord) return;
       if (isCompleted) return;
