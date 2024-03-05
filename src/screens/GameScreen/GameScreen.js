@@ -28,11 +28,7 @@ const GameScreen = ({
    isCompleted = false,
    changeScreen,
 }) => {
-   console.log("isCompleted", isCompleted);
-   //console.log("isC", isCompleted);
-
    const [answers, setAnswers] = useState(() => {
-      console.log("getting answers", saveData, daysElapsed);
       if (isCompleted) {
          if (saveData.success[daysElapsed]) return saveData.success[daysElapsed];
          if (saveData.failure[daysElapsed]) return saveData.failure[daysElapsed];
@@ -44,12 +40,8 @@ const GameScreen = ({
    const [currentLine, setCurrentLine] = useState(() => {
       if (isCompleted) return answers.length;
       const line = countUntilCondition(answers, (item) => {
-         console.log("item", item);
          return !item && item !== "";
       });
-
-      console.log("FIRST answer", answers);
-      console.log("FIRST CURR LINE", line);
 
       return line - 1;
 
@@ -173,7 +165,7 @@ const GameScreen = ({
    }
 
    const handleKeyboard = (key) => {
-      setShowFeedback(false);
+      setShowFeedbackgit(false);
       if (disabled) return;
       if (!currWord) return;
       if (isCompleted) return;
