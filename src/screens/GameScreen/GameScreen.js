@@ -7,9 +7,56 @@ import useGameData from "./useGameData";
 const wordCharLength = 5;
 const maxLines = 6;
 
-const GameScreen = ({ onCurrWord, currWord, daysElapsed }) => {
-   const [currentLine, setCurrentLine] = useState(0);
-   const [answers, setAnswers] = useState(["", "", "", "", "", ""]);
+function countUntilCondition(arr, conditionFunc) {
+   let count = 0;
+   for (let item of arr) {
+      if (conditionFunc(item)) {
+         break; // Exit the loop if the condition is false
+      }
+      count++;
+   }
+   return count;
+}
+
+const GameScreen = ({
+   onCurrWord,
+   currWord,
+   daysElapsed,
+   onCompleted,
+   saveData,
+   onAnswerChange,
+   isCompleted = false,
+   changeScreen,
+}) => {
+   console.log("isCompleted", isCompleted);
+   //console.log("isC", isCompleted);
+
+   const [answers, setAnswers] = useState(() => {
+      console.log("getting answers", saveData, daysElapsed);
+      if (isCompleted) {
+         if (saveData.success[daysElapsed]) return saveData.success[daysElapsed];
+         if (saveData.failure[daysElapsed]) return saveData.failure[daysElapsed];
+      } else {
+         return saveData.incomplete[daysElapsed] || [""];
+      }
+   });
+
+   const [currentLine, setCurrentLine] = useState(() => {
+      if (isCompleted) return answers.length;
+      const line = countUntilCondition(answers, (item) => {
+         console.log("item", item);
+         return !item && item !== "";
+      });
+
+      console.log("FIRST answer", answers);
+      console.log("FIRST CURR LINE", line);
+
+      return line - 1;
+
+      //return isCompleted ? line + 1 : line;
+   });
+
+   // console.log("currentLine", currentLine, isCompleted);
    const rowRefs = useRef([]);
    const [showWord, setShowWord] = useState(false);
    const buttonRef = useRef(null);
@@ -23,8 +70,8 @@ const GameScreen = ({ onCurrWord, currWord, daysElapsed }) => {
 
    useEffect(() => {
       onCurrWord(currWord);
-      setCurrentLine(0);
-      setAnswers(["", "", "", "", "", ""]);
+      // setCurrentLine(0);
+      // setAnswers(["", "", "", "", "", ""]);
       setDisabled(false);
    }, [currWord]);
 
@@ -38,8 +85,13 @@ const GameScreen = ({ onCurrWord, currWord, daysElapsed }) => {
    }, [feedback]);
 
    const boxValues = useMemo(() => {
-      if (!currWord) return [];
-      return answers.map((answer, rowIndex) => {
+      if (!currWord || !answers) return [];
+
+      const extendedAnswers = [...answers];
+      extendedAnswers.length = 6; // Extend array
+      extendedAnswers.fill("", answers.length); // Fill new elements starting from index 3
+
+      return extendedAnswers.map((answer, rowIndex) => {
          let boxes = [...currWord].map((letter, index) => {
             return {
                value: answer[index],
@@ -50,7 +102,7 @@ const GameScreen = ({ onCurrWord, currWord, daysElapsed }) => {
          const answerLetters = [...answer];
          const correctLetters = [...currWord];
 
-         if (rowIndex < currentLine) {
+         if (rowIndex < currentLine || isCompleted) {
             for (let i = 0; i < answerLetters.length; i++) {
                if (answerLetters[i] === correctLetters[i]) {
                   boxes[i].boxState = "correct";
@@ -75,67 +127,36 @@ const GameScreen = ({ onCurrWord, currWord, daysElapsed }) => {
 
          return boxes;
       });
-   }, [answers, currentLine]);
+   }, [answers, currentLine, isCompleted]);
 
    useEffect(() => {
-      const data = localStorage.getItem("wordiful-data");
+      if (!isCompleted) return;
+      const timer = setTimeout(() => {
+         changeScreen({ type: "scoreboard", params: { highlight: answers.length } });
+      }, 2000);
+      return () => clearTimeout(timer);
+   }, [isCompleted]);
 
-      setLocalDataLoaded(true);
-      if (data) {
-         const parseData = JSON.parse(data);
-         if (parseData && parseData.day === daysElapsed) {
-            console.log("load answers", parseData.answers);
-            setAnswers(parseData.answers);
-            // let inputIndex = 0;
+   // useEffect(() => {
+   //    const correctFeedback = ["Genius!", "Impressive!", "Happy days!", "Good effort", "Nice one!", "Made it!"];
 
-            // for (var i = 0; i < parseData.answers.length - 1; i++) {
-            //    console.log("length", i, parseData.answers[i].length);
-            //    if (parseData.answers[i].length > 0) {
-            //       inputIndex = i;
-            //    }
-            // }
-            // console.log("input index", inputIndex);
-            if (parseData.currentLine) {
-               setCurrentLine(parseData.currentLine);
-            }
-         }
+   //    if (boxValues[currentLine - 1]) {
+   //       const wordIsCorrect = boxValues[currentLine - 1].every((obj) => obj.boxState === "correct");
+   //       if (wordIsCorrect) {
+   //          setGameComplete(true);
+   //          setFeedback(`${correctFeedback[currentLine - 1]}`);
+   //          setDisabled(true);
+   //          onCompleted("successful", currentLine);
+   //          return;
+   //       }
 
-         // setMyArray(JSON.parse(data));
-      }
-   }, []);
-
-   useEffect(() => {
-      if (!localDataLoaded) return;
-      const saveData = {
-         day: daysElapsed,
-         answers: answers,
-         currentLine: currentLine,
-      };
-
-      localStorage.setItem("wordiful-data", JSON.stringify(saveData));
-   }, [answers, currentLine]);
-
-   useEffect(() => {
-      //console.log("boxValues", boxValues);
-
-      const correctFeedback = ["Genius!", "Impressive!", "Happy days!", "Good effort", "Nice one!", "Made it!"];
-
-      if (boxValues[currentLine - 1]) {
-         const wordIsCorrect = boxValues[currentLine - 1].every((obj) => obj.boxState === "correct");
-         if (wordIsCorrect) {
-            setGameComplete(true);
-            setFeedback(`${correctFeedback[currentLine - 1]}`);
-            setDisabled(true);
-            return;
-            //  onEndGame();
-         }
-
-         if (currWord && currentLine === 6) {
-            setDisabled(true);
-            setFeedback(`Answer: ${currWord.toUpperCase()}`);
-         }
-      }
-   }, [currentLine, currWord]);
+   //       if (currWord && currentLine === 6) {
+   //          setDisabled(true);
+   //          setFeedback(`Answer: ${currWord.toUpperCase()}`);
+   //          onCompleted("failed", currentLine);
+   //       }
+   //    }
+   // }, [currentLine, currWord]);
 
    function removeLastChar(str) {
       if (str.length > 0) {
@@ -148,46 +169,71 @@ const GameScreen = ({ onCurrWord, currWord, daysElapsed }) => {
    const handleKeyboard = (key) => {
       if (disabled) return;
       if (!currWord) return;
+      if (isCompleted) return;
 
       const lowerKey = key.toLowerCase();
 
+      if (lowerKey === "enter") {
+         //  const wordIsCorrect = answers[currentLine - 1].every((obj) => obj.boxState === "correct");
+         const submittedAnswer = answers[answers.length - 1].toLocaleLowerCase();
+         if (submittedAnswer === currWord) {
+            console.log("pre completed");
+            onCompleted("success");
+
+            return;
+         }
+
+         if (allAllowedGuesses.includes(submittedAnswer)) {
+            const newLine = currentLine + 1;
+            const newAnswers = [...answers];
+            if (!newAnswers[newLine] && newAnswers[newLine] !== "") {
+               newAnswers[newLine] = "";
+            }
+            setCurrentLine(newLine);
+            if (newLine < 6) {
+               setAnswers(newAnswers);
+            } else {
+               console.log("pre completed");
+               onCompleted("failure");
+
+               return;
+            }
+         } else {
+            setTimeout(() => {
+               if (answers[answers.length - 1].length < currWord.length) {
+                  setFeedback("Not enough letters");
+               } else {
+                  setFeedback("Word not in list");
+               }
+               rowRefs.current[currentLine].shake(answers[answers.length - 1].length < currWord.length);
+            }, 100);
+         }
+
+         return;
+      }
+
       setAnswers((oldValue) => {
          const newAnswers = [...oldValue];
-
-         // console.log("currentLine", currentLine);
-         //  console.log("length", newAnswers.length);
-         if (currentLine >= newAnswers.length) return oldValue;
-
-         if (lowerKey === "enter") {
-            const submittedAnswer = newAnswers[currentLine].toLocaleLowerCase();
-
-            if (currentLine < newAnswers.length && allAllowedGuesses.includes(submittedAnswer)) {
-               setCurrentLine(currentLine + 1);
-            } else {
-               setTimeout(() => {
-                  if (newAnswers[currentLine].length < currWord.length) {
-                     setFeedback("Not enough letters");
-                  } else {
-                     setFeedback("Word not in list");
-                  }
-
-                  rowRefs.current[currentLine].shake(newAnswers[currentLine].length < currWord.length);
-               }, 100);
-            }
-            return oldValue;
-         }
+         if (currentLine >= 6) return oldValue;
 
          if (lowerKey === "delete" || lowerKey === "backspace") {
             newAnswers[currentLine] = removeLastChar(newAnswers[currentLine]);
             return newAnswers;
          }
 
+         // disable any possible line overflow
          if (newAnswers[currentLine].length >= currWord.length) return oldValue;
 
          newAnswers[currentLine] += key;
          return newAnswers;
       });
    };
+
+   useEffect(() => {
+      if (isCompleted) return;
+      onAnswerChange(answers, currentLine);
+      // console.log("answers changed", answers);
+   }, [answers, currentLine]);
 
    // console.log("bxoes", boxValues);
 

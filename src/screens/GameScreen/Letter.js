@@ -13,7 +13,7 @@ const Letter = ({ value, boxState, disableExpand = false, showHighlight = false,
       setFilled(value !== undefined);
    }, [value]);
 
-   console.log("letterwidth", letterWidth);
+   //console.log("letterwidth", letterWidth);
 
    return (
       <div className={classes["letter-container"]} style={{ ...style, height: letterWidth + 4 + "px" }}>

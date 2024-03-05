@@ -5,6 +5,8 @@ function useElementWidth(setWidthCallback) {
    // State to store the element's content width
    const [width, setWidth] = useState(0);
 
+   //console.log("useeELementWidth", width);
+
    // Ref object to reference the element
    const ref = useRef(null);
 

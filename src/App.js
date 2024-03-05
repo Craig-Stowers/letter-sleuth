@@ -70,23 +70,52 @@ function formatDate(dateString) {
 }
 
 function App() {
-   const [currScreen, setCurrScreen] = useState("home");
+   const [currScreen, setCurrScreen] = useState({ type: "home", params: {} });
    const [devMode, setDevMode] = useState(false);
    const [hint, setHint] = useState(null);
    const [showTools, setShowTools] = useState(false);
-
    const [dayIncrement, setDayIncrement] = useState(0);
    const [daysElapsed, setDaysElapsed] = useState(daysBetween(startingDate));
+   const [saveData, setSaveData] = useState(null);
+
+   const screenType = currScreen.type;
 
    const headerButtons = useMemo(() => {
-      if (currScreen === "home") return [];
-      if (currScreen === "game-info" || currScreen === "main-info" || currScreen === "scoreboard") return ["close"];
+      if (screenType === "home") return [];
+      if (screenType === "game-info" || screenType === "main-info" || screenType === "scoreboard") return ["close"];
       return ["home", "info", "close"];
-   }, [currScreen]);
+   }, [screenType]);
 
    const todaysDate = addDaysToDate(startingDate, daysElapsed);
 
    const { currentWord: currWord, getWordByDay } = useGameData(daysElapsed);
+
+   const isCompleted = saveData && (!!saveData.success[daysElapsed] || !!saveData.failure[daysElapsed]);
+
+   const initLocalData = () => {
+      localStorage.setItem(
+         "wordiful-data",
+         JSON.stringify({
+            version: 0.5,
+            success: {},
+            failure: {},
+            incomplete: {},
+         })
+      );
+   };
+
+   useEffect(() => {
+      const data = localStorage.getItem("wordiful-data");
+      const parseData = data ? JSON.parse(data) : null;
+
+      //test data is formatted.
+      if (!data || data === "null" || (parseData && !parseData.version)) {
+         initLocalData();
+      }
+
+      setSaveData(JSON.parse(data));
+      //const parsedData = JSON.parse(data);
+   }, []);
 
    useEffect(() => {
       if (dayIncrement === 0) return;
@@ -113,8 +142,7 @@ function App() {
    }, [dayIncrement]);
 
    const getScreen = (buttonName) => {
-      console.log("BUTTON HIT", currScreen);
-      if (currScreen === "home") {
+      if (screenType === "home") {
          if (buttonName === "play") return "game";
          if (buttonName === "info") return "main-info";
          if (buttonName === "close") return "home";
@@ -126,13 +154,13 @@ function App() {
          }
       }
 
-      if (currScreen === "game") {
+      if (screenType === "game") {
          if (buttonName === "home") return "home";
          if (buttonName === "close") return "home";
          if (buttonName === "info") return "game-info";
       }
 
-      if (currScreen === "game-info" && buttonName === "close") return "game";
+      if (screenType === "game-info" && buttonName === "close") return "game";
 
       return "home";
    };
@@ -143,7 +171,47 @@ function App() {
          return;
       }
 
-      setCurrScreen(getScreen(buttonName));
+      setCurrScreen({ type: getScreen(buttonName), params: {} });
+   };
+
+   useEffect(() => {
+      console.log("prelocalsave");
+      if (!saveData) return;
+      console.log("saveData", saveData);
+      localStorage.setItem("wordiful-data", JSON.stringify(saveData));
+   }, [saveData]);
+
+   const handleAnswerChanged = (answer) => {
+      console.log("answer changed", answer);
+      setSaveData((oldData) => {
+         console.log("set save", answer);
+         const newSaveData = { ...oldData, incomplete: { ...oldData.incomplete, [daysElapsed]: answer } };
+         return newSaveData;
+      });
+   };
+
+   const handleCompleted = (status) => {
+      console.log("handleCompleted", status);
+      setSaveData((oldData) => {
+         //  if (oldData[status][daysElapsed]) return oldData;
+         const copy = !!oldData.incomplete[daysElapsed] && [...oldData.incomplete[daysElapsed]];
+
+         if (!copy) return oldData;
+
+         console.log("copy data for day", daysElapsed, copy);
+
+         const newSaveData = {
+            ...oldData,
+            incomplete: { ...oldData.incomplete },
+            [status]: { ...oldData[status], [daysElapsed]: copy },
+         };
+         delete newSaveData.incomplete[daysElapsed];
+         return newSaveData;
+      });
+   };
+
+   const handleChangeScreen = ({ type, params = {} }) => {
+      setCurrScreen({ type, params });
    };
 
    const handleCurrWord = (word) => {
@@ -152,32 +220,43 @@ function App() {
       // }
    };
 
+   if (!saveData) return;
+
+   console.log("save/complete", saveData, isCompleted);
+
    return (
       <div className={"App"}>
          <RepeatBackground
             image={whiteSquare}
             style={{ zIndex: -1 }}
-            repeatImageStyle={{ opacity: 0.1, display: currScreen === "home" ? "block" : "none" }}
+            repeatImageStyle={{ opacity: 0.1, display: screenType === "home" ? "block" : "none" }}
          />
 
          <div className={"container"}>
             <Header buttons={headerButtons} onButtonHit={handleButtonHit} hint={hint} />
             <div className={"container-inner"}>
                <div className={"screen-area"}>
-                  {currScreen === "home" && <HomeScreen onButtonHit={handleButtonHit} devMode={devMode} />}
-                  {currScreen === "game" && (
+                  {screenType === "home" && <HomeScreen onButtonHit={handleButtonHit} devMode={devMode} />}
+                  {screenType === "game" && (
                      <GameScreen
                         devMode={devMode}
                         onCurrWord={handleCurrWord}
                         currWord={currWord}
                         daysElapsed={daysElapsed}
+                        saveData={saveData}
+                        onAnswerChange={handleAnswerChanged}
+                        onCompleted={handleCompleted}
+                        changeScreen={handleChangeScreen}
+                        isCompleted={!!saveData.success[daysElapsed] || !!saveData.failure[daysElapsed]}
                      />
                   )}
-                  {(currScreen === "main-info" || currScreen === "game-info") && (
+                  {(screenType === "main-info" || screenType === "game-info") && (
                      <InfoScreen onButtonHit={handleButtonHit} />
                   )}
 
-                  {currScreen === "scoreboard" && <ScoreScreen />}
+                  {screenType === "scoreboard" && (
+                     <ScoreScreen params={currScreen.params} saveData={saveData} daysElapsed={daysElapsed} />
+                  )}
                </div>
 
                {/* <div className={"tiled-background"}>background here</div> */}

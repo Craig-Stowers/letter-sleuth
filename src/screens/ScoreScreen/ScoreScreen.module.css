@@ -1,5 +1,4 @@
 .root {
-   background-color: var(--header-bg-color);
    display: flex;
    flex-direction: column;
    height: 100%;
@@ -8,11 +7,11 @@
 
 .container {
    color: white;
-   margin: auto;
+   margin: 80px auto auto auto;
    display: flex;
-   background-color: black;
+
    width: 90%;
-   max-width: 480px;
+   max-width: 520px;
    flex-direction: column;
 }
 
@@ -23,6 +22,12 @@
    text-align: center;
 }
 
+.container h2 {
+   margin-top: 50px;
+   margin-left: 12px;
+   font-size: 24px;
+}
+
 .statRow {
    display: flex;
 }
@@ -30,7 +35,7 @@
 .statBox {
    margin: 0 auto;
    text-align: center;
-   width: 70px;
+   width: 94px;
 }
 
 .statBox .value {
@@ -43,10 +48,66 @@
    flex-direction: column;
 }
 
-.bar {
+.barItem {
    display: flex;
-   background-color: red;
+   height: 38px;
+   margin-top: 6px;
+   margin-bottom: 6px;
 }
+
+.barLabelContainer {
+   width: 38px;
+   height: 100%;
+   display: flex;
+}
+
+.barLabel {
+   margin: auto;
+   font-size: 18px;
+}
+
+.barRectContainer {
+   flex: 1;
+   display: flex;
+}
+
+.rectangle {
+   position: relative;
+   background-color: #c2c2c2;
+   height: 100%;
+   display: inline-flex;
+}
+
+.rectangle.highlight {
+   background-color: var(--correct-color);
+}
+
+.digit {
+   font-size: 26px;
+   line-height: 26px;
+   opacity: 0;
+   transition: all 0.3s;
+   user-select: none;
+}
+
+.rectangleValueInside {
+   margin: auto 8px auto auto;
+   color: var(--text-color-dark);
+   font-weight: bold;
+}
+
+.rectangleValueOutside {
+   position: absolute;
+   left: calc(100% + 10px);
+   top: 50%;
+   transform: translateY(-50%);
+   color: white;
+}
+
+.opacity1 {
+   opacity: 1;
+}
+
 .root img {
    width: 86%;
    max-width: 440px;
