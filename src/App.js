@@ -105,16 +105,20 @@ function App() {
    };
 
    useEffect(() => {
-      const data = localStorage.getItem("wordiful-data");
-      const parseData = data ? JSON.parse(data) : null;
+      const init = () => {
+         const data = localStorage.getItem("wordiful-data");
+         const parseData = data ? JSON.parse(data) : null;
+         //test data is formatted.
+         if (!data || data === "null" || (parseData && !parseData.version)) {
+            initLocalData();
+         }
+         setSaveData(JSON.parse(data));
+      };
 
-      //test data is formatted.
-      if (!data || data === "null" || (parseData && !parseData.version)) {
-         initLocalData();
-      }
-
-      setSaveData(JSON.parse(data));
-      //const parsedData = JSON.parse(data);
+      const timer = setTimeout(() => {
+         init();
+      }, 1000);
+      return () => clearTimeout(timer);
    }, []);
 
    useEffect(() => {
