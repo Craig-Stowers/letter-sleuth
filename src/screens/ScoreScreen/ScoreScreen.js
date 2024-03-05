@@ -11,12 +11,12 @@ function estimateLocalStorageSize(obj) {
    return sizeInBytes;
 }
 
-// Example usage:
-const myObject = {
-   key: "This is some test",
-};
-const sizeInBytes = estimateLocalStorageSize(myObject);
-console.log(`Size in bytes: ${sizeInBytes}`);
+// // Example usage:
+// const myObject = {
+//    key: "This is some test",
+// };
+// const sizeInBytes = estimateLocalStorageSize(myObject);
+// console.log(`Size in bytes: ${sizeInBytes}`);
 
 function longestConsecutiveRun(successData, successKeys, failKeys, daysElapsed) {
    // Extract keys and convert them to integers
@@ -42,11 +42,6 @@ function longestConsecutiveRun(successData, successKeys, failKeys, daysElapsed) 
          currentRun = 0;
       }
    }
-
-   // if (Math.max(...failKeys) > Math.max(...successKeys)) currentRun = 0;
-
-   // Ensure the longest run is updated if the run includes the last element
-   // longestRun = Math.max(longestRun, currentRun);
 
    return [longestRun, currentRun, distribution];
 }

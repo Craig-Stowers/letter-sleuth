@@ -93,24 +93,21 @@ function App() {
    const isCompleted = saveData && (!!saveData.success[daysElapsed] || !!saveData.failure[daysElapsed]);
 
    const initLocalData = () => {
-      localStorage.setItem(
-         "wordiful-data",
-         JSON.stringify({
-            version: 0.5,
-            success: {},
-            failure: {},
-            incomplete: {},
-         })
-      );
+      return JSON.stringify({
+         version: 0.6,
+         success: {},
+         failure: {},
+         incomplete: {},
+      });
    };
 
    useEffect(() => {
       const init = () => {
-         const data = localStorage.getItem("wordiful-data");
+         let data = localStorage.getItem("wordiful-data");
          const parseData = data ? JSON.parse(data) : null;
          //test data is formatted.
          if (!data || data === "null" || (parseData && !parseData.version)) {
-            initLocalData();
+            data = initLocalData();
          }
          console.log("retrieved save data", JSON.parse(data));
          setSaveData(JSON.parse(data));
@@ -118,7 +115,7 @@ function App() {
 
       const timer = setTimeout(() => {
          init();
-      }, 1000);
+      }, 0);
       return () => clearTimeout(timer);
    }, []);
 
@@ -181,28 +178,23 @@ function App() {
 
    useEffect(() => {
       if (!saveData) return;
-      console.log("update save data", saveData);
+      console.log("update local storage", saveData);
       localStorage.setItem("wordiful-data", JSON.stringify(saveData));
    }, [saveData]);
 
    const handleAnswerChanged = (answer) => {
-      console.log("answer changed", answer);
       setSaveData((oldData) => {
-         console.log("set save", answer);
          const newSaveData = { ...oldData, incomplete: { ...oldData.incomplete, [daysElapsed]: answer } };
          return newSaveData;
       });
    };
 
    const handleCompleted = (status) => {
-      console.log("handleCompleted", status);
       setSaveData((oldData) => {
          //  if (oldData[status][daysElapsed]) return oldData;
          const copy = !!oldData.incomplete[daysElapsed] && [...oldData.incomplete[daysElapsed]];
 
          if (!copy) return oldData;
-
-         console.log("copy data for day", daysElapsed, copy);
 
          const newSaveData = {
             ...oldData,
