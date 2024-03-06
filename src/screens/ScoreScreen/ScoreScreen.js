@@ -5,45 +5,39 @@ import useElementWidth from "../../hooks/useElementWidth";
 import scoreboardImage from "../../assets/scoreboard-demo.png";
 import useWidthsObserver from "../../hooks/useWidthsObserver";
 
+import testImage1 from "../../assets/testimage1.png";
+import testImage2 from "../../assets/testimage2.png";
+import testImage3 from "../../assets/testimage3.png";
+import testImage4 from "../../assets/testimage4.png";
+import testImage5 from "../../assets/testimage5.png";
+import testImage6 from "../../assets/testimage6.png";
+import testImage7 from "../../assets/testimage7.png";
+import testImage8 from "../../assets/testimage8.png";
+import testImage9 from "../../assets/testimage9.png";
+
+import { globalImagePreloader, useImagePreloader } from "../../helpers/ImageLoader";
+
+const promises = globalImagePreloader.preloadImages([
+   testImage1,
+   testImage2,
+   testImage3,
+   testImage4,
+   testImage5,
+   testImage6,
+   testImage7,
+   testImage8,
+   testImage9,
+   scoreboardImage,
+]);
+
+promises.then(() => {
+   console.log("images all loaded outside component");
+});
+
 function estimateLocalStorageSize(obj) {
    const serializedObject = JSON.stringify(obj);
    const sizeInBytes = new Blob([serializedObject]).size; // More accurate size calculation
    return sizeInBytes;
-}
-
-// // Example usage:
-// const myObject = {
-//    key: "This is some test",
-// };
-// const sizeInBytes = estimateLocalStorageSize(myObject);
-// console.log(`Size in bytes: ${sizeInBytes}`);
-
-function longestConsecutiveRun(successData, successKeys, failKeys, daysElapsed) {
-   // Extract keys and convert them to integers
-
-   // Initialize variables to track the longest run
-   let longestRun = 0;
-   let currentRun = 0;
-   const distribution = {};
-
-   for (let j = 1; j <= 6; j++) {
-      if (!distribution[j]) distribution[j] = 0;
-   }
-
-   // Iterate through keys to find longest consecutive run
-   for (let i = 0; i <= daysElapsed; i++) {
-      if (successKeys.includes(i)) {
-         currentRun++;
-         longestRun = Math.max(longestRun, currentRun);
-         const attempts = successData[i].length;
-         distribution[attempts]++;
-      }
-      if (failKeys.includes(i)) {
-         currentRun = 0;
-      }
-   }
-
-   return [longestRun, currentRun, distribution];
 }
 
 const ScoreScreen = ({ saveData, params, daysElapsed, stats }) => {
@@ -54,6 +48,10 @@ const ScoreScreen = ({ saveData, params, daysElapsed, stats }) => {
    const [revealDigit, setRevealDigit] = useState([]);
 
    const revealTimers = useRef([]);
+
+   const isImagesLoaded = useImagePreloader(promises);
+
+   console.log("images loaded in component", isImagesLoaded);
 
    useEffect(() => {
       return () => {
@@ -70,51 +68,7 @@ const ScoreScreen = ({ saveData, params, daysElapsed, stats }) => {
       return () => clearTimeout(startTimer);
    });
 
-   // const stats = useMemo(() => {
-   //    const successKeys = Object.keys(saveData.success)
-   //       .map(Number)
-   //       .sort((a, b) => a - b)
-   //       .filter((day) => day <= daysElapsed);
-
-   //    const failKeys = Object.keys(saveData.failure)
-   //       .map(Number)
-   //       .sort((a, b) => a - b)
-   //       .filter((day) => day <= daysElapsed);
-
-   //    const totalSuccesses = successKeys.length;
-   //    const totalComplete = totalSuccesses + failKeys.length;
-
-   //    const [longestStreak, currentStreak, distribution] = longestConsecutiveRun(
-   //       saveData.success,
-   //       successKeys,
-   //       failKeys,
-   //       daysElapsed
-   //    );
-
-   //    const filteredDistribution = { ...distribution };
-   //    //delete filteredDistribution["-1"];
-
-   //    return {
-   //       totals: {
-   //          "Games played": totalComplete,
-   //          "Win percentage": totalComplete > 0 ? Math.round((totalSuccesses / totalComplete) * 1000) / 10 : "/",
-   //          "Current streak": currentStreak,
-   //          "Longest streak": longestStreak,
-   //       },
-   //       distribution: filteredDistribution,
-   //    };
-   // }, [saveData]);
-
    const maxDistributionValue = Math.max(...Object.values(stats.distribution));
-
-   const renderStatBox = (label, value) => {
-      return (
-         <div className={classes.statBox}>
-            <div className={classes.value}>{value}</div>
-            <div className={classes.label}>{label}</div>
-         </div>
-      );
-   };
 
    const startRevealTimer = (index) => {
       if (!barRefs.current[index]) return;
@@ -139,6 +93,15 @@ const ScoreScreen = ({ saveData, params, daysElapsed, stats }) => {
       }, 200);
    };
 
+   const renderStatBox = (label, value) => {
+      return (
+         <div className={classes.statBox} key={"stat-box-" + label}>
+            <div className={classes.value}>{value}</div>
+            <div className={classes.label}>{label}</div>
+         </div>
+      );
+   };
+
    const renderBar = (index, value) => {
       const percOfMax = animate ? (value / maxDistributionValue) * 100 : 0;
       const animationTime = percOfMax / 100;
@@ -160,7 +123,7 @@ const ScoreScreen = ({ saveData, params, daysElapsed, stats }) => {
       const highlight = params.highlight == index;
 
       return (
-         <div className={classes.barItem}>
+         <div className={classes.barItem} key={"bar-item-" + index}>
             <div className={classes.barLabelContainer}>
                <div className={classes.barLabel}>{index}</div>
             </div>

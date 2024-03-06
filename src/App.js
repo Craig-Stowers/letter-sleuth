@@ -5,16 +5,6 @@ import "./App.css";
 import RepeatBackground from "./shared/RepeatBackground";
 import whiteSquare from "./assets/white-square.png";
 
-import testImage1 from "./assets/testimage1.png";
-import testImage2 from "./assets/testimage2.png";
-import testImage3 from "./assets/testimage3.png";
-import testImage4 from "./assets/testimage4.png";
-import testImage5 from "./assets/testimage5.png";
-import testImage6 from "./assets/testimage6.png";
-import testImage7 from "./assets/testimage7.png";
-import testImage8 from "./assets/testimage8.png";
-import testImage9 from "./assets/testimage9.png";
-
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
 import GameScreen from "./screens/GameScreen/GameScreen";
 
@@ -26,25 +16,6 @@ import Modal from "./shared/Modal";
 import useGameData from "./screens/GameScreen/useGameData";
 
 import generateRandomSequenceFromSeed from "./helpers/generateRandomSequenceFromSeed";
-
-import { globalImagePreloader, useImagePreloader } from "./helpers/ImageLoader";
-
-const promises = globalImagePreloader.preloadImages([
-   testImage1,
-   testImage2,
-   testImage3,
-   testImage4,
-   testImage5,
-   whiteSquare,
-   testImage6,
-   testImage7,
-   testImage8,
-   testImage9,
-]);
-
-promises.then((e) => {
-   console.log("fixed", e);
-});
 
 let startingDate = "2024-02-20";
 
@@ -108,10 +79,6 @@ function App() {
    const [saveData, setSaveData] = useState(null);
 
    const screenType = currScreen.type;
-
-   const isImagesLoaded = useImagePreloader(promises);
-
-   console.log("isImagesLoaded", isImagesLoaded);
 
    const headerButtons = useMemo(() => {
       if (screenType === "home") return [];
