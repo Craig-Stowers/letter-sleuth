@@ -57,6 +57,7 @@ export function useImagePreloader(promises) {
    const [loaded, setLoaded] = useState(false);
 
    useEffect(() => {
+      console.log("catch image loads");
       promises.then(() => setLoaded(true)).catch((error) => console.error("Image loading error:", error));
       // Convert each URL into a promise that resolves when the image is loaded
       //  const promises = imageUrls.map(preloadImage);
@@ -64,7 +65,7 @@ export function useImagePreloader(promises) {
       //   Promise.all(promises)
       //      .then(() => setLoaded(true))
       //      .catch((error) => console.error("Image loading error:", error));
-   }, [promises]); // Dependencies array ensures this effect runs only when imageUrls changes
+   }, [promises]);
 
    return loaded;
 }

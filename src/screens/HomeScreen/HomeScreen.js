@@ -4,7 +4,6 @@ import iconStats from "../../icons/icon-stats.svg";
 import iconInfo from "../../icons/icon-info.svg";
 import iconClose from "../../icons/icon-close.svg";
 import logo from "../../assets/wordiful-logo.png";
-
 import { globalImagePreloader, useImagePreloader } from "../../helpers/ImageLoader";
 const imageLoadPromises = globalImagePreloader.preloadImages([logo, iconClose, iconInfo, iconStats]);
 
