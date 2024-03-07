@@ -4,7 +4,13 @@ import iconStats from "../../icons/icon-stats.svg";
 import iconInfo from "../../icons/icon-info.svg";
 import iconClose from "../../icons/icon-close.svg";
 import logo from "../../assets/wordiful-logo.png";
+
+import { globalImagePreloader, useImagePreloader } from "../../helpers/ImageLoader";
+const imageLoadPromises = globalImagePreloader.preloadImages([logo, iconClose, iconInfo, iconStats]);
+
 const HomeScreen = ({ onButtonHit, devMode = false }) => {
+   const imagesLoaded = useImagePreloader(imageLoadPromises);
+   if (!imagesLoaded) return null;
    return (
       <div className={classes.container}>
          <div className={classes.header}>
@@ -17,10 +23,6 @@ const HomeScreen = ({ onButtonHit, devMode = false }) => {
                }}
             />
          </div>
-
-         {/* <div style={{ color: "white", fontSize: "16px", fontFamily: "sans-serif", position: "absolute" }}>
-            dev mode: {devMode ? "on" : "off"}, (hit logo to switch)
-         </div> */}
 
          <div className={classes.title}>
             <img src={logo} onClick={() => onButtonHit("devmode")} />
