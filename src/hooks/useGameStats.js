@@ -35,7 +35,9 @@ function calculateRuns(successData, successKeys, failKeys, daysElapsed) {
 
 export default function useGameStats(localData, daysElapsed) {
    const stats = useMemo(() => {
+      console.log("localData", localData);
       if (!localData) return null;
+      if (!localData.success) return null;
       const successKeys = Object.keys(localData.success)
          .map(Number)
          .sort((a, b) => a - b)

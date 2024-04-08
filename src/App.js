@@ -29,7 +29,7 @@ function App() {
    const [devMode, setDevMode] = useState(false);
    const [hint, setHint] = useState(null);
    const [showTools, setShowTools] = useState(false);
-   const [daysElapsed, setDaysElapsed] = useState(daysBetween(startingDate));
+   const [daysElapsed, setDaysElapsed] = useState(Math.floor(daysBetween(startingDate)));
    const screenType = currScreen.type;
 
    const [localData, setLocalData] = useLocalData("wordiful-data", defaultData);
@@ -41,7 +41,13 @@ function App() {
    }, [screenType]);
 
    const todaysDate = addDaysToDate(startingDate, daysElapsed);
+
+   console.log("todays date", todaysDate);
+   console.log("daysElapsed", daysElapsed);
+
    const { currentWord: currWord, getWordByDay } = useGameData(daysElapsed);
+
+   console.log("pre use", localData);
    const stats = useGameStats(localData, daysElapsed);
 
    const getScreen = (buttonName) => {
@@ -124,7 +130,7 @@ function App() {
 
    const handleAdminEvent = (event) => {
       if (event.type === "gototoday") {
-         setDaysElapsed(daysBetween(startingDate));
+         setDaysElapsed(Math.floor(daysBetween(startingDate)));
       }
       if (event.type === "cleartoday") {
          setLocalData((oldData) => {

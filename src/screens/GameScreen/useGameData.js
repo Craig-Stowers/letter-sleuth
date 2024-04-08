@@ -42,6 +42,8 @@ const useGameData = (day) => {
       return sequence;
    }, [answers]);
 
+   console.log("answers", answers);
+
    const allowedGuesses = React.useMemo(() => {
       if (!allowedGuessesData || !blacklist || !whitelist) return null;
 
@@ -74,7 +76,7 @@ const useGameData = (day) => {
    const loadRandomWord = () => {
       setCurrentWord(null);
       //buttonRef.current.blur();
-      //  console.log("loadRandomWord");
+      console.log("loadRandomWord");
 
       setTimeout(() => {
          if (answers) {
@@ -91,10 +93,18 @@ const useGameData = (day) => {
 
       const index = day % answers.length;
       const randomIndex = randomSequence[index];
+
+      console.log("DAY", day);
+
+      console.log("index", index);
+
+      console.log("ALL ANSWERS", answers, randomSequence, index, randomIndex, answers[randomIndex]);
       setCurrentWord(answers[randomIndex]);
    }, [day, answers, randomSequence]);
 
    const allAllowedGuesses = allowedGuesses && answers ? [...allowedGuesses, ...answers] : [];
+
+   console.log("RETURN CURR WORD", currentWord);
 
    return { loadRandomWord, currentWord, allAllowedGuesses };
 };

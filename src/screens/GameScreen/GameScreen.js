@@ -69,7 +69,11 @@ const GameScreen = ({
    }, [currWord]);
 
    const boxValues = useMemo(() => {
+      console.log("get currWord", currWord);
+      console.log("answers", answers, !answers);
       if (!currWord || !answers) return [];
+
+      console.log("calcuate boxes");
 
       const extendedAnswers = [...answers];
       extendedAnswers.length = 6; // Extend array
@@ -111,7 +115,7 @@ const GameScreen = ({
 
          return boxes;
       });
-   }, [answers, currentLine, isCompleted]);
+   }, [answers, currentLine, isCompleted, currWord]);
 
    useEffect(() => {
       if (!isCompleted) return;
@@ -259,6 +263,7 @@ const GameScreen = ({
       return letters;
    }, [currentLine]);
 
+   console.log("box values", boxValues);
    const negativeFeedback = feedback === "Not enough letters" || feedback === "Word not in list";
 
    return (
