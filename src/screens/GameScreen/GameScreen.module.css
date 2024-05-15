@@ -12,8 +12,11 @@
    margin-left: auto;
    margin-right: auto;
    width: 100%;
-   max-width: min(400px, calc(100vh - 360px));
-   padding-bottom: 20px;
+   max-width: min(400px, calc(60vh - 100px));
+
+   position: relative;
+   padding-top: 10px;
+   padding-bottom: 10px;
 }
 
 .input-container {
@@ -44,21 +47,28 @@
 }
 
 .feedbackWrapper {
+   position: absolute;
    display: flex;
+   left: 50%;
+   transform: translateX(-50%);
+   z-index: 1;
+   top: 0px;
 }
 
 .feedback {
-   position: relative;
    color: var(--text-color-dark);
-   padding: 5px;
+   padding: 7px 14px;
    margin: 8px auto 7px auto;
    font-size: 20px;
+   line-height: 20px;
    font-weight: bold;
-   border-radius: 4px;
+   white-space: nowrap;
+
    opacity: 0;
    transition: all 0.2s;
-   top: 20px;
+
    z-index: 100;
+   border-radius: 17px;
 }
 
 .feedback.positiveFeedback {
@@ -83,6 +93,7 @@
    display: inline-flex;
    width: 100%;
    font-family: "Roboto Slab", serif;
+   margin-bottom: 5px;
 }
 
 .input-row.shake {
@@ -94,12 +105,12 @@
 }
 
 .letter-container {
-   padding: 2px;
    /* margin: 3px; */
 
    width: 20%;
    height: 60px;
 
+   box-sizing: border-box;
    padding: 3px;
 }
 
@@ -107,7 +118,8 @@
    margin: auto;
 
    display: flex;
-   border: 2px solid #777;
+   border: 2px solid var(--input-border-color);
+   border-radius: 50%;
 }
 
 @keyframes scaleUpDown {

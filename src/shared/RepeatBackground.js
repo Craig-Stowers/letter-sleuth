@@ -1,4 +1,4 @@
-const RepeatBackground = ({ image, style = {}, repeatImageStyle = {} }) => {
+const RepeatBackground = ({ image, style = {}, repeatImageStyle = {}, className }) => {
    const containerStyle = {
       position: "fixed",
       width: "100vw",
@@ -22,7 +22,7 @@ const RepeatBackground = ({ image, style = {}, repeatImageStyle = {} }) => {
 
    return (
       <div style={{ position: "relative" }}>
-         <div style={containerStyle} className="background">
+         <div style={containerStyle} className={`background ${className}`}>
             <div style={repeatStyle} />
          </div>
       </div>

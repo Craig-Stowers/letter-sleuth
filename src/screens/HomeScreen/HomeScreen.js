@@ -11,7 +11,7 @@ const HomeScreen = ({ onButtonHit, devMode = false }) => {
    const imagesLoaded = useImagePreloader(imageLoadPromises);
    if (!imagesLoaded) return null;
    return (
-      <div className={classes.container}>
+      <div className={`global-homescreen ${classes.container}`}>
          <div className={classes.header}>
             <CustomButton
                render={() => {
@@ -23,8 +23,9 @@ const HomeScreen = ({ onButtonHit, devMode = false }) => {
             />
          </div>
 
-         <div className={classes.title}>
-            <img src={logo} onClick={() => onButtonHit("devmode")} />
+         <div className={classes.title} onClick={() => onButtonHit("devmode")}>
+            <h1> Letter Sleuth</h1>
+            {/* <img src={logo} onClick={() => onButtonHit("devmode")} /> */}
          </div>
          <div className={classes.footer}>
             <div className={classes.buttonsWrapper}>
@@ -38,8 +39,9 @@ const HomeScreen = ({ onButtonHit, devMode = false }) => {
                      }}
                   />
                   <CustomButton
+                     className={"text-button"}
                      render={() => {
-                        return <span style={{ paddingLeft: "7px", paddingRight: "7px" }}>PLAY</span>;
+                        return <span>PLAY</span>;
                      }}
                      onClick={() => {
                         onButtonHit("play");

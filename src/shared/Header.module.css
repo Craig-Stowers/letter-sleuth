@@ -1,6 +1,7 @@
 .header {
    background-color: var(--header-bg-color);
-   padding: 14px;
+   padding: 14px 30px;
+   font-family: "Roboto Slab", serif;
 }
 
 .inner {
@@ -15,8 +16,23 @@
    padding: 0px;
    margin-top: auto;
    margin-bottom: auto;
-   color: white;
+   color: var(--button-text-color);
    margin-left: 5px;
+   background-color: white;
+
+   font-size: 18px;
+   border-radius: 20px;
+   padding: 7px 16px;
+   border-radius: 30px;
+   display: flex;
+}
+
+.logo div {
+   font-size: 28px;
+   line-height: 28px;
+
+   font-weight: 800;
+   margin: auto;
 }
 
 .logo img {
@@ -30,6 +46,13 @@
 .buttons {
    margin-left: auto;
    display: flex;
+   align-items: center;
+}
+
+.buttonsWrap {
+   display: flex;
+   margin-top: auto;
+   margin-bottom: auto;
 }
 
 .buttons button {
@@ -48,8 +71,14 @@
       padding: 6px;
    }
 
-   .logo img {
-      height: 30px;
+   .logo {
+      padding: 4px 12px;
    }
+
+   .logo div {
+      font-size: 22px;
+      line-height: 22px;
+   }
+
    /* CSS rules here */
 }

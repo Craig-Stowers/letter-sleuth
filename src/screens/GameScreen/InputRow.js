@@ -3,34 +3,6 @@ import Letter from "./Letter";
 import classes from "./GameScreen.module.css";
 import { useState, useRef, forwardRef, useImperativeHandle, useEffect } from "react";
 
-const alphabet = [
-   "a",
-   "b",
-   "c",
-   "d",
-   "e",
-   "f",
-   "g",
-   "h",
-   "u",
-   "j",
-   "k",
-   "l",
-   "m",
-   "n",
-   "o",
-   "p",
-   "q",
-   "r",
-   "s",
-   "t",
-   "u",
-   "v",
-   "w",
-   "x",
-   "y",
-   "z",
-];
 const InputRow = forwardRef(({ boxes, rowNumber }, parentRef) => {
    const [shake, setShake] = useState(false);
    const [key, setKey] = useState(0);

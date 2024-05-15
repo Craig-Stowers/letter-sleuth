@@ -1,8 +1,9 @@
 .container {
+   all: unset;
    position: relative;
    background-color: #eeeeee;
    color: inherit; /* Inherits the text color from its parent */
-   border: 3px solid white;
+   /* border: 3px solid white; */
    border-radius: 8px;
    padding: 0; /* Removes padding */
    margin: 0; /* Removes margin */
@@ -10,6 +11,8 @@
    cursor: pointer; /* Keeps the cursor as pointer to signify it's clickable */
    outline: none; /* Inherits the outline style (useful for accessibility) */
    box-sizing: border-box;
+   align-self: flex-start;
+   user-select: none;
 }
 
 .darkshade {
@@ -45,4 +48,76 @@
    font-family: "Roboto Slab", serif;
    font-weight: 700;
    color: var(--text-color-dark);
+}
+
+:global(.global-header) {
+   .inner {
+      width: 44px;
+      height: 44px;
+   }
+
+   .inner img {
+      width: 100%;
+      height: 100%;
+      margin: auto;
+   }
+}
+
+:global(.global-homescreen) {
+   .inner {
+      width: 70px;
+      height: 70px;
+   }
+
+   .inner img {
+      width: 100%;
+      height: 100%;
+      margin: auto;
+   }
+}
+
+:global(.text-button) {
+   .inner {
+      width: auto;
+      display: flex;
+      padding: 0px 40px;
+   }
+
+   .inner span {
+      margin: auto;
+      font-size: 54px;
+      line-height: 54px;
+      display: inline-block;
+   }
+}
+
+@media screen and (max-width: 480px) {
+   :global(.global-homescreen) {
+      .inner {
+         width: 56px;
+         height: 56px;
+      }
+   }
+
+   :global(.text-button) {
+      .inner {
+         width: auto;
+         display: flex;
+         padding: 0px 20px;
+      }
+
+      .inner span {
+         font-size: 34px;
+         line-height: 34px;
+
+         margin: auto;
+      }
+   }
+
+   :global(.global-header) {
+      .inner {
+         width: 34px;
+         height: 34px;
+      }
+   }
 }

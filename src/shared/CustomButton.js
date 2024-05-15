@@ -1,8 +1,8 @@
 import classes from "./CustomButtons.module.css";
-const CustomButton = ({ render, ...props }) => {
+const CustomButton = ({ render, className, ...props }) => {
    return (
-      <button {...props} className={classes.container}>
-         <div className={classes.darkshade} />
+      <button {...props} className={`${className} ${classes.container}`}>
+         {/* <div className={classes.darkshade} /> */}
          <div className={classes.inner}>{render()}</div>
       </button>
    );

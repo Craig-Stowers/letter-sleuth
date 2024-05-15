@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import "./App.css";
 import RepeatBackground from "./shared/RepeatBackground";
-import whiteSquare from "./assets/white-square.png";
+import whiteCircle from "./assets/white-circle.png";
 import HomeScreen from "./screens/HomeScreen/HomeScreen";
 import GameScreen from "./screens/GameScreen/GameScreen";
 import Header from "./shared/Header";
@@ -161,13 +161,19 @@ function App() {
    return (
       <div className={"App"}>
          <RepeatBackground
-            image={whiteSquare}
+            image={whiteCircle}
             style={{ zIndex: -1 }}
+            className={screenType === "game" ? "light-bg" : "dark-bg"}
             repeatImageStyle={{ opacity: 0.1, display: screenType === "home" ? "block" : "none" }}
          />
 
          <div className={"container"}>
-            <Header buttons={headerButtons} onButtonHit={handleButtonHit} hint={hint} />
+            <Header
+               buttons={headerButtons}
+               onButtonHit={handleButtonHit}
+               hint={hint}
+               showGameTitle={screenType === "game"}
+            />
             <div className={"container-inner"}>
                <div className={"screen-area"}>
                   {screenType === "home" && <HomeScreen onButtonHit={handleButtonHit} devMode={devMode} />}

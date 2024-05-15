@@ -63,10 +63,10 @@ export default function useGameStats(localData, daysElapsed) {
 
       return {
          totals: {
-            "Games played": totalCompleted,
-            "Win percentage": totalCompleted > 0 ? Math.round((totalSuccesses / totalCompleted) * 1000) / 10 : "/",
-            "Current streak": currentStreak,
-            "Longest streak": longestStreak,
+            Played: totalCompleted,
+            "Win %": totalCompleted > 0 ? Math.round((totalSuccesses / totalCompleted) * 1000) / 10 : "/",
+            "Consecutive wins": currentStreak,
+            "Most consecutive wins": longestStreak,
          },
          distribution: filteredDistribution,
       };
