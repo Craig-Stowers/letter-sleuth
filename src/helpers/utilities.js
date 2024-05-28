@@ -1,4 +1,5 @@
 const setInnerHeightCSSVariable = (breakpoints = {}) => {
+   let delayTimer = null;
    function adjustHeight() {
       const height = window.innerHeight;
       const doc = document.documentElement;
@@ -14,11 +15,22 @@ const setInnerHeightCSSVariable = (breakpoints = {}) => {
             break;
          }
       }
+      console.log("re-calc heights");
    }
+
+   const onScreenChange = () => {
+      if (delayTimer) clearTimeout(delayTimer);
+      adjustHeight();
+      delayTimer = setTimeout(() => {
+         adjustHeight();
+         clearTimeout(delayTimer);
+         delayTimer = null;
+      }, 1200);
+   };
    // Listen for resize events
-   window.addEventListener("resize", adjustHeight);
-   window.addEventListener("orientationchange", adjustHeight);
-   adjustHeight();
+   window.addEventListener("resize", onScreenChange);
+   window.addEventListener("orientationchange", onScreenChange);
+   onScreenChange();
 };
 
 export { setInnerHeightCSSVariable };
