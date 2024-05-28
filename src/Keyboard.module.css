@@ -73,8 +73,13 @@
 }
 
 :global(.short-inner-view) .key {
-   height: 40px;
+   height: 36px;
    font-size: 14px;
+
+   &.enterKey {
+      background-color: red;
+      font-size: 11px;
+   }
 }
 
 /* @media screen and (max-height: 500px) {

@@ -20,6 +20,7 @@
 }
 
 :global(.short-inner-view) .feedbackAndInputs {
+   max-width: min(400px, calc(var(--ivh) * 54 - 50px));
    padding-top: 3px;
    padding-bottom: 3px;
 }
