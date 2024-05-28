@@ -73,11 +73,21 @@
 }
 
 :global(.short-inner-view) .key {
-   height: 36px;
+   height: 44px;
    font-size: 14px;
 
    &.enterKey {
       background-color: red;
+      font-size: 12px;
+   }
+}
+
+:global(.shorter-inner-view) .key {
+   height: 36px;
+   font-size: 13px;
+
+   &.enterKey {
+      background-color: yellow;
       font-size: 11px;
    }
 }

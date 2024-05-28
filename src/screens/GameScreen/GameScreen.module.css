@@ -25,6 +25,12 @@
    padding-bottom: 3px;
 }
 
+:global(.shorter-inner-view) .feedbackAndInputs {
+   max-width: min(400px, calc(var(--ivh) * 54 - 50px));
+   padding-top: 0px;
+   padding-bottom: 0px;
+}
+
 .input-container {
    display: inline-flex;
    flex-direction: column;
