@@ -53,7 +53,7 @@ h2 {
 .container {
    display: flex;
    width: 100vw;
-   height: 100vh;
+   height: calc(var(--ivh) * 100);
    flex-direction: column;
 }
 
@@ -62,7 +62,6 @@ h2 {
    width: 100%;
    flex-grow: 1;
    overflow: hidden;
-
    max-width: 800px;
 
    display: flex;

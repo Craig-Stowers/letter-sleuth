@@ -13,6 +13,7 @@ import generateRandomSequenceFromSeed from "./helpers/generateRandomSequenceFrom
 import useLocalData from "./hooks/useLocalData";
 import useGameStats from "./hooks/useGameStats";
 import AdminPanel from "./shared/AdminPanel";
+import { setInnerHeightCSSVariable } from "./helpers/utilities";
 
 import { daysBetween, addDaysToDate, formatDate } from "./helpers/dateMethods";
 
@@ -23,6 +24,8 @@ const defaultData = {
    failure: {},
    incomplete: {},
 };
+
+setInnerHeightCSSVariable();
 
 function App() {
    const [currScreen, setCurrScreen] = useState({ type: "home", params: {} });
