@@ -15,7 +15,7 @@ const Keyboard = ({ onKeyDown, keyColours }) => {
             aria-disabled={false}
             aria-label={"add " + value}
             data-key={value}
-            className={`${classes.key} ${classes[colourClass]} ${extraClasses ? extraClasses : ""}`}
+            className={`${classes.key} ${colourClass ? classes[colourClass] : ""} ${extraClasses ? extraClasses : ""}`}
             onMouseDown={(e) => {
                // setTimeout(() => {
                //     e.target.blur();
@@ -43,7 +43,7 @@ const Keyboard = ({ onKeyDown, keyColours }) => {
             <div className={classes.spacer} />
          </div>
          <div className={classes.keyRow}>
-            {renderKey("enter", classes.large)}
+            {renderKey("enter", `${classes.large} ${classes.enterKey}`)}
             {keyRow3.map((el) => renderKey(el))}
             {renderKey("Delete", classes.large, <img src={deleteIcon} />)}
          </div>

@@ -71,3 +71,14 @@
    font-size: 13px;
    flex: 1.5;
 }
+
+@media screen and (max-height: 500px) {
+   .key {
+      height: 40px;
+      font-size: 14px;
+   }
+
+   .key.enterKey {
+      font-size: 12px;
+   }
+}
