@@ -72,7 +72,12 @@
    flex: 1.5;
 }
 
-@media screen and (max-height: 500px) {
+:global(.short-inner-view) .key {
+   height: 40px;
+   font-size: 14px;
+}
+
+/* @media screen and (max-height: 500px) {
    .key {
       height: 40px;
       font-size: 14px;
@@ -81,4 +86,4 @@
    .key.enterKey {
       font-size: 12px;
    }
-}
+} */

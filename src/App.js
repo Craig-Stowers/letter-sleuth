@@ -25,7 +25,10 @@ const defaultData = {
    incomplete: {},
 };
 
-setInnerHeightCSSVariable();
+const customInnerHeightBreakPoints = {
+   400: "short-inner-view",
+};
+setInnerHeightCSSVariable(customInnerHeightBreakPoints);
 
 function App() {
    const [currScreen, setCurrScreen] = useState({ type: "home", params: {} });

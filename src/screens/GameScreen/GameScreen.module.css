@@ -19,6 +19,11 @@
    padding-bottom: 10px;
 }
 
+:global(.short-inner-view) .feedbackAndInputs {
+   padding-top: 3px;
+   padding-bottom: 3px;
+}
+
 .input-container {
    display: inline-flex;
    flex-direction: column;
