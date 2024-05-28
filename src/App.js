@@ -26,7 +26,7 @@ const defaultData = {
 };
 
 const customInnerHeightBreakPoints = {
-   550: "short-inner-view",
+   450: "short-inner-view",
 };
 setInnerHeightCSSVariable(customInnerHeightBreakPoints);
 
