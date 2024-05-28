@@ -24,6 +24,7 @@
    transform: translateX(-50%);
    padding: 14px 24px;
    border-radius: 42px;
+   color: var(--text-color-dark);
 }
 
 .title h1 {

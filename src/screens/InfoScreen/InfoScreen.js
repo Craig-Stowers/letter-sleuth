@@ -55,7 +55,7 @@ const instructions = [
    {
       text: (
          <span>
-            Yellow means a letter is in the word, but in the wrong spot. The letter may be used more than once in the
+            Pink means a letter is in the word, but in the wrong spot. The letter may be used more than once in the
             word.
          </span>
       ),

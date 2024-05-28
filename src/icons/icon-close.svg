@@ -3,7 +3,7 @@
   <defs>
     <style>
       .cls-1 {
-         fill: var(--button-text-color);
+         fill: #1a1a39;
         stroke-width: 0px;
       }
     </style>

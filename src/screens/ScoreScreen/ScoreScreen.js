@@ -153,7 +153,7 @@ const ScoreScreen = ({ saveData, params, daysElapsed, stats }) => {
       <div className={classes.root}>
          <div className={classes.container}>
             <div className={classes.top}>
-               <h1>Letter Sleuth statistics</h1>
+               <h1>Statistics</h1>
 
                <div className={classes.statGrid}>
                   {renderStatBox(statArray[0].key, statArray[0].value, "top-left")}
@@ -164,7 +164,7 @@ const ScoreScreen = ({ saveData, params, daysElapsed, stats }) => {
             </div>
 
             <div className={classes.bottom}>
-               <h2>Guessed in</h2>
+               <h2 style={{ textAlign: "center" }}>Guessed in</h2>
                <div className={classes.distribution}>
                   {Object.entries(stats.distribution).map(([key, value], index) => {
                      return renderBar(index, value);

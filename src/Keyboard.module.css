@@ -77,7 +77,6 @@
    font-size: 14px;
 
    &.enterKey {
-      background-color: red;
       font-size: 12px;
    }
 }
@@ -87,7 +86,6 @@
    font-size: 13px;
 
    &.enterKey {
-      background-color: yellow;
       font-size: 11px;
    }
 }
