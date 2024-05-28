@@ -106,7 +106,8 @@ const ScoreScreen = ({ saveData, params, daysElapsed, stats }) => {
 
       const animationTime = 1; //percOfMax / 100;
 
-      const highlight = params.highlight == index;
+      const highlight = params.highlight == index + 1;
+      console.log("highlight?", highlight, params.highlight);
 
       return (
          <div className={classes.barItem} key={"bar-item-" + index}>
