@@ -11,7 +11,7 @@
    margin-left: auto;
    margin-right: auto;
    width: 80%;
-   max-width: 380px;
+   max-width: 390px;
    color: white;
    text-align: center;
    height: 36%;
@@ -59,7 +59,12 @@
 @media screen and (max-width: 480px) {
    .panel {
       margin-top: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 0px;
+      width: 90%;
+   }
+
+   .panel p {
+      margin-bottom: 0px;
    }
    .panel h3 {
       font-size: 16px;
