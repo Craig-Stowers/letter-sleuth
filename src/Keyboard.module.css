@@ -41,9 +41,13 @@
    text-transform: uppercase;
 }
 
+.key:last-of-type {
+   margin-right: 0px !important;
+}
+
 .key img {
    width: 75%;
-   min-width: 40px;
+   min-width: 34px;
 }
 
 .key.correct {
