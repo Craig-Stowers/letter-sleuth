@@ -154,6 +154,7 @@ const InfoScreen = ({ onButtonHit }) => {
 
          <div className={classes.nextWrapper}>
             <CustomButton
+               className={"next-button"}
                render={() => {
                   return (
                      <span style={{ padding: "0px", paddingLeft: "7px", paddingRight: "7px" }}>

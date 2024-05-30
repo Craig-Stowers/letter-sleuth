@@ -228,6 +228,20 @@ button:focus {
 .home-button {
    height: 70px !important;
 }
+
+.next-button {
+   height: 56px !important;
+}
+
+.next-button > div {
+   padding: 0px 20px !important;
+}
+
+.next-button > div > span {
+   line-height: 34px;
+   margin: auto;
+}
+
 .home-button > div {
    width: auto !important;
    padding: 0px 0px !important;
