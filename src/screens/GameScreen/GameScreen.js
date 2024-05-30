@@ -3,6 +3,7 @@ import classes from "./GameScreen.module.css";
 import InputRow from "./InputRow";
 import KeyboardController from "../../KeyboardController";
 import useGameData from "./useGameData";
+import useElementSize from "../../hooks/useElementSize";
 
 const wordCharLength = 5;
 const maxLines = 6;
@@ -52,6 +53,8 @@ const GameScreen = ({
    const rowRefs = useRef([]);
    const [showWord, setShowWord] = useState(false);
    const buttonRef = useRef(null);
+   const keyboardContainerRef = useRef(null);
+   const inputAreaRef = useRef(null);
    const [gameComplete, setGameComplete] = useState(false);
    const [feedback, setFeedback] = useState("");
    const [localDataLoaded, setLocalDataLoaded] = useState(false);
@@ -61,6 +64,8 @@ const GameScreen = ({
 
    const { allAllowedGuesses } = useGameData();
 
+   const [inputAreaSize] = useElementSize(inputAreaRef.current);
+
    useEffect(() => {
       onCurrWord(currWord);
       // setCurrentLine(0);
@@ -69,11 +74,7 @@ const GameScreen = ({
    }, [currWord]);
 
    const boxValues = useMemo(() => {
-      console.log("get currWord", currWord);
-      console.log("answers", answers, !answers);
       if (!currWord || !answers) return [];
-
-      console.log("calcuate boxes");
 
       const extendedAnswers = [...answers];
       extendedAnswers.length = 6; // Extend array
@@ -263,12 +264,13 @@ const GameScreen = ({
       return letters;
    }, [currentLine]);
 
-   console.log("box values", boxValues);
    const negativeFeedback = feedback === "Not enough letters" || feedback === "Word not in list";
+
+   const inputGridWidth = Math.min(inputAreaSize.height * 0.8, 420);
 
    return (
       <div className={classes.main}>
-         <div className={classes.feedbackAndInputs}>
+         <div className={classes.feedbackAndInputs} ref={inputAreaRef}>
             <div className={classes.feedbackWrapper}>
                <div
                   style={{ opacity: showFeedback ? 1 : 0, top: showFeedback ? "0px" : "15px" }}
@@ -280,10 +282,11 @@ const GameScreen = ({
                </div>
             </div>
 
-            <div className={classes["input-container"]}>
+            <div className={classes["input-container"]} style={{ width: inputGridWidth + "px" }}>
                {boxValues.map((boxes, i) => {
                   return (
                      <InputRow
+                        gridWidth={inputGridWidth}
                         boxes={boxes}
                         rowNumber={i}
                         key={"answer-row-" + i}
@@ -294,7 +297,7 @@ const GameScreen = ({
             </div>
          </div>
 
-         <div className={classes.keyboardWrapper}>
+         <div className={classes.keyboardWrapper} ref={keyboardContainerRef}>
             <KeyboardController
                onKeyEvent={(e) => handleKeyboard(e)}
                deps={[currWord, currentLine, disabled, allAllowedGuesses]}

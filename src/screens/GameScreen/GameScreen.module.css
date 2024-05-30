@@ -12,7 +12,10 @@
    margin-left: auto;
    margin-right: auto;
    width: 100%;
-   max-width: min(400px, calc(60vh - 100px));
+   flex-grow: 1;
+   overflow: hidden;
+   display: flex;
+   /* max-width: min(400px, calc(60vh - 100px)); */
 
    position: relative;
    padding-top: 10px;
@@ -20,13 +23,13 @@
 }
 
 :global(.short-inner-view) .feedbackAndInputs {
-   max-width: min(400px, calc(var(--ivh) * 54 - 50px));
+   /* max-width: min(400px, calc((var(--ivh) * 100 - 50) * 0.2px)); */
    padding-top: 3px;
    padding-bottom: 3px;
 }
 
 :global(.shorter-inner-view) .feedbackAndInputs {
-   max-width: min(400px, calc(var(--ivh) * 58 - 50px));
+   /* max-width: min(400px, calc(var(--ivh) * 58 - 50px)); */
    padding-top: 0px;
    padding-bottom: 0px;
 }
@@ -37,6 +40,7 @@
    margin-left: auto;
    margin-right: auto;
    width: 100%;
+   margin: auto;
 }
 
 @keyframes shakeAnimation {

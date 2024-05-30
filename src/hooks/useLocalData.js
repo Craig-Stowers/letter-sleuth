@@ -9,7 +9,6 @@ function useLocalData(key, initialState) {
    useThrottleEffect(
       () => {
          localStorage.setItem(key, JSON.stringify(value));
-         console.log("saved local");
       },
       3000,
       [value]

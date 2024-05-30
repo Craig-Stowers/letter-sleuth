@@ -7,16 +7,13 @@ const useWidthsObserver = (elementsRef) => {
    useEffect(() => {
       if (!elementsRef.current) return;
 
-      console.log("effect", elementsRef.current);
-
       // Initialize widths array with current widths
       const initialWidths = elementsRef.current.map((ref) => ref.current?.offsetWidth || 0);
-      console.log("initalWidths", initialWidths);
+
       setWidths(initialWidths);
 
       // Create a ResizeObserver to observe width changes
       const resizeObserver = new ResizeObserver((entries) => {
-         console.log("ResizeObserver triggered", entries);
          setWidths(entries.map((entry) => entry.target.offsetWidth));
       });
 

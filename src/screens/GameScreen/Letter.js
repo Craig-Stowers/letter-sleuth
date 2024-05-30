@@ -2,11 +2,14 @@ import { useState, useEffect, forwardRef } from "react";
 import classes from "./GameScreen.module.css";
 import useElementWidth from "../../hooks/useElementWidth";
 
-const Letter = ({ value, boxState, disableExpand = false, showHighlight = false, style = {} }) => {
+const Letter = ({ value, boxState, disableExpand = false, showHighlight = false, gridWidth, style = {} }) => {
    const [filled, setFilled] = useState(false);
-   const [letterWidth, ref] = useElementWidth((newWidth, oldWidth) => {
-      return newWidth > 0 ? newWidth : oldWidth;
-   });
+   const [letterWidth, ref] = useElementWidth(
+      (newWidth, oldWidth) => {
+         return newWidth > 0 ? newWidth : oldWidth;
+      },
+      [gridWidth]
+   );
 
    useEffect(() => {
       setFilled(value !== undefined);

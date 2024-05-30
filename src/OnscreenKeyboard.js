@@ -21,10 +21,8 @@ const Keyboard = ({ onKeyDown, keyColours }) => {
                //     e.target.blur();
                // }, 0);
                // e.target.blur();
-               // console.log("BUTTON KEY DOWN")
             }}
             onClick={() => {
-               //  console.log("on click")
                onKeyDown(value);
             }}
          >

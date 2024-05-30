@@ -136,7 +136,6 @@ const InfoScreen = ({ onButtonHit }) => {
                   return (
                      <div style={{ width: "40%", display: "flex" }} className={"letter-highlight-group"}>
                         {box.boxes.map((groupedBox, j) => {
-                           console.log("in group!", groupedBox);
                            return (
                               <Letter {...groupedBox} key={"help-letter-" + i + "-" + j} style={{ width: "50%" }} />
                            );

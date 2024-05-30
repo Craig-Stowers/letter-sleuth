@@ -20,8 +20,6 @@ const ScoreScreen = ({ saveData, params, daysElapsed, stats }) => {
 
    const [barSize] = useElementSize(barContainerRefs.current[0]);
 
-   console.log("barClasses", barDigitClass);
-
    useEffect(() => {
       return () => {
          revealTimers.current.forEach((timer) => {
@@ -45,8 +43,6 @@ const ScoreScreen = ({ saveData, params, daysElapsed, stats }) => {
 
       const height = barRefs.current[index].offsetHeight;
       const digitHeight = digitRefs.current[index].offsetHeight;
-
-      index === 0 && console.log("HEIGHT", index, height, "digitheight", digitHeight);
 
       setBarDigitClass((oldValue) => {
          const newValue = [...oldValue];
@@ -100,14 +96,11 @@ const ScoreScreen = ({ saveData, params, daysElapsed, stats }) => {
          barHeight = remainingSpace * percOfMax;
       }
 
-      console.log("barheight", barHeight);
-
       //if(maxDistributionValue)
 
       const animationTime = 1; //percOfMax / 100;
 
       const highlight = params.highlight == index + 1;
-      console.log("highlight?", highlight, params.highlight);
 
       return (
          <div className={classes.barItem} key={"bar-item-" + index}>

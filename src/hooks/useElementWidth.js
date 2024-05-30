@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
 // Custom hook to track the content width of an element only on window resize
-function useElementWidth(setWidthCallback) {
+function useElementWidth(setWidthCallback, deps = []) {
    // State to store the element's content width
    const [width, setWidth] = useState(0);
 
@@ -39,7 +39,7 @@ function useElementWidth(setWidthCallback) {
       return () => {
          window.removeEventListener("resize", handleResize);
       };
-   }, []); // Empty dependency array ensures this runs once on mount
+   }, [...deps]); // Empty dependency array ensures this runs once on mount
 
    // Return the content width and the ref to be attached to the element
    return [width, ref];

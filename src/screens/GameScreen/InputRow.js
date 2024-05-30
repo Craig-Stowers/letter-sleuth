@@ -3,7 +3,7 @@ import Letter from "./Letter";
 import classes from "./GameScreen.module.css";
 import { useState, useRef, forwardRef, useImperativeHandle, useEffect } from "react";
 
-const InputRow = forwardRef(({ boxes, rowNumber }, parentRef) => {
+const InputRow = forwardRef(({ boxes, rowNumber, gridWidth }, parentRef) => {
    const [shake, setShake] = useState(false);
    const [key, setKey] = useState(0);
    const [message, setMessage] = useState("");
@@ -53,6 +53,7 @@ const InputRow = forwardRef(({ boxes, rowNumber }, parentRef) => {
                      boxState={el.boxState}
                      showHighlight={el.showHighlight}
                      key={"letter-" + i}
+                     gridWidth={gridWidth}
                   />
                );
             })}

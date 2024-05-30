@@ -49,12 +49,8 @@ function App() {
 
    const todaysDate = addDaysToDate(startingDate, daysElapsed);
 
-   console.log("todays date", todaysDate);
-   console.log("daysElapsed", daysElapsed);
-
    const { currentWord: currWord, getWordByDay } = useGameData(daysElapsed);
 
-   console.log("pre use", localData);
    const stats = useGameStats(localData, daysElapsed);
 
    const getScreen = (buttonName) => {
