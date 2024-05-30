@@ -275,6 +275,20 @@ button:focus {
       font-size: 34px !important;
       line-height: 34px !important;
    }
+
+   .next-button {
+      height: 40px !important;
+   }
+
+   .next-button > div {
+      padding: 0px 20px !important;
+   }
+
+   .next-button > div > span {
+      font-size: 25px;
+      line-height: 25px;
+      margin: auto;
+   }
 }
 
 @media screen and (max-width: 360px) {
