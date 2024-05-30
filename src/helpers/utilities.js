@@ -15,7 +15,6 @@ const setInnerHeightCSSVariable = (breakpoints = {}) => {
             break;
          }
       }
-      console.log("re-calc heights");
    }
 
    const onScreenChange = () => {

@@ -39,7 +39,7 @@ const HomeScreen = ({ onButtonHit, devMode = false }) => {
                      }}
                   />
                   <CustomButton
-                     className={"text-button"}
+                     className={"text-button play-button"}
                      render={() => {
                         return <span>PLAY</span>;
                      }}

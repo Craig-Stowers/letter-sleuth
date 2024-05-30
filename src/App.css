@@ -222,3 +222,34 @@ button:focus {
    background-color: rgb(255, 50, 50);
    color: white;
 }
+
+/* tempfix for playbutton bugs */
+.play-button {
+   height: 70px !important;
+}
+.play-button > div {
+   width: auto !important;
+   padding: 0px 40px !important;
+}
+
+.play-button > div > span {
+   font-size: 54px !important;
+   line-height: 54px !important;
+   margin: auto;
+}
+
+@media screen and (max-width: 480px) {
+   .play-button {
+      height: 56px !important;
+   }
+
+   .play-button > div {
+      width: auto;
+      padding: 0px 20px !important;
+   }
+
+   .play-button > div > span {
+      font-size: 34px !important;
+      line-height: 34px !important;
+   }
+}
