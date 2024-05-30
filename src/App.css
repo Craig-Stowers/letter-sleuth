@@ -225,31 +225,39 @@ button:focus {
 }
 
 /* tempfix for playbutton bugs */
-.play-button {
+.home-button {
    height: 70px !important;
 }
-.play-button > div {
+.home-button > div {
    width: auto !important;
-   padding: 0px 40px !important;
+   padding: 0px 0px !important;
 }
 
-.play-button > div > span {
+.play-button > div {
+   padding: 0px 20px !important;
+}
+
+.home-button > div > span {
    font-size: 54px !important;
    line-height: 54px !important;
    margin: auto;
 }
 
 @media screen and (max-width: 480px) {
-   .play-button {
+   .home-button {
       height: 56px !important;
+      width: 56px !important;
+   }
+
+   .play-button {
+      width: auto !important;
    }
 
    .play-button > div {
-      width: auto;
       padding: 0px 20px !important;
    }
 
-   .play-button > div > span {
+   .home-button > div > span {
       font-size: 34px !important;
       line-height: 34px !important;
    }

@@ -32,6 +32,7 @@
    position: relative;
    z-index: 1;
    box-sizing: border-box;
+   height: 100%;
 }
 
 .inner img {
@@ -65,8 +66,8 @@
 
 :global(.global-homescreen) {
    .inner {
-      width: 70px;
-      height: 70px;
+      /* width: 70px;
+      height: 70px; */
    }
 
    .inner img {
@@ -91,7 +92,7 @@
    }
 }
 
-@media screen and (max-width: 480px) {
+/* @media screen and (max-width: 480px) {
    :global(.global-homescreen) {
       .inner {
          width: 56px;
@@ -120,4 +121,4 @@
          height: 34px;
       }
    }
-}
+} */
