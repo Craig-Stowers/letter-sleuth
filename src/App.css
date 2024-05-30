@@ -277,11 +277,11 @@ button:focus {
    }
 
    .next-button {
-      height: 40px !important;
+      height: 44px !important;
    }
 
    .next-button > div {
-      padding: 0px 20px !important;
+      padding: 0px 15px !important;
    }
 
    .next-button > div > span {
