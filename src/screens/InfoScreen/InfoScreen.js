@@ -9,7 +9,7 @@ const instructions = [
       text: (
          <span>
             You have six tries to guess a five-letter word. Proper nouns and words that are, or can be interpreted as,
-            plurals are not accepted. A new Wordiful puzzle is releaed every day.
+            plurals are not accepted. A new Letter Sleuth puzzle is released every day.
             <br />
             Good luck!
          </span>
