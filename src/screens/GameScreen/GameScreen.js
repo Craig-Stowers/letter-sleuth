@@ -266,7 +266,7 @@ const GameScreen = ({
 
    const negativeFeedback = feedback === "Not enough letters" || feedback === "Word not in list";
 
-   const inputGridWidth = Math.min(inputAreaSize.height * 0.8, 420);
+   const inputGridWidth = Math.min(inputAreaSize.height * 0.82, 400);
 
    return (
       <div className={classes.main}>
