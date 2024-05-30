@@ -26,6 +26,7 @@ const Header = ({ buttons, onButtonHit, hint, showGameTitle }) => {
                <div className={classes.buttonsWrap}>
                   {buttons.includes("home") && (
                      <CustomButton
+                        className={"header-button"}
                         render={() => {
                            return <img src={iconHome} />;
                         }}
@@ -36,6 +37,7 @@ const Header = ({ buttons, onButtonHit, hint, showGameTitle }) => {
                   )}
                   {buttons.includes("info") && (
                      <CustomButton
+                        className={"header-button"}
                         render={() => {
                            return <img src={iconInfo} />;
                         }}
@@ -46,6 +48,7 @@ const Header = ({ buttons, onButtonHit, hint, showGameTitle }) => {
                   )}
                   {buttons.includes("close") && (
                      <CustomButton
+                        className={"header-button"}
                         render={() => {
                            return <img src={iconClose} />;
                         }}

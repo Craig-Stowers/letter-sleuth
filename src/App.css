@@ -276,3 +276,29 @@ button:focus {
       line-height: 34px !important;
    }
 }
+
+@media screen and (max-width: 360px) {
+   .header-button {
+      height: 35px !important;
+      width: 35px !important;
+      margin-left: 5px !important;
+   }
+
+   .header-button div {
+      width: 100% !important;
+      height: 100% !important;
+   }
+
+   /* .play-button {
+      width: auto !important;
+   }
+
+   .play-button > div {
+      padding: 0px 20px !important;
+   }
+
+   .home-button > div > span {
+      font-size: 34px !important;
+      line-height: 34px !important;
+   } */
+}

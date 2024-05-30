@@ -47,10 +47,34 @@
    margin-top: auto;
    height: 15%;
    display: flex;
+   padding-bottom: 12px;
 }
 
 .nextWrapper button {
    height: 60px;
    margin-left: auto;
    margin-right: auto;
+}
+
+@media screen and (max-width: 480px) {
+   .panel {
+      margin-top: 10px;
+      margin-bottom: 10px;
+   }
+   .panel h3 {
+      font-size: 16px;
+      margin-bottom: 15px;
+      margin-top: 0px;
+      font-family: "Open Sans", sans-serif;
+   }
+   .panel h2 {
+      margin-bottom: 12px;
+      margin-top: 12px;
+      font-size: 24px;
+   }
+
+   .panel p {
+      font-size: 16px;
+      line-height: 22px;
+   }
 }
