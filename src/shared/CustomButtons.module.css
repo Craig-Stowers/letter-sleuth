@@ -1,13 +1,10 @@
 .container {
    all: unset;
-   position: relative;
    background-color: #eeeeee;
    color: inherit; /* Inherits the text color from its parent */
-   /* border: 3px solid white; */
    border-radius: 8px;
    padding: 0; /* Removes padding */
    margin: 0; /* Removes margin */
-
    cursor: pointer; /* Keeps the cursor as pointer to signify it's clickable */
    outline: none; /* Inherits the outline style (useful for accessibility) */
    box-sizing: border-box;
@@ -22,7 +19,7 @@
    background-color: #cdcdcd;
 }
 
-.darkshade {
+/* .darkshade {
    top: 50%;
    left: 0px;
    position: absolute;
@@ -32,11 +29,10 @@
    border-bottom-left-radius: 7px;
    border-bottom-right-radius: 7px;
    z-index: 0;
-}
+} */
 
 .inner {
    display: flex;
-   position: relative;
    z-index: 1;
    box-sizing: border-box;
    height: 100%;
@@ -51,7 +47,7 @@
 .inner span {
    display: block;
    font-size: 34px;
-   line-height: 0;
+   line-height: 34px;
    margin-left: 15px;
    margin-right: 15px;
    font-family: "Roboto Slab", serif;
@@ -59,22 +55,6 @@
    color: var(--text-color-dark);
 }
 
-/* .next-button {
-   height: 56px !important;
-}
-
-.next-button > div {
-   padding: 0px 20px !important;
-}
-
-.next-button > div > span {
-   line-height: 34px;
-   margin: auto;
-}
-
-.play-button > div {
-   padding: 0px 20px !important;
-} */
 .header-button {
    height: 50px;
    width: 50px;
