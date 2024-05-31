@@ -14,7 +14,7 @@ const HomeScreen = ({ onButtonHit, devMode = false }) => {
       <div className={`global-homescreen ${classes.container}`}>
          <div className={classes.header}>
             <CustomButton
-               className={"home-button"}
+               moduleClasses={["home-button"]}
                render={() => {
                   return <img src={iconClose} />;
                }}
@@ -25,14 +25,14 @@ const HomeScreen = ({ onButtonHit, devMode = false }) => {
          </div>
 
          <div className={classes.title} onClick={() => onButtonHit("devmode")}>
-            <h1> Letter Sleuth</h1>
+            <h1>Letter Sleuth</h1>
             {/* <img src={logo} onClick={() => onButtonHit("devmode")} /> */}
          </div>
          <div className={classes.footer}>
             <div className={classes.buttonsWrapper}>
                <div className={classes.buttons}>
                   <CustomButton
-                     className={"text-button home-button"}
+                     moduleClasses={["home-button"]}
                      render={() => {
                         return <img src={iconInfo} />;
                      }}
@@ -41,7 +41,7 @@ const HomeScreen = ({ onButtonHit, devMode = false }) => {
                      }}
                   />
                   <CustomButton
-                     className={"text-button home-button play-button"}
+                     moduleClasses={["home-button", "text-button"]}
                      render={() => {
                         return <span>PLAY</span>;
                      }}
@@ -51,7 +51,7 @@ const HomeScreen = ({ onButtonHit, devMode = false }) => {
                   />
 
                   <CustomButton
-                     className={"text-button home-button"}
+                     moduleClasses={["home-button"]}
                      render={() => {
                         return <img src={iconStats} />;
                      }}

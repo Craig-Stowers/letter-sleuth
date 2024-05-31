@@ -154,13 +154,9 @@ const InfoScreen = ({ onButtonHit }) => {
 
          <div className={classes.nextWrapper}>
             <CustomButton
-               className={"next-button"}
+               moduleClasses={["text-button"]}
                render={() => {
-                  return (
-                     <span style={{ padding: "0px", paddingLeft: "7px", paddingRight: "7px" }}>
-                        {currIndex === instructions.length - 1 ? "CLOSE" : "NEXT"}
-                     </span>
-                  );
+                  return <span>{currIndex === instructions.length - 1 ? "CLOSE" : "NEXT"}</span>;
                }}
                onClick={handleButtonHit}
             />

@@ -22,7 +22,7 @@
    bottom: 50%;
    left: 50%;
    transform: translateX(-50%);
-   padding: 14px 24px;
+   padding: 14px 34px;
    border-radius: 42px;
    color: var(--text-color-dark);
 }
@@ -36,15 +36,14 @@
    white-space: nowrap;
 }
 
-@media screen and (max-width: 440px) {
+@media screen and (max-width: 480px) {
+   .title {
+      padding: 10px 24px;
+   }
    .title h1 {
       font-size: 38px;
       line-height: 38px;
    }
-}
-
-.title img {
-   height: 66px;
 }
 
 .footer {
@@ -58,8 +57,4 @@
 .buttonsWrapper .buttons {
    display: flex;
    margin: 0 auto;
-}
-
-.footer button {
-   margin: 5px;
 }
