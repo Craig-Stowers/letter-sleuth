@@ -17,7 +17,13 @@ const Header = ({ buttons, onButtonHit, hint, showGameTitle }) => {
       <div className={`global-header ${classes.header}`}>
          <div className={classes.inner}>
             {showGameTitle && (
-               <div className={classes.logo} onClick={() => setShowHint((value) => !value)}>
+               <div
+                  className={classes.logo}
+                  onClick={() => {
+                     if (!hint) return;
+                     setShowHint((value) => !value);
+                  }}
+               >
                   <div>Letter Sleuth</div>
                </div>
             )}

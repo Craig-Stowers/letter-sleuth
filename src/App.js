@@ -17,6 +17,9 @@ import { setInnerHeightCSSVariable } from "./helpers/utilities";
 
 import { daysBetween, addDaysToDate, formatDate } from "./helpers/dateMethods";
 
+import _scorm from "./helpers/scorm.js";
+const allowDevMode = process.env.NODE_ENV === "development";
+
 let startingDate = "2024-02-20";
 const defaultData = {
    version: 0.6,
@@ -53,17 +56,42 @@ function App() {
 
    const stats = useGameStats(localData, daysElapsed);
 
+   function simulateHiddenButtonClick() {
+      const container = document.getElementById("exitbuttonpanel");
+      console.log("sim click");
+      if (container) {
+         const firstLink = container.querySelector("a");
+         if (firstLink) {
+            // Simulate a click on the first <a> element
+            firstLink.click();
+         } else {
+            console.error("No <a> element found inside the container");
+         }
+      } else {
+         console.error("Button conatiner not found");
+      }
+   }
+
    const getScreen = (buttonName) => {
       if (screenType === "home") {
-         if (buttonName === "play") return "game";
-         if (buttonName === "info") return "main-info";
-         if (buttonName === "close") return "home";
-         if (buttonName === "scoreboard") return "scoreboard";
-         if (buttonName === "devmode") {
-            setDevMode((value) => {
-               return !value;
-            });
+         if (buttonName === "play") {
+            _scorm.initScorm();
+            _scorm.scormProcessSetValue("cmi.core.score.raw", "100");
+            _scorm.setLessonStatusComplete();
+            return "game";
          }
+
+         if (buttonName === "info") return "main-info";
+         if (buttonName === "close") {
+            simulateHiddenButtonClick();
+         }
+
+         if (buttonName === "scoreboard") return "scoreboard";
+         // if (buttonName === "devmode") {
+         //    setDevMode((value) => {
+         //       return !value;
+         //    });
+         // }
       }
       if (screenType === "game") {
          if (buttonName === "home") return "home";
@@ -76,10 +104,12 @@ function App() {
 
    const handleButtonHit = (buttonName) => {
       if (buttonName === "devmode") {
-         setShowTools(!showTools);
+         if (allowDevMode) setShowTools(!showTools);
          return;
       }
-      setCurrScreen({ type: getScreen(buttonName), params: {} });
+      const newScreen = getScreen(buttonName);
+      if (!newScreen) return;
+      setCurrScreen({ type: newScreen, params: {} });
    };
 
    const handleAnswerChanged = (answer) => {
@@ -108,7 +138,7 @@ function App() {
    };
 
    const handleCurrWord = (word) => {
-      setHint(word);
+      if (allowDevMode) setHint(word);
    };
 
    if (!localData) return;
