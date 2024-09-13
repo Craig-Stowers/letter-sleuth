@@ -51,6 +51,8 @@ const GameScreen = ({
         //return isCompleted ? line + 1 : line;
     });
 
+    const [showGame, setShowGame] = useState(false);
+
     // console.log("currentLine", currentLine, isCompleted);
     const rowRefs = useRef([]);
     const [showWord, setShowWord] = useState(false);
@@ -136,6 +138,14 @@ const GameScreen = ({
         return () => clearTimeout(timer);
     }, [isCompleted]);
 
+    useEffect(() => {
+        if (inputAreaSize.width == null) return;
+        const timer = setTimeout(() => {
+            setShowGame(true);
+        }, 300);
+        return () => clearTimeout(timer);
+        //  setShowGame(true);
+    }, [inputAreaSize.width]);
     // useEffect(() => {
     //    const correctFeedback = ["Genius!", "Impressive!", "Happy days!", "Good effort", "Nice one!", "Made it!"];
 
@@ -298,7 +308,13 @@ const GameScreen = ({
         Math.min(inputAreaSize.height * 0.82, 400);
 
     return (
-        <div className={classes.main}>
+        <div
+            className={classes.main}
+            style={{
+                opacity: showGame ? 1 : 0,
+                transition: "opacity 0.5s",
+            }}
+        >
             <div className={classes.feedbackAndInputs} ref={inputAreaRef}>
                 <div className={classes.feedbackWrapper}>
                     <div
@@ -320,8 +336,6 @@ const GameScreen = ({
                     className={classes["input-container"]}
                     style={{
                         width: inputGridWidth + "px",
-                        visibility:
-                            inputAreaSize.width === null ? "hidden" : "visible",
                     }}
                 >
                     {boxValues.map((boxes, i) => {

@@ -12,7 +12,7 @@ const Letter = ({
     style = {},
 }) => {
     const [filled, setFilled] = useState(false);
-    const [showLetter, setShowLetter] = useState(false);
+    const [showLetter, setShowLetter] = useState(true);
 
     const ref = useRef(null);
     // const [letterWidth, ref] = useElementWidth(
@@ -29,14 +29,14 @@ const Letter = ({
         setFilled(value !== undefined);
     }, [value]);
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setShowLetter(true);
-        }, 200);
-        return () => {
-            clearTimeout(timer);
-        };
-    }, []);
+    //  useEffect(() => {
+    //      const timer = setTimeout(() => {
+    //          setShowLetter(true);
+    //      }, 300);
+    //      return () => {
+    //          clearTimeout(timer);
+    //      };
+    //  }, []);
 
     return (
         <div
