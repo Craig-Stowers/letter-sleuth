@@ -10,7 +10,6 @@ const setInnerHeightCSSVariable = (breakpoints = {}) => {
 
         const rotateDimensions = false; //orientation.includes("landscape");
 
-        console.log("indow.visualViewport", window.visualViewport);
         const height = window.visualViewport
             ? window.visualViewport.height
             : window.innerHeight;
@@ -20,13 +19,9 @@ const setInnerHeightCSSVariable = (breakpoints = {}) => {
 
         const scale = window.visualViewport ? window.visualViewport.scale : 1;
 
-        console.log("screen height", window.screen.height, height);
-
         const doc = document.documentElement;
         var vh = height * scale * 0.01;
         document.documentElement.style.setProperty("--ivh", `${vh}px`);
-
-        console.log("vh", vh);
 
         Object.values(breakpoints).forEach((className) => {
             doc.classList.remove(className);

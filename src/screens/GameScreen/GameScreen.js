@@ -66,7 +66,7 @@ const GameScreen = ({
 
     const { allAllowedGuesses } = useGameData();
 
-    const [inputAreaSize] = useElementSize(inputAreaRef.current);
+    const [inputAreaSize] = useElementSize(inputAreaRef.current, null, null);
 
     useEffect(() => {
         onCurrWord(currWord);
@@ -293,7 +293,9 @@ const GameScreen = ({
     const negativeFeedback =
         feedback === "Not enough letters" || feedback === "Word not in list";
 
-    const inputGridWidth = Math.min(inputAreaSize.height * 0.82, 400);
+    const inputGridWidth =
+        inputAreaSize.height !== null &&
+        Math.min(inputAreaSize.height * 0.82, 400);
 
     return (
         <div className={classes.main}>
@@ -316,7 +318,11 @@ const GameScreen = ({
 
                 <div
                     className={classes["input-container"]}
-                    style={{ width: inputGridWidth + "px" }}
+                    style={{
+                        width: inputGridWidth + "px",
+                        visibility:
+                            inputAreaSize.width === null ? "hidden" : "visible",
+                    }}
                 >
                     {boxValues.map((boxes, i) => {
                         return (

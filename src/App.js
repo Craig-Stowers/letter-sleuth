@@ -76,7 +76,7 @@ function App() {
 
     function simulateHiddenButtonClick() {
         const container = document.getElementById("exitbuttonpanel");
-        console.log("sim click");
+
         if (container) {
             const firstLink = container.querySelector("a");
             if (firstLink) {
