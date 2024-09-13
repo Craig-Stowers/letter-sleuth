@@ -14,12 +14,11 @@ import useLocalData from "./hooks/useLocalData";
 import useGameStats from "./hooks/useGameStats";
 import AdminPanel from "./shared/AdminPanel";
 import { setInnerHeightCSSVariable } from "./helpers/utilities";
-import useScreenSize from "./hooks/useScreenSize.js";
 
 import { daysBetween, addDaysToDate, formatDate } from "./helpers/dateMethods";
 
 import _scorm from "./helpers/scorm.js";
-const allowDevMode = true; //process.env.NODE_ENV === "development";
+const allowDevMode = process.env.NODE_ENV === "development";
 
 let startingDate = "2024-02-20";
 const defaultData = {
@@ -40,7 +39,6 @@ function App() {
     const [devMode, setDevMode] = useState(false);
     const [hint, setHint] = useState(null);
     const [showTools, setShowTools] = useState(false);
-
     const [daysElapsed, setDaysElapsed] = useState(
         Math.floor(daysBetween(startingDate))
     );
@@ -50,12 +48,6 @@ function App() {
         "wordiful-data",
         defaultData
     );
-
-    const screenSize = useScreenSize();
-
-    const isLandscapeMobile = useMemo(() => {
-        return screenSize.width > screenSize.height && screenSize.height < 500;
-    }, [screenSize]);
 
     const headerButtons = useMemo(() => {
         if (screenType === "home") return [];
@@ -76,7 +68,7 @@ function App() {
 
     function simulateHiddenButtonClick() {
         const container = document.getElementById("exitbuttonpanel");
-        console.log("sim click");
+
         if (container) {
             const firstLink = container.querySelector("a");
             if (firstLink) {
@@ -224,103 +216,74 @@ function App() {
     };
 
     return (
-        <>
-            <div
-                className={"App"}
-                style={{ opacity: isLandscapeMobile ? 0 : 1 }}
-            >
-                <RepeatBackground
-                    image={whiteCircle}
-                    style={{ zIndex: -1 }}
-                    className={screenType === "game" ? "light-bg" : "dark-bg"}
-                    repeatImageStyle={{
-                        opacity: 0.1,
-                        display: screenType === "home" ? "block" : "none",
-                    }}
+        <div className={"App"}>
+            <RepeatBackground
+                image={whiteCircle}
+                style={{ zIndex: -1 }}
+                className={screenType === "game" ? "light-bg" : "dark-bg"}
+                repeatImageStyle={{
+                    opacity: 0.1,
+                    display: screenType === "home" ? "block" : "none",
+                }}
+            />
+
+            <div className={"container"}>
+                <Header
+                    buttons={headerButtons}
+                    onButtonHit={handleButtonHit}
+                    hint={hint}
+                    showGameTitle={screenType === "game"}
                 />
+                <div className={"container-inner"}>
+                    <div className={"screen-area"}>
+                        {screenType === "home" && (
+                            <HomeScreen
+                                onButtonHit={handleButtonHit}
+                                devMode={devMode}
+                            />
+                        )}
+                        {screenType === "game" && (
+                            <GameScreen
+                                devMode={devMode}
+                                onCurrWord={handleCurrWord}
+                                currWord={currWord}
+                                daysElapsed={daysElapsed}
+                                saveData={localData}
+                                onAnswerChange={handleAnswerChanged}
+                                onCompleted={handleCompleted}
+                                changeScreen={handleChangeScreen}
+                                isCompleted={
+                                    !!localData.success[daysElapsed] ||
+                                    !!localData.failure[daysElapsed]
+                                }
+                            />
+                        )}
+                        {(screenType === "main-info" ||
+                            screenType === "game-info") && (
+                            <InfoScreen onButtonHit={handleButtonHit} />
+                        )}
 
-                <div className={"container"}>
-                    <Header
-                        buttons={headerButtons}
-                        onButtonHit={handleButtonHit}
-                        hint={hint}
-                        showGameTitle={screenType === "game"}
-                    />
-                    <div className={"container-inner"}>
-                        <div className={"screen-area"}>
-                            {screenType === "home" && (
-                                <HomeScreen
-                                    onButtonHit={handleButtonHit}
-                                    devMode={devMode}
-                                />
-                            )}
-                            {screenType === "game" && (
-                                <GameScreen
-                                    devMode={devMode}
-                                    onCurrWord={handleCurrWord}
-                                    currWord={currWord}
-                                    daysElapsed={daysElapsed}
-                                    saveData={localData}
-                                    onAnswerChange={handleAnswerChanged}
-                                    onCompleted={handleCompleted}
-                                    changeScreen={handleChangeScreen}
-                                    isCompleted={
-                                        !!localData.success[daysElapsed] ||
-                                        !!localData.failure[daysElapsed]
-                                    }
-                                />
-                            )}
-                            {(screenType === "main-info" ||
-                                screenType === "game-info") && (
-                                <InfoScreen onButtonHit={handleButtonHit} />
-                            )}
-
-                            {screenType === "scoreboard" && (
-                                <ScoreScreen
-                                    params={currScreen.params}
-                                    saveData={localData}
-                                    daysElapsed={daysElapsed}
-                                    stats={stats}
-                                />
-                            )}
-                        </div>
+                        {screenType === "scoreboard" && (
+                            <ScoreScreen
+                                params={currScreen.params}
+                                saveData={localData}
+                                daysElapsed={daysElapsed}
+                                stats={stats}
+                            />
+                        )}
                     </div>
                 </div>
-
-                {showTools && (
-                    <Modal onClose={() => setShowTools(false)}>
-                        <AdminPanel
-                            adminData={adminData}
-                            onAdminEvent={handleAdminEvent}
-                        />
-                    </Modal>
-                )}
             </div>
-            <div
-                style={{
-                    zIndex: 1000,
 
-                    position: "fixed",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                    backgroundColor: "black",
-                    color: "white",
-                    display: isLandscapeMobile ? "flex" : "none",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    fontSize: "1.2em",
-                    textAlign: "center",
-
-                    fontFamily: "Arial, sans-serif",
-                }}
-            >
-                <div style={{ padding: "10px" }}>
-                    Please rotate your device.
-                </div>
-            </div>
-        </>
+            {showTools && (
+                <Modal onClose={() => setShowTools(false)}>
+                    <AdminPanel
+                        adminData={adminData}
+                        onAdminEvent={handleAdminEvent}
+                    />
+                </Modal>
+            )}
+        </div>
     );
 }
 
