@@ -32,7 +32,7 @@ const Letter = ({
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowLetter(true);
-        }, 500);
+        }, 100);
         return () => {
             clearTimeout(timer);
         };
