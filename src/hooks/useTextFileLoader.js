@@ -21,6 +21,7 @@ function useTextFileLoader(filePath) {
     }, [filePath]);
 
     return fileContent;
+    return fileContent;
 }
 
 export default useTextFileLoader;

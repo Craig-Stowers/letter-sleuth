@@ -27,9 +27,15 @@ const defaultData = {
     success: {},
     failure: {},
     incomplete: {},
+    version: 0.6,
+    success: {},
+    failure: {},
+    incomplete: {},
 };
 
 const customInnerHeightBreakPoints = {
+    560: "short-inner-view",
+    450: "shorter-inner-view",
     560: "short-inner-view",
     450: "shorter-inner-view",
 };
@@ -57,6 +63,16 @@ function App() {
         return screenSize.width > screenSize.height && screenSize.height < 500;
     }, [screenSize]);
 
+    const headerButtons = useMemo(() => {
+        if (screenType === "home") return [];
+        if (
+            screenType === "game-info" ||
+            screenType === "main-info" ||
+            screenType === "scoreboard"
+        )
+            return ["close"];
+        return ["home", "info", "close"];
+    }, [screenType]);
     const headerButtons = useMemo(() => {
         if (screenType === "home") return [];
         if (
@@ -98,12 +114,43 @@ function App() {
                 _scorm.setLessonStatusComplete();
                 return "game";
             }
+            const getScreen = (buttonName) => {
+                if (screenType === "home") {
+                    if (buttonName === "play") {
+                        _scorm.initScorm();
+                        _scorm.scormProcessSetValue(
+                            "cmi.core.score.raw",
+                            "100"
+                        );
+                        _scorm.setLessonStatusComplete();
+                        return "game";
+                    }
 
-            if (buttonName === "info") return "main-info";
-            if (buttonName === "close") {
-                simulateHiddenButtonClick();
-            }
+                    if (buttonName === "info") return "main-info";
+                    if (buttonName === "close") {
+                        simulateHiddenButtonClick();
+                    }
+                    if (buttonName === "info") return "main-info";
+                    if (buttonName === "close") {
+                        simulateHiddenButtonClick();
+                    }
 
+                    if (buttonName === "scoreboard") return "scoreboard";
+                    // if (buttonName === "devmode") {
+                    //    setDevMode((value) => {
+                    //       return !value;
+                    //    });
+                    // }
+                }
+                if (screenType === "game") {
+                    if (buttonName === "home") return "home";
+                    if (buttonName === "close") return "home";
+                    if (buttonName === "info") return "game-info";
+                }
+                if (screenType === "game-info" && buttonName === "close")
+                    return "game";
+                return "home";
+            };
             if (buttonName === "scoreboard") return "scoreboard";
             // if (buttonName === "devmode") {
             //    setDevMode((value) => {
@@ -129,7 +176,25 @@ function App() {
         if (!newScreen) return;
         setCurrScreen({ type: newScreen, params: {} });
     };
+    const handleButtonHit = (buttonName) => {
+        if (buttonName === "devmode") {
+            if (allowDevMode) setShowTools(!showTools);
+            return;
+        }
+        const newScreen = getScreen(buttonName);
+        if (!newScreen) return;
+        setCurrScreen({ type: newScreen, params: {} });
+    };
 
+    const handleAnswerChanged = (answer) => {
+        setLocalData((oldData) => {
+            const newSaveData = {
+                ...oldData,
+                incomplete: { ...oldData.incomplete, [daysElapsed]: answer },
+            };
+            return newSaveData;
+        });
+    };
     const handleAnswerChanged = (answer) => {
         setLocalData((oldData) => {
             const newSaveData = {
@@ -155,7 +220,25 @@ function App() {
             return newSaveData;
         });
     };
+    const handleCompleted = (status) => {
+        setLocalData((oldData) => {
+            const copy = !!oldData.incomplete[daysElapsed] && [
+                ...oldData.incomplete[daysElapsed],
+            ];
+            if (!copy) return oldData;
+            const newSaveData = {
+                ...oldData,
+                incomplete: { ...oldData.incomplete },
+                [status]: { ...oldData[status], [daysElapsed]: copy },
+            };
+            delete newSaveData.incomplete[daysElapsed];
+            return newSaveData;
+        });
+    };
 
+    const handleChangeScreen = ({ type, params = {} }) => {
+        setCurrScreen({ type, params });
+    };
     const handleChangeScreen = ({ type, params = {} }) => {
         setCurrScreen({ type, params });
     };
@@ -163,9 +246,25 @@ function App() {
     const handleCurrWord = (word) => {
         if (allowDevMode) setHint(word);
     };
+    const handleCurrWord = (word) => {
+        if (allowDevMode) setHint(word);
+    };
 
     if (!localData) return;
+    if (!localData) return;
 
+    const getTodaysStatus = () => {
+        if (localData.incomplete[daysElapsed])
+            return {
+                status: "incomplete",
+                value: localData.incomplete[daysElapsed],
+            };
+        if (localData.success[daysElapsed])
+            return { status: "success", value: localData.success[daysElapsed] };
+        if (localData.failure[daysElapsed])
+            return { status: "failure", value: localData.failure[daysElapsed] };
+        return { status: "not started", value: [""] };
+    };
     const getTodaysStatus = () => {
         if (localData.incomplete[daysElapsed])
             return {
@@ -189,7 +288,49 @@ function App() {
         "todays save data": JSON.stringify(getTodaysStatus().value),
         ...stats.totals,
     };
+    const adminData = {
+        version: 0.8,
+        "start date": formatDate(startingDate),
+        "simulated date": todaysDate,
+        "day index": daysElapsed,
+        "todays word": currWord,
+        "todays status": getTodaysStatus().status,
+        "todays save data": JSON.stringify(getTodaysStatus().value),
+        ...stats.totals,
+    };
 
+    const handleAdminEvent = (event) => {
+        if (event.type === "gototoday") {
+            setDaysElapsed(Math.floor(daysBetween(startingDate)));
+        }
+        if (event.type === "cleartoday") {
+            setLocalData((oldData) => {
+                const newData = {
+                    ...oldData,
+                    incomplete: { ...oldData.incomplete },
+                    success: { ...oldData.success },
+                    failure: { ...oldData.failure },
+                };
+                if (newData.incomplete[daysElapsed])
+                    delete newData.incomplete[daysElapsed];
+                if (newData.success[daysElapsed])
+                    delete newData.success[daysElapsed];
+                if (newData.failure[daysElapsed])
+                    delete newData.failure[daysElapsed];
+                return newData;
+            });
+        }
+        if (event.type === "clearall") {
+            setLocalData(defaultData);
+        }
+        if (event.type === "changedays") {
+            const amount = event.days;
+            setDaysElapsed((oldState) => {
+                const newValue = oldState + amount;
+                return newValue < 0 ? 0 : newValue;
+            });
+        }
+    };
     const handleAdminEvent = (event) => {
         if (event.type === "gototoday") {
             setDaysElapsed(Math.floor(daysBetween(startingDate)));
