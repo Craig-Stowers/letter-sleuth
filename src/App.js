@@ -297,6 +297,7 @@ function App() {
                 )}
             </div>
             <div
+                className={"rotate-device"}
                 style={{
                     zIndex: 1000,
 
@@ -305,7 +306,7 @@ function App() {
                     left: 0,
                     width: "100%",
                     height: "100%",
-                    backgroundColor: "black",
+                    backgroundColor: "var(--bg-color)",
                     color: "white",
                     display: isLandscapeMobile ? "flex" : "none",
                     justifyContent: "center",
@@ -313,12 +314,11 @@ function App() {
                     fontSize: "1.2em",
                     textAlign: "center",
 
-                    fontFamily: "Arial, sans-serif",
+                    fontWeight: 600,
+                    fontFamily: "Open Sans, sans-serif",
                 }}
             >
-                <div style={{ padding: "10px" }}>
-                    Please rotate your device.
-                </div>
+                <div style={{ padding: "10px" }}>Please rotate your device</div>
             </div>
         </>
     );
