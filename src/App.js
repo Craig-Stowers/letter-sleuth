@@ -21,7 +21,7 @@ import { daysBetween, addDaysToDate, formatDate } from "./helpers/dateMethods";
 import _scorm from "./helpers/scorm.js";
 const allowDevMode = true; //process.env.NODE_ENV === "development";
 
-let startingDate = "2024-02-20";
+let startingDate = "2024-11-01";
 const defaultData = {
     version: 0.6,
     success: {},
@@ -37,13 +37,14 @@ setInnerHeightCSSVariable(customInnerHeightBreakPoints);
 
 function App() {
     const [currScreen, setCurrScreen] = useState({ type: "home", params: {} });
-    const [devMode, setDevMode] = useState(false);
+    const [devMode, setDevMode] = useState(true);
     const [hint, setHint] = useState(null);
     const [showTools, setShowTools] = useState(false);
 
     const [daysElapsed, setDaysElapsed] = useState(
         Math.floor(daysBetween(startingDate))
     );
+
     const screenType = currScreen.type;
 
     const [localData, setLocalData] = useLocalData(
@@ -93,6 +94,7 @@ function App() {
     const getScreen = (buttonName) => {
         if (screenType === "home") {
             if (buttonName === "play") {
+                setDaysElapsed(Math.floor(daysBetween(startingDate)));
                 _scorm.initScorm();
                 _scorm.scormProcessSetValue("cmi.core.score.raw", "100");
                 _scorm.setLessonStatusComplete();

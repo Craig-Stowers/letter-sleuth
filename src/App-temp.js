@@ -20,9 +20,9 @@ import { daysBetween, addDaysToDate, formatDate } from "./helpers/dateMethods";
 import _scorm from "./helpers/scorm.js";
 const allowDevMode = process.env.NODE_ENV === "development";
 
-let startingDate = "2024-02-20";
+let startingDate = "2024-11-01";
 const defaultData = {
-    version: 0.6,
+    version: 0.65,
     success: {},
     failure: {},
     incomplete: {},
